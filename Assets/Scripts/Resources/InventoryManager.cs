@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UNetUI.SharedData;
 
 namespace UNetUI.Resources
 {
@@ -8,18 +9,20 @@ namespace UNetUI.Resources
     {
         #region Singleton
 
-        private static InventoryManager _instance;
+        public static InventoryManager instance;
 
         private void Awake()
         {
-            if (_instance == null)
-                _instance = this;
+            if (instance == null)
+                instance = this;
 
-            if (_instance != this)
+            if (instance != this)
                 Destroy(gameObject);
         }
 
         #endregion Singleton
+
+        [Header(("Inventory"))] public ScrollRect inventoryScroller;
 
         [Header("Item Details")] public Image itemImage;
         public Text itemName;
@@ -62,6 +65,49 @@ namespace UNetUI.Resources
             ClearItemSelected();
         }
 
+        #region Scroller
+
+        public void DisableInventoryScrolling() => inventoryScroller.enabled = false;
+
+        public void EnableInventoryScrolling() => inventoryScroller.enabled = true;
+
+        #endregion Scroller
+
+        #region AddRemoveItemInventory
+
+        public void RemoveInventoryItem(InventoryItem item) => _items.Remove(item);
+
+        public void AddInventoryItem(Item item)
+        {
+            GameObject itemInstance = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
+            itemInstance.transform.SetParent(inventoryHolder);
+            itemInstance.transform.localScale = Vector3.one;
+
+            ItemDnD itemDnD = itemInstance.GetComponent<ItemDnD>();
+
+            Image inventoryItemImage = itemInstance.transform.GetChild(0).GetComponent<Image>();
+            Image inventoryItemBorder = itemInstance.GetComponent<Image>();
+            Text inventoryItemName = itemInstance.transform.GetChild(1).GetComponent<Text>();
+
+            InventoryItem newItem = new InventoryItem
+            {
+                item = item,
+                itemBorder = inventoryItemBorder
+            };
+            
+            itemDnD.SetItem(newItem);
+
+            inventoryItemImage.sprite = item.icon;
+            inventoryItemName.text = item.itemName;
+            inventoryItemBorder.sprite = defaultBorder;
+
+            _items.Add(newItem);
+            itemInstance.GetComponent<Button>().onClick.AddListener(() => InventoryItemClicked(newItem));
+        }
+
+        #endregion AddRemoveItemInventory
+
+
         private void ClearItemSelected()
         {
             ItemSelected = null;
@@ -72,28 +118,7 @@ namespace UNetUI.Resources
         private void CreateAndSetInventoryItems()
         {
             foreach (Item item in items)
-            {
-                GameObject itemInstance = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
-                itemInstance.transform.SetParent(inventoryHolder);
-                itemInstance.transform.localScale = Vector3.one;
-
-                Image inventoryItemImage = itemInstance.transform.GetChild(0).GetComponent<Image>();
-                Image inventoryItemBorder = itemInstance.GetComponent<Image>();
-                Text inventoryItemName = itemInstance.transform.GetChild(1).GetComponent<Text>();
-
-                InventoryItem newItem = new InventoryItem
-                {
-                    item = item,
-                    itemBorder = inventoryItemBorder
-                };
-
-                inventoryItemImage.sprite = item.icon;
-                inventoryItemName.text = item.itemName;
-                inventoryItemBorder.sprite = defaultBorder;
-
-                _items.Add(newItem);
-                itemInstance.GetComponent<Button>().onClick.AddListener(() => InventoryItemClicked(newItem));
-            }
+                AddInventoryItem(item);
         }
 
         private void UpdateUiWithItemSelected()
@@ -123,11 +148,5 @@ namespace UNetUI.Resources
         }
 
         private void InventoryItemClicked(InventoryItem item) => ItemSelected = item;
-
-        private class InventoryItem
-        {
-            public Item item;
-            public Image itemBorder;
-        }
     }
 }

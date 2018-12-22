@@ -8,6 +8,7 @@ TagManager:
   - Body
   - Feet
   - Weapon
+  - DragabbleImage
   layers:
   - Default
   - TransparentFX

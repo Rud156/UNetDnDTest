@@ -38,39 +38,47 @@ namespace UNetUI.Resources
         private float _agility;
         private float _intel;
 
-        #region Damage
+        private void Start() => UpdateUiWithBuffs();
 
-        public void AddDamage(float damage) => _damage += damage;
-        public void RemoveDamage(float damage) => _damage -= damage;
+        public void AddItem(Item item)
+        {
+            _damage += item.damage;
+            _defence += item.defence;
+            _strength += item.strength;
+            _agility += item.agility;
+            _intel += item.intel;
 
-        #endregion Damage
+            UpdateUiWithBuffs();
+        }
 
-        #region Defence
+        public void RemoveItem(Item item)
+        {
+            _damage -= item.damage;
+            _defence -= item.defence;
+            _strength -= item.strength;
+            _agility -= item.agility;
+            _intel -= item.intel;
 
-        public void AddDefence(float defence) => _defence += defence;
-        public void RemoveDefence(float defence) => _defence -= defence;
+            UpdateUiWithBuffs();
+        }
 
-        #endregion Defence
+        private void UpdateUiWithBuffs()
+        {
+            damageText.text = $"Damage: {_damage}";
+            defenceText.text = $"Defence: {_defence}";
+            strengthText.text = $"Strength: {_strength}";
+            agilityText.text = $"Agility: {_agility}";
+            intelText.text = $"Intel: {_intel}";
 
-        #region Strength
+            float hitPoints = 12 * _strength;
+            float mannaPoints = 14 * _intel;
+            float dodgeChance = 0.2f * _agility;
+            float criticalChance = 0.15f * _agility;
 
-        public void AddStrength(float strength) => _strength += strength;
-        public void RemoveStrength(float strength) => _strength -= strength;
-
-        #endregion Strength
-
-        #region Agility
-
-        public void AddAgility(float agility) => _agility += agility;
-        public void RemoveAgility(float agility) => _agility -= agility;
-
-        #endregion Agility
-
-        #region Intel
-
-        public void AddIntel(float intel) => _intel += intel;
-        public void RemoveIntel(float intel) => _intel -= intel;
-
-        #endregion Intel
+            hpText.text = $"HP: {hitPoints}";
+            mannaText.text = $"Manna: {mannaPoints}";
+            dodgeChanceText.text = $"Dodge Chance: {dodgeChance}";
+            criticalRateText.text = $"Critical Rate: {criticalChance}";
+        }
     }
 }
