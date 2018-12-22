@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UNetUI.Extras;
+using UNetUI.SharedData;
 
 namespace UNetUI.Resources
 {
     public class PartBuff : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        private Item _buffItem;
+        private InventoryItem _buffItem;
         private Image _buffImage;
 
         private Transform _draggableImage;
@@ -26,12 +27,23 @@ namespace UNetUI.Resources
             _draggableImageSprite = _draggableImage.GetComponent<Image>();
         }
 
-        public Item GetItem() => _buffItem;
+        public InventoryItem GetItem() => _buffItem;
 
-        public void SetItem(Item buffItem)
+        public void SetItem(InventoryItem inventoryItem)
         {
-            _buffImage.sprite = buffItem == null ? null : buffItem.icon;
-            _buffItem = buffItem;
+            if (inventoryItem != null)
+            {
+                PlayerBuffsManager.instance.AddItem(inventoryItem.item);
+                inventoryItem.itemEquipped = true;
+            }
+            else if (_buffItem != null)
+            {
+                PlayerBuffsManager.instance.RemoveItem(_buffItem.item);
+                _buffItem.itemEquipped = false;
+            }
+
+            _buffImage.sprite = inventoryItem?.item.icon;
+            _buffItem = inventoryItem;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -42,7 +54,7 @@ namespace UNetUI.Resources
             _buffImage.enabled = false;
 
             _draggableImageSprite.enabled = true;
-            _draggableImageSprite.sprite = _buffItem.icon;
+            _draggableImageSprite.sprite = _buffItem.item.icon;
             _draggableImage.position = transform.position;
         }
 
@@ -78,10 +90,7 @@ namespace UNetUI.Resources
         {
             if (itemBelowPointer.CompareTag(TagManager.InventoryItem) ||
                 itemBelowPointer.CompareTag(TagManager.Inventory))
-            {
-                PlayerBuffsManager.instance.RemoveItem(_buffItem);
                 SetItem(null);
-            }
             else if (itemBelowPointer.CompareTag(gameObject.tag))
             {
                 itemBelowPointer.GetComponent<PartBuff>().SetItem(_buffItem);

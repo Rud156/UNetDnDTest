@@ -1625,7 +1625,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 699790233}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1792271450}
+        m_MethodName: EquipUnEquipButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &699790233
@@ -1641,7 +1652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0.5552926, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2249,7 +2260,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1674073605}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2922,6 +2933,11 @@ MonoBehaviour:
   agilityText: {fileID: 1358163522}
   selectedHolder: {fileID: 1296245220}
   deselectedHolder: {fileID: 1882695206}
+  headSlot: {fileID: 2019401859}
+  bodySlot: {fileID: 12753141}
+  feetSlot: {fileID: 341677901}
+  weapon1Slot: {fileID: 1468873874}
+  weapon2Slot: {fileID: 442086646}
   defaultBorder: {fileID: 21300000, guid: 239673c02f92bb844bad0c1a77410268, type: 3}
   selectedBorder: {fileID: 21300000, guid: e08c8e57df2c59c46b9aa0bec1e3e701, type: 3}
   items:
@@ -3069,7 +3085,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000306284}
+  m_AnchoredPosition: {x: 0, y: 0.00001546103}
   m_SizeDelta: {x: 0, y: -236.71545}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1935888941

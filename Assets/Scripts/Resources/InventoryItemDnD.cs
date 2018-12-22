@@ -11,7 +11,6 @@ namespace UNetUI.Resources
     public class InventoryItemDnD : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         private InventoryItem _inventoryItem;
-        private bool _itemEquipped;
 
         private Transform _draggableImage;
         private Image _draggableImageSprite;
@@ -46,7 +45,7 @@ namespace UNetUI.Resources
             _draggableImageSprite.enabled = false;
 
             List<RaycastResult> results = GraphicRaycastManager.instance.GetHitObjectsUnderMouse();
-            if (results.Count <= 0)
+            if (results.Count <= 0 || _inventoryItem.itemEquipped)
             {
                 CancelDrop();
                 return;
@@ -77,16 +76,13 @@ namespace UNetUI.Resources
 
         private void ClearAndReplaceItem(GameObject itemBelowPointer)
         {
-            _itemEquipped = true;
-
             PartBuff partBuff = itemBelowPointer.GetComponent<PartBuff>();
-            Item previousItem = partBuff.GetItem();
+            InventoryItem previousItem = partBuff.GetItem();
 
             if (previousItem != null)
-                PlayerBuffsManager.instance.RemoveItem(previousItem);
+                partBuff.SetItem(null);
 
-            partBuff.SetItem(_inventoryItem.item);
-            PlayerBuffsManager.instance.AddItem(_inventoryItem.item);
+            partBuff.SetItem(_inventoryItem);
         }
     }
 }

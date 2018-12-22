@@ -37,6 +37,12 @@ namespace UNetUI.Resources
         [Header("Selected Holder")] public GameObject selectedHolder;
         public GameObject deselectedHolder;
 
+        [Header("Item Equip Slots")] public PartBuff headSlot;
+        public PartBuff bodySlot;
+        public PartBuff feetSlot;
+        public PartBuff weapon1Slot;
+        public PartBuff weapon2Slot;
+
         [Header("Borders")] public Sprite defaultBorder;
         public Sprite selectedBorder;
 
@@ -74,6 +80,98 @@ namespace UNetUI.Resources
 
         #endregion Scroller
 
+        #region EquipUnEquipButtonFunction
+
+        // Called from external Button
+        public void EquipUnEquipButton()
+        {
+            if (ItemSelected == null)
+                return;
+
+            if (ItemSelected.itemEquipped)
+                UnEquipItem();
+            else
+                CheckAndEquipItem();
+        }
+
+        private void CheckAndEquipItem()
+        {
+            Item.ItemSlot itemSlot = ItemSelected.item.slot;
+            InventoryItem inventoryItem;
+
+            switch (itemSlot)
+            {
+                case Item.ItemSlot.Head:
+                    inventoryItem = headSlot.GetItem();
+                    if (inventoryItem != null)
+                        headSlot.SetItem(null);
+
+                    headSlot.SetItem(ItemSelected);
+                    break;
+
+                case Item.ItemSlot.Body:
+                    inventoryItem = bodySlot.GetItem();
+                    if (inventoryItem != null)
+                        bodySlot.SetItem(null);
+
+                    bodySlot.SetItem(ItemSelected);
+                    break;
+
+                case Item.ItemSlot.Feet:
+                    inventoryItem = feetSlot.GetItem();
+                    if (inventoryItem != null)
+                        feetSlot.SetItem(null);
+
+                    feetSlot.SetItem(ItemSelected);
+                    break;
+
+                case Item.ItemSlot.Weapon:
+                    inventoryItem = weapon1Slot.GetItem();
+                    if (inventoryItem == null)
+                        weapon1Slot.SetItem(ItemSelected);
+                    else
+                    {
+                        inventoryItem = weapon2Slot.GetItem();
+                        if (inventoryItem != null)
+                            weapon2Slot.SetItem(null);
+
+                        weapon2Slot.SetItem(ItemSelected);
+                    }
+
+                    break;
+            }
+        }
+
+        private void UnEquipItem()
+        {
+            Item.ItemSlot itemSlot = ItemSelected.item.slot;
+
+            switch (itemSlot)
+            {
+                case Item.ItemSlot.Head:
+                    headSlot.SetItem(null);
+                    break;
+
+                case Item.ItemSlot.Body:
+                    bodySlot.SetItem(null);
+                    break;
+
+                case Item.ItemSlot.Feet:
+                    feetSlot.SetItem(null);
+                    break;
+
+                case Item.ItemSlot.Weapon:
+                    InventoryItem inventoryItem = weapon1Slot.GetItem();
+                    if (ItemSelected == inventoryItem)
+                        weapon1Slot.SetItem(null);
+                    else
+                        weapon2Slot.SetItem(null);
+                    break;
+            }
+        }
+
+        #endregion EquipUnEquipButtonFunction
+
         private void AddInventoryItem(Item item)
         {
             GameObject itemInstance = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
@@ -87,24 +185,24 @@ namespace UNetUI.Resources
                 case Item.ItemClass.Common:
                     itemInstance.GetComponent<Image>().color = Constants.CommonColor;
                     break;
-                
+
                 case Item.ItemClass.Uncommon:
                     itemInstance.GetComponent<Image>().color = Constants.UncommonColor;
                     break;
-                    
+
                 case Item.ItemClass.Rare:
                     itemInstance.GetComponent<Image>().color = Constants.RareColor;
                     break;
-                
+
                 case Item.ItemClass.Mythical:
                     itemInstance.GetComponent<Image>().color = Constants.MythicalColor;
                     break;
-                
+
                 case Item.ItemClass.Legendary:
                     itemInstance.GetComponent<Image>().color = Constants.LegendaryColor;
                     break;
             }
-            
+
             Image inventoryItemImage = itemInstance.transform.GetChild(1).GetComponent<Image>();
             Image inventoryItemBorder = itemInstance.transform.GetChild(0).GetComponent<Image>();
             Text inventoryItemName = itemInstance.transform.GetChild(2).GetComponent<Text>();
@@ -112,9 +210,11 @@ namespace UNetUI.Resources
             InventoryItem newItem = new InventoryItem
             {
                 item = item,
-                itemBorder = inventoryItemBorder
+                itemBorder = inventoryItemBorder,
+
+                itemEquipped = false
             };
-            
+
             inventoryItemDnD.SetItem(newItem);
 
             inventoryItemImage.sprite = item.icon;
@@ -124,7 +224,7 @@ namespace UNetUI.Resources
             itemInstance.GetComponent<Button>().onClick.AddListener(() => InventoryItemClicked(newItem));
             _items.Add(newItem);
         }
-        
+
         private void ClearItemSelected()
         {
             ItemSelected = null;

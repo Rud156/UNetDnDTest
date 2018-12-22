@@ -7,5 +7,7 @@ namespace UNetUI.SharedData
     {
         public Item item;
         public Image itemBorder;
+
+        public bool itemEquipped;
     }
 }
