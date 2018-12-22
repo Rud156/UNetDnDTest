@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 12753139}
   m_Layer: 5
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -759,7 +759,7 @@ GameObject:
   - component: {fileID: 341677899}
   m_Layer: 5
   m_Name: Feet
-  m_TagString: Untagged
+  m_TagString: Feet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -922,7 +922,7 @@ GameObject:
   - component: {fileID: 442086644}
   m_Layer: 5
   m_Name: Weapon 2
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2186,7 +2186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2247,6 +2247,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee10baa92699d649994f0a1eca3ec05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageText: {fileID: 959929718}
+  strengthText: {fileID: 451666261}
+  intelText: {fileID: 689692435}
+  agilityText: {fileID: 1043269133}
+  defenceText: {fileID: 172437659}
+  hpText: {fileID: 1078652196}
+  mannaText: {fileID: 312435948}
+  dodgeChanceText: {fileID: 340342192}
+  criticalRateText: {fileID: 2127991330}
 --- !u!1 &1183307927
 GameObject:
   m_ObjectHideFlags: 0
@@ -2331,7 +2340,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1296245221}
   m_Layer: 5
-  m_Name: Details
+  m_Name: Selected Details
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2572,7 +2581,7 @@ GameObject:
   - component: {fileID: 1468873872}
   m_Layer: 5
   m_Name: Weapon 1
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2659,7 +2668,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.9999998}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2745,8 +2754,8 @@ MonoBehaviour:
   strengthText: {fileID: 1084797518}
   intelText: {fileID: 1999404683}
   agilityText: {fileID: 1358163522}
-  selectedHolder: {fileID: 0}
-  deselectedHolder: {fileID: 0}
+  selectedHolder: {fileID: 1296245220}
+  deselectedHolder: {fileID: 1882695206}
   defaultBorder: {fileID: 21300000, guid: 239673c02f92bb844bad0c1a77410268, type: 3}
   selectedBorder: {fileID: 21300000, guid: e08c8e57df2c59c46b9aa0bec1e3e701, type: 3}
   items:
@@ -2784,7 +2793,7 @@ GameObject:
   - component: {fileID: 1882695209}
   - component: {fileID: 1882695208}
   m_Layer: 5
-  m_Name: Info
+  m_Name: Deselected Info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2894,7 +2903,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000046117864}
+  m_AnchoredPosition: {x: 0, y: 0.000045771016}
   m_SizeDelta: {x: 0, y: -236.71545}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1935888941
@@ -3095,7 +3104,7 @@ GameObject:
   - component: {fileID: 2019401857}
   m_Layer: 5
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Head
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
