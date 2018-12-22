@@ -30,6 +30,9 @@ namespace UNetUI.Resources
         public Text intelText;
         public Text agilityText;
 
+        [Header("Selected Holder")] public GameObject selectedHolder;
+        public GameObject deselectedHolder;
+
         [Header("Borders")] public Sprite defaultBorder;
         public Sprite selectedBorder;
 
@@ -62,16 +65,8 @@ namespace UNetUI.Resources
         private void ClearItemSelected()
         {
             ItemSelected = null;
-
-            itemImage.sprite = null;
-            itemName.text = "";
-            itemDescription.text = "";
-
-            damageText.text = "";
-            defenceText.text = "";
-            strengthText.text = "";
-            intelText.text = "";
-            agilityText.text = "";
+            selectedHolder.SetActive(false);
+            deselectedHolder.SetActive(true);
         }
 
         private void CreateAndSetInventoryItems()
@@ -103,6 +98,9 @@ namespace UNetUI.Resources
 
         private void UpdateUiWithItemSelected()
         {
+            deselectedHolder.SetActive(false);
+            selectedHolder.SetActive(true);
+
             foreach (InventoryItem inventoryItem in _items)
             {
                 if (inventoryItem == ItemSelected)
