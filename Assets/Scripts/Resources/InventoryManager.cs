@@ -34,6 +34,16 @@ namespace UNetUI.Resources
         public Text intelText;
         public Text agilityText;
 
+        [Header("Item Additions")] public Text damageAdditionText;
+        public Text strengthAdditionText;
+        public Text intelAdditionText;
+        public Text agilityAdditionText;
+        public Text defenceAdditionText;
+        public Text hpAdditionText;
+        public Text mannaAdditionText;
+        public Text dodgeChanceAdditionText;
+        public Text criticalRateAdditionText;
+
         [Header("Selected Holder")] public GameObject selectedHolder;
         public GameObject deselectedHolder;
 
