@@ -13,5 +13,7 @@ namespace UNetUI.Extras
         public const string Weapon = "Weapon";
 
         public const string DraggableImage = "DragabbleImage";
+        public const string InventoryItem = "InventoryItem";
+        public const string Inventory = "Inventory";
     }
 }

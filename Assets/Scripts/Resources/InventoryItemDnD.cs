@@ -8,30 +8,33 @@ using UNetUI.SharedData;
 
 namespace UNetUI.Resources
 {
-    public class ItemDnD : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class InventoryItemDnD : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         private InventoryItem _inventoryItem;
-
-        private Image _inventoryImage;
-        private Text _inventoryText;
+        private bool _itemEquipped;
 
         private Transform _draggableImage;
         private Image _draggableImageSprite;
 
         private void Start()
         {
-            _inventoryImage = transform.GetChild(0).GetComponent<Image>();
-            _inventoryText = transform.GetChild(1).GetComponent<Text>();
-
             _draggableImage = GameObject.FindGameObjectWithTag(TagManager.DraggableImage).transform;
             if (!_draggableImage)
                 throw new Exception("No Valid Image Found");
 
             _draggableImageSprite = _draggableImage.GetComponent<Image>();
-            _draggableImageSprite.raycastTarget = false;
         }
 
         public void SetItem(InventoryItem item) => _inventoryItem = item;
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            InventoryManager.instance.DisableInventoryScrolling();
+
+            _draggableImageSprite.enabled = true;
+            _draggableImageSprite.sprite = _inventoryItem.item.icon;
+            _draggableImage.position = transform.position;
+        }
 
         public void OnDrag(PointerEventData eventData) => _draggableImage.position = eventData.position;
 
@@ -52,25 +55,10 @@ namespace UNetUI.Resources
             CheckAndEquipItem(results[0].gameObject);
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
-        {
-            InventoryManager.instance.DisableInventoryScrolling();
-
-            _draggableImageSprite.enabled = true;
-            _draggableImageSprite.sprite = _inventoryItem.item.icon;
-            _draggableImage.position = transform.position;
-
-            _inventoryImage.enabled = false;
-            _inventoryText.enabled = false;
-        }
-
         private void CancelDrop()
         {
             _draggableImageSprite.sprite = null;
             _draggableImageSprite.enabled = false;
-
-            _inventoryImage.enabled = true;
-            _inventoryText.enabled = true;
         }
 
         private void CheckAndEquipItem(GameObject itemBelowPointer)
@@ -89,21 +77,16 @@ namespace UNetUI.Resources
 
         private void ClearAndReplaceItem(GameObject itemBelowPointer)
         {
+            _itemEquipped = true;
+
             PartBuff partBuff = itemBelowPointer.GetComponent<PartBuff>();
             Item previousItem = partBuff.GetItem();
 
             if (previousItem != null)
-            {
-                InventoryManager.instance.AddInventoryItem(previousItem);
                 PlayerBuffsManager.instance.RemoveItem(previousItem);
-            }
-
-            itemBelowPointer.GetComponent<Image>().sprite = _inventoryItem.item.icon;
 
             partBuff.SetItem(_inventoryItem.item);
             PlayerBuffsManager.instance.AddItem(_inventoryItem.item);
-
-            Destroy(gameObject);
         }
     }
 }

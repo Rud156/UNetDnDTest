@@ -9,6 +9,8 @@ TagManager:
   - Feet
   - Weapon
   - DragabbleImage
+  - Inventory
+  - InventoryItem
   layers:
   - Default
   - TransparentFX

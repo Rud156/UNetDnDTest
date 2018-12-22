@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UNetUI.Extras;
 using UNetUI.SharedData;
 
 namespace UNetUI.Resources
@@ -73,21 +74,40 @@ namespace UNetUI.Resources
 
         #endregion Scroller
 
-        #region AddRemoveItemInventory
-
-        public void RemoveInventoryItem(InventoryItem item) => _items.Remove(item);
-
-        public void AddInventoryItem(Item item)
+        private void AddInventoryItem(Item item)
         {
             GameObject itemInstance = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
             itemInstance.transform.SetParent(inventoryHolder);
             itemInstance.transform.localScale = Vector3.one;
 
-            ItemDnD itemDnD = itemInstance.GetComponent<ItemDnD>();
+            InventoryItemDnD inventoryItemDnD = itemInstance.GetComponent<InventoryItemDnD>();
 
-            Image inventoryItemImage = itemInstance.transform.GetChild(0).GetComponent<Image>();
-            Image inventoryItemBorder = itemInstance.GetComponent<Image>();
-            Text inventoryItemName = itemInstance.transform.GetChild(1).GetComponent<Text>();
+            switch (item.itemClass)
+            {
+                case Item.ItemClass.Common:
+                    itemInstance.GetComponent<Image>().color = Constants.CommonColor;
+                    break;
+                
+                case Item.ItemClass.Uncommon:
+                    itemInstance.GetComponent<Image>().color = Constants.UncommonColor;
+                    break;
+                    
+                case Item.ItemClass.Rare:
+                    itemInstance.GetComponent<Image>().color = Constants.RareColor;
+                    break;
+                
+                case Item.ItemClass.Mythical:
+                    itemInstance.GetComponent<Image>().color = Constants.MythicalColor;
+                    break;
+                
+                case Item.ItemClass.Legendary:
+                    itemInstance.GetComponent<Image>().color = Constants.LegendaryColor;
+                    break;
+            }
+            
+            Image inventoryItemImage = itemInstance.transform.GetChild(1).GetComponent<Image>();
+            Image inventoryItemBorder = itemInstance.transform.GetChild(0).GetComponent<Image>();
+            Text inventoryItemName = itemInstance.transform.GetChild(2).GetComponent<Text>();
 
             InventoryItem newItem = new InventoryItem
             {
@@ -95,19 +115,16 @@ namespace UNetUI.Resources
                 itemBorder = inventoryItemBorder
             };
             
-            itemDnD.SetItem(newItem);
+            inventoryItemDnD.SetItem(newItem);
 
             inventoryItemImage.sprite = item.icon;
             inventoryItemName.text = item.itemName;
             inventoryItemBorder.sprite = defaultBorder;
 
-            _items.Add(newItem);
             itemInstance.GetComponent<Button>().onClick.AddListener(() => InventoryItemClicked(newItem));
+            _items.Add(newItem);
         }
-
-        #endregion AddRemoveItemInventory
-
-
+        
         private void ClearItemSelected()
         {
             ItemSelected = null;
