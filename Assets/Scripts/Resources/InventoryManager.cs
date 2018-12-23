@@ -56,8 +56,7 @@ namespace UNetUI.Resources
         [Header("Borders")] public Sprite defaultBorder;
         public Sprite selectedBorder;
 
-        [Header(("Inventory Items"))] public List<Item> items;
-        public GameObject itemPrefab;
+        [Header(("Inventory Items"))] public GameObject itemPrefab;
         public RectTransform inventoryHolder;
 
         private List<InventoryItem> _items;
@@ -198,7 +197,7 @@ namespace UNetUI.Resources
 
             foreach (InventoryItem inventoryItem in _items)
             {
-                if (inventoryItem.item.itemName == item.itemName && inventoryItem.item.description == item.description)
+                if (inventoryItem.item.itemName == item.itemName)
                 {
                     itemExists = true;
                     validItem = inventoryItem;
@@ -208,8 +207,9 @@ namespace UNetUI.Resources
 
             if (itemExists)
                 validItem.itemEquipped = false;
-            
-            AddInventoryItem(item);
+            else
+                AddInventoryItem(item);
+
             UpdateUiWithItemSelected();
         }
 
@@ -275,6 +275,7 @@ namespace UNetUI.Resources
 
         private void CreateAndSetInventoryItems()
         {
+            List<Item> items = ItemsManager.instance.GetItems();
             foreach (Item item in items)
                 AddInventoryItem(item);
         }

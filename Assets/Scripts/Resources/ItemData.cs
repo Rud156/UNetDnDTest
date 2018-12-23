@@ -5,7 +5,6 @@ namespace UNetUI.Resources
     [System.Serializable]
     public class ItemData
     {
-        public byte[] icon;
         public string itemName;
         public string description;
 
@@ -20,7 +19,6 @@ namespace UNetUI.Resources
 
         public ItemData(Item item)
         {
-            icon = item.icon.texture.EncodeToPNG();
             itemName = item.itemName;
             description = item.description;
 

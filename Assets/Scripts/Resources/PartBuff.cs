@@ -38,7 +38,7 @@ namespace UNetUI.Resources
             else if (_buffItem != null)
                 PlayerBuffsManager.instance.RemoveItem(_buffItem);
 
-            _buffImage.sprite = item.icon;
+            _buffImage.sprite = item != null ? item.icon : null;
             _buffItem = item;
             
             CheckAndSaveData();
@@ -91,7 +91,7 @@ namespace UNetUI.Resources
             Item item = ItemsDataSaver.LoadEquippedItems(gameObject.tag);
             if (item != null)
             {
-                _buffItem = item;
+                SetItem(item);
                 InventoryManager.instance.CheckAndAddInventoryItem(item);
             }
         }
