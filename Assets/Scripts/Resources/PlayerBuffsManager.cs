@@ -49,7 +49,11 @@ namespace UNetUI.Resources
         private float _agility;
         private float _intel;
 
-        private void Start() => UpdateUiWithBuffs();
+        private void Start()
+        {
+            UpdateUiWithBuffs();
+            ClearBuffsAddition();
+        }
 
         public void AddItem(Item item)
         {
@@ -88,28 +92,44 @@ namespace UNetUI.Resources
 
             if (prevItem != null)
             {
-                modifiedDamage -= prevItem.damage;
-                modifiedDefence -= prevItem.defence;
-                modifiedStrength -= prevItem.strength;
-                modifiedAgility -= prevItem.agility;
-                modifiedIntel -= prevItem.intel;
+                if (currentItem.itemName == prevItem.itemName)
+                {
+                    modifiedDamage = 0;
+                    modifiedDefence = 0;
+                    modifiedStrength = 0;
+                    modifiedAgility = 0;
+                    modifiedIntel = 0;
 
-                modifiedHp -= (12 * prevItem.strength);
-                modifiedManna -= (14 * prevItem.intel);
-                modifiedDodgeChance -= (0.2f * prevItem.agility);
-                modifiedCriticalChance -= (0.15f * prevItem.agility);
+                    modifiedHp = 0;
+                    modifiedManna = 0;
+                    modifiedDodgeChance = 0;
+                    modifiedCriticalChance = 0;
+                }
+                else
+                {
+                    modifiedDamage -= prevItem.damage;
+                    modifiedDefence -= prevItem.defence;
+                    modifiedStrength -= prevItem.strength;
+                    modifiedAgility -= prevItem.agility;
+                    modifiedIntel -= prevItem.intel;
+
+                    modifiedHp -= (12 * prevItem.strength);
+                    modifiedManna -= (14 * prevItem.intel);
+                    modifiedDodgeChance -= (0.2f * prevItem.agility);
+                    modifiedCriticalChance -= (0.15f * prevItem.agility);
+                }
             }
 
-            damageAdditionText.text = $"{modifiedDamage}";
-            strengthAdditionText.text = $"{modifiedStrength}";
-            intelAdditionText.text = $"{modifiedIntel}";
-            agilityAdditionText.text = $"{modifiedAgility}";
-            defenceAdditionText.text = $"{modifiedDefence}";
+            damageAdditionText.text = modifiedDamage.ToString("0.00");
+            strengthAdditionText.text = modifiedStrength.ToString("0.00");
+            intelAdditionText.text = modifiedIntel.ToString("0.00");
+            agilityAdditionText.text = modifiedAgility.ToString("0.00");
+            defenceAdditionText.text = modifiedDefence.ToString("0.00");
 
-            hpAdditionText.text = $"{modifiedHp}";
-            mannaAdditionText.text = $"{modifiedManna}";
-            dodgeChanceAdditionText.text = $"{modifiedDodgeChance}";
-            criticalRateAdditionText.text = $"{modifiedCriticalChance}";
+            hpAdditionText.text = modifiedHp.ToString("0.00");
+            mannaAdditionText.text = modifiedManna.ToString("0.00");
+            dodgeChanceAdditionText.text = modifiedDodgeChance.ToString("0.00");
+            criticalRateAdditionText.text = modifiedCriticalChance.ToString("0.00");
 
             damageAdditionText.color = modifiedDamage < 0 ? Color.red : Color.green;
             strengthAdditionText.color = modifiedStrength < 0 ? Color.red : Color.green;
@@ -121,6 +141,20 @@ namespace UNetUI.Resources
             mannaAdditionText.color = modifiedManna < 0 ? Color.red : Color.green;
             dodgeChanceAdditionText.color = modifiedDodgeChance < 0 ? Color.red : Color.green;
             criticalRateAdditionText.color = modifiedCriticalChance < 0 ? Color.red : Color.green;
+        }
+
+        public void ClearBuffsAddition()
+        {
+            damageAdditionText.text = "";
+            strengthAdditionText.text = "";
+            intelAdditionText.text = "";
+            agilityAdditionText.text = "";
+            defenceAdditionText.text = "";
+
+            hpAdditionText.text = "";
+            mannaAdditionText.text = "";
+            dodgeChanceAdditionText.text = "";
+            criticalRateAdditionText.text = "";
         }
 
         private void UpdateUiWithBuffs()

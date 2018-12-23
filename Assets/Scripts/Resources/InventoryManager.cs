@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UNetUI.Extras;
@@ -92,6 +93,8 @@ namespace UNetUI.Resources
                 UnEquipSelectedItem();
             else
                 CheckAndEquipSelectedItem();
+            
+            PlayerBuffsManager.instance.ClearBuffsAddition();
         }
 
         private void CheckAndEquipSelectedItem()
@@ -234,6 +237,28 @@ namespace UNetUI.Resources
         }
 
         #endregion ExternalInventoryManipulation
+
+        #region Sorting
+
+        public void SetSortType(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    break;
+                
+                case 1:
+                    break;
+                
+                case 2:
+                    break;
+                
+                default:
+                    break;
+            }
+        }
+
+        #endregion Sorting
 
         private void AddInventoryItem(Item item)
         {

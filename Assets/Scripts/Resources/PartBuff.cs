@@ -117,11 +117,13 @@ namespace UNetUI.Resources
             {
                 InventoryManager.instance.SetItemUnEquipped(_buffItem);
                 SetItem(null);
+                PlayerBuffsManager.instance.ClearBuffsAddition();
             }
             else if (acceptedTags.Contains(itemBelowPointer.tag) && !itemBelowPointer.CompareTag(gameObject.tag))
             {
                 itemBelowPointer.GetComponent<PartBuff>().SetItem(_buffItem);
                 SetItem(null);
+                PlayerBuffsManager.instance.ClearBuffsAddition();
             }
             else
                 CancelDrop();
