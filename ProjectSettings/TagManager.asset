@@ -7,10 +7,11 @@ TagManager:
   - Head
   - Body
   - Feet
-  - Weapon
   - DragabbleImage
   - Inventory
   - InventoryItem
+  - Weapon1
+  - Weapon2
   layers:
   - Default
   - TransparentFX

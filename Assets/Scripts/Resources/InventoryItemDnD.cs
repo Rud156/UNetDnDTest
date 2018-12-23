@@ -68,7 +68,9 @@ namespace UNetUI.Resources
                 ClearAndReplaceItem(itemBelowPointer);
             else if (itemBelowPointer.CompareTag(TagManager.Feet) && _inventoryItem.item.slot == Item.ItemSlot.Feet)
                 ClearAndReplaceItem(itemBelowPointer);
-            else if (itemBelowPointer.CompareTag(TagManager.Weapon) && _inventoryItem.item.slot == Item.ItemSlot.Weapon)
+            else if ((itemBelowPointer.CompareTag(TagManager.Weapon1) ||
+                      itemBelowPointer.CompareTag(TagManager.Weapon2)) &&
+                     _inventoryItem.item.slot == Item.ItemSlot.Weapon)
                 ClearAndReplaceItem(itemBelowPointer);
             else
                 CancelDrop();
@@ -77,12 +79,13 @@ namespace UNetUI.Resources
         private void ClearAndReplaceItem(GameObject itemBelowPointer)
         {
             PartBuff partBuff = itemBelowPointer.GetComponent<PartBuff>();
-            InventoryItem previousItem = partBuff.GetItem();
+            Item previousItem = partBuff.GetItem();
 
             if (previousItem != null)
                 partBuff.SetItem(null);
 
-            partBuff.SetItem(_inventoryItem);
+            _inventoryItem.itemEquipped = true;
+            partBuff.SetItem(_inventoryItem.item);
         }
     }
 }

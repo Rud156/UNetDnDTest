@@ -107,7 +107,7 @@ namespace UNetUI.Resources
         private void CheckAndEquipItem()
         {
             Item.ItemSlot itemSlot = ItemSelected.item.slot;
-            InventoryItem inventoryItem;
+            Item inventoryItem;
 
             switch (itemSlot)
             {
@@ -116,7 +116,8 @@ namespace UNetUI.Resources
                     if (inventoryItem != null)
                         headSlot.SetItem(null);
 
-                    headSlot.SetItem(ItemSelected);
+                    headSlot.SetItem(ItemSelected.item);
+                    ItemSelected.itemEquipped = true;
                     break;
 
                 case Item.ItemSlot.Body:
@@ -124,7 +125,8 @@ namespace UNetUI.Resources
                     if (inventoryItem != null)
                         bodySlot.SetItem(null);
 
-                    bodySlot.SetItem(ItemSelected);
+                    bodySlot.SetItem(ItemSelected.item);
+                    ItemSelected.itemEquipped = true;
                     break;
 
                 case Item.ItemSlot.Feet:
@@ -132,22 +134,24 @@ namespace UNetUI.Resources
                     if (inventoryItem != null)
                         feetSlot.SetItem(null);
 
-                    feetSlot.SetItem(ItemSelected);
+                    feetSlot.SetItem(ItemSelected.item);
+                    ItemSelected.itemEquipped = true;
                     break;
 
                 case Item.ItemSlot.Weapon:
                     inventoryItem = weapon1Slot.GetItem();
                     if (inventoryItem == null)
-                        weapon1Slot.SetItem(ItemSelected);
+                        weapon1Slot.SetItem(ItemSelected.item);
                     else
                     {
                         inventoryItem = weapon2Slot.GetItem();
                         if (inventoryItem != null)
                             weapon2Slot.SetItem(null);
 
-                        weapon2Slot.SetItem(ItemSelected);
+                        weapon2Slot.SetItem(ItemSelected.item);
                     }
 
+                    ItemSelected.itemEquipped = true;
                     break;
             }
         }
@@ -160,27 +164,54 @@ namespace UNetUI.Resources
             {
                 case Item.ItemSlot.Head:
                     headSlot.SetItem(null);
+                    ItemSelected.itemEquipped = false;
                     break;
 
                 case Item.ItemSlot.Body:
                     bodySlot.SetItem(null);
+                    ItemSelected.itemEquipped = false;
                     break;
 
                 case Item.ItemSlot.Feet:
                     feetSlot.SetItem(null);
+                    ItemSelected.itemEquipped = false;
                     break;
 
                 case Item.ItemSlot.Weapon:
-                    InventoryItem inventoryItem = weapon1Slot.GetItem();
-                    if (ItemSelected == inventoryItem)
+                    Item inventoryItem = weapon1Slot.GetItem();
+                    if (ItemSelected.item == inventoryItem)
                         weapon1Slot.SetItem(null);
                     else
                         weapon2Slot.SetItem(null);
+
+                    ItemSelected.itemEquipped = false;
                     break;
             }
         }
 
         #endregion EquipUnEquipButtonFunction
+
+        public void CheckAndAddInventoryItem(Item item)
+        {
+            bool itemExists = false;
+            InventoryItem validItem = null;
+
+            foreach (InventoryItem inventoryItem in _items)
+            {
+                if (inventoryItem.item.itemName == item.itemName && inventoryItem.item.description == item.description)
+                {
+                    itemExists = true;
+                    validItem = inventoryItem;
+                    break;
+                }
+            }
+
+            if (itemExists)
+                validItem.itemEquipped = false;
+            
+            AddInventoryItem(item);
+            UpdateUiWithItemSelected();
+        }
 
         private void AddInventoryItem(Item item)
         {
@@ -268,10 +299,26 @@ namespace UNetUI.Resources
                     strengthText.text = $"Strength: {inventoryItem.item.strength}";
                     intelText.text = $"Intel: {inventoryItem.item.intel}";
                     agilityText.text = $"Agility: {inventoryItem.item.agility}";
+
+                    DisplayItemAdditionInfo(inventoryItem.item);
                 }
                 else
                     inventoryItem.itemBorder.sprite = defaultBorder;
             }
+        }
+
+        private void DisplayItemAdditionInfo(Item item)
+        {
+            damageAdditionText.text = $"+ {item.damage}";
+            strengthAdditionText.text = $"+ {item.strength}";
+            intelAdditionText.text = $"+ {item.intel}";
+            agilityAdditionText.text = $"+ {item.agility}";
+            defenceAdditionText.text = $"+ {item.defence}";
+
+            hpAdditionText.text = $"+ {12 * item.strength}";
+            mannaAdditionText.text = $"+ {14 * item.intel}";
+            dodgeChanceAdditionText.text = $"+ {0.2f * item.agility}";
+            criticalRateAdditionText.text = $"+ {0.15f * item.agility}";
         }
 
         private void InventoryItemClicked(InventoryItem item) => ItemSelected = item;
