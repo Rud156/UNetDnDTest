@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,10 +9,41 @@ namespace UNetUI.Resources
 {
     public class InventoryItemDnD : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        private InventoryItem _inventoryItem;
-
         private Transform _draggableImage;
         private Image _draggableImageSprite;
+        private InventoryItem _inventoryItem;
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            InventoryManager.instance.DisableInventoryScrolling();
+            InventoryManager.instance.SetItemSelected(_inventoryItem);
+
+            _draggableImageSprite.enabled = true;
+            _draggableImageSprite.sprite = _inventoryItem.item.icon;
+            _draggableImage.position = transform.position;
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            _draggableImage.position = eventData.position;
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            InventoryManager.instance.EnableInventoryScrolling();
+
+            _draggableImageSprite.sprite = null;
+            _draggableImageSprite.enabled = false;
+
+            var results = GraphicRaycastManager.instance.GetHitObjectsUnderMouse();
+            if (results.Count <= 0 || _inventoryItem.itemEquipped)
+            {
+                CancelDrop();
+                return;
+            }
+
+            CheckAndEquipItem(results[0].gameObject);
+        }
 
         private void Start()
         {
@@ -24,34 +54,9 @@ namespace UNetUI.Resources
             _draggableImageSprite = _draggableImage.GetComponent<Image>();
         }
 
-        public void SetItem(InventoryItem item) => _inventoryItem = item;
-
-        public void OnBeginDrag(PointerEventData eventData)
+        public void SetItem(InventoryItem item)
         {
-            InventoryManager.instance.DisableInventoryScrolling();
-
-            _draggableImageSprite.enabled = true;
-            _draggableImageSprite.sprite = _inventoryItem.item.icon;
-            _draggableImage.position = transform.position;
-        }
-
-        public void OnDrag(PointerEventData eventData) => _draggableImage.position = eventData.position;
-
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            InventoryManager.instance.EnableInventoryScrolling();
-
-            _draggableImageSprite.sprite = null;
-            _draggableImageSprite.enabled = false;
-
-            List<RaycastResult> results = GraphicRaycastManager.instance.GetHitObjectsUnderMouse();
-            if (results.Count <= 0 || _inventoryItem.itemEquipped)
-            {
-                CancelDrop();
-                return;
-            }
-
-            CheckAndEquipItem(results[0].gameObject);
+            _inventoryItem = item;
         }
 
         private void CancelDrop()
@@ -78,14 +83,18 @@ namespace UNetUI.Resources
 
         private void ClearAndReplaceItem(GameObject itemBelowPointer)
         {
-            PartBuff partBuff = itemBelowPointer.GetComponent<PartBuff>();
-            Item previousItem = partBuff.GetItem();
+            var partBuff = itemBelowPointer.GetComponent<PartBuff>();
+            var previousItem = partBuff.GetItem();
 
             if (previousItem != null)
+            {
                 partBuff.SetItem(null);
+                InventoryManager.instance.SetItemUnEquipped(previousItem);
+            }
 
             _inventoryItem.itemEquipped = true;
             partBuff.SetItem(_inventoryItem.item);
+            PlayerBuffsManager.instance.ClearBuffsAddition();
         }
     }
 }

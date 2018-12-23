@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace UNetUI.Extras
+﻿namespace UNetUI.Extras
 {
     public static class TagManager
     {

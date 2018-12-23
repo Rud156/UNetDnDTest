@@ -1,21 +1,21 @@
-using UnityEngine;
+using System;
 
 namespace UNetUI.Resources
 {
-    [System.Serializable]
+    [Serializable]
     public class ItemData
     {
         public string itemName;
         public string description;
+        
+        public float agility;
+        public float damage;
+        public float defence;
+        public float intel;
+        public float strength;
 
         public Item.ItemClass itemClass;
         public Item.ItemSlot slot;
-
-        public float damage;
-        public float defence;
-        public float strength;
-        public float agility;
-        public float intel;
 
         public ItemData(Item item)
         {

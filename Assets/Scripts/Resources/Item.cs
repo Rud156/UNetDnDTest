@@ -11,7 +11,7 @@ namespace UNetUI.Resources
             Uncommon,
             Rare,
             Legendary,
-            Mythical,
+            Mythical
         }
 
         public enum ItemSlot
@@ -19,21 +19,20 @@ namespace UNetUI.Resources
             Weapon,
             Head,
             Body,
-            Feet,
+            Feet
         }
 
         public Sprite icon;
         public string itemName;
-        [TextArea]
-        public string description;
+        [TextArea] public string description;
+        
+        public float strength;
+        public float intel;
+        public float agility;
+        public float damage;
+        public float defence;
 
         public ItemClass itemClass;
         public ItemSlot slot;
-
-        public float damage;
-        public float defence;
-        public float strength;
-        public float agility;
-        public float intel;
     }
 }
