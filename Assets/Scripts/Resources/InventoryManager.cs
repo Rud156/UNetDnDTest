@@ -89,15 +89,15 @@ namespace UNetUI.Resources
                 return;
 
             if (ItemSelected.itemEquipped)
-                UnEquipItemSelected();
+                UnEquipSelectedItem();
             else
-                CheckAndEquipItem();
+                CheckAndEquipSelectedItem();
         }
 
-        private void CheckAndEquipItem()
+        private void CheckAndEquipSelectedItem()
         {
             Item.ItemSlot itemSlot = ItemSelected.item.slot;
-            Item inventoryItem;
+            Item inventoryItem = null;
 
             switch (itemSlot)
             {
@@ -107,7 +107,6 @@ namespace UNetUI.Resources
                         headSlot.SetItem(null);
 
                     headSlot.SetItem(ItemSelected.item);
-                    ItemSelected.itemEquipped = true;
                     break;
 
                 case Item.ItemSlot.Body:
@@ -116,7 +115,6 @@ namespace UNetUI.Resources
                         bodySlot.SetItem(null);
 
                     bodySlot.SetItem(ItemSelected.item);
-                    ItemSelected.itemEquipped = true;
                     break;
 
                 case Item.ItemSlot.Feet:
@@ -125,7 +123,6 @@ namespace UNetUI.Resources
                         feetSlot.SetItem(null);
 
                     feetSlot.SetItem(ItemSelected.item);
-                    ItemSelected.itemEquipped = true;
                     break;
 
                 case Item.ItemSlot.Weapon:
@@ -141,12 +138,14 @@ namespace UNetUI.Resources
                         weapon2Slot.SetItem(ItemSelected.item);
                     }
 
-                    ItemSelected.itemEquipped = true;
                     break;
             }
+
+            SetItemUnEquipped(inventoryItem);
+            ItemSelected.itemEquipped = true;
         }
 
-        private void UnEquipItemSelected()
+        private void UnEquipSelectedItem()
         {
             Item.ItemSlot itemSlot = ItemSelected.item.slot;
 
@@ -206,6 +205,9 @@ namespace UNetUI.Resources
 
         public void SetItemUnEquipped(Item item)
         {
+            if (item == null)
+                return;
+
             foreach (InventoryItem inventoryItem in _items)
             {
                 if (inventoryItem.item.itemName != item.itemName)
@@ -218,6 +220,9 @@ namespace UNetUI.Resources
 
         public void SetItemEquipped(Item item)
         {
+            if (item == null)
+                return;
+
             foreach (InventoryItem inventoryItem in _items)
             {
                 if (inventoryItem.item.itemName != item.itemName)
