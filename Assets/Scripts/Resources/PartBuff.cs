@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ namespace UNetUI.Resources
 {
     public class PartBuff : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
+        public string[] acceptedTags;
+        
         private Item _buffItem;
         private Image _buffImage;
 
@@ -88,11 +91,12 @@ namespace UNetUI.Resources
 
         private void CheckAndLoadData()
         {
-            Item item = ItemsDataSaver.LoadEquippedItems(gameObject.tag);
+            Item item = ItemsDataSaver.LoadEquippedItem(gameObject.tag);
             if (item != null)
             {
                 SetItem(item);
                 InventoryManager.instance.CheckAndAddInventoryItem(item);
+                InventoryManager.instance.SetItemEquipped(item);
             }
         }
 
@@ -111,10 +115,10 @@ namespace UNetUI.Resources
             if (itemBelowPointer.CompareTag(TagManager.InventoryItem) ||
                 itemBelowPointer.CompareTag(TagManager.Inventory))
             {
-                InventoryManager.instance.CheckAndAddInventoryItem(_buffItem);
+                InventoryManager.instance.SetItemUnEquipped(_buffItem);
                 SetItem(null);
             }
-            else if (itemBelowPointer.CompareTag(gameObject.tag))
+            else if (acceptedTags.Contains(itemBelowPointer.tag) && !itemBelowPointer.CompareTag(gameObject.tag))
             {
                 itemBelowPointer.GetComponent<PartBuff>().SetItem(_buffItem);
                 SetItem(null);

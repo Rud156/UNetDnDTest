@@ -194,6 +194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9caa60ecbe776c44dbefa1ccd05c2d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptedTags:
+  - Body
 --- !u!1 &37411443
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,6 +1107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9caa60ecbe776c44dbefa1ccd05c2d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptedTags:
+  - Feet
 --- !u!1 &373660683
 GameObject:
   m_ObjectHideFlags: 0
@@ -1357,6 +1361,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9caa60ecbe776c44dbefa1ccd05c2d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptedTags:
+  - Weapon1
+  - Weapon2
 --- !u!1 &451666259
 GameObject:
   m_ObjectHideFlags: 0
@@ -2797,7 +2804,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1674073605}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2962,6 +2969,15 @@ MonoBehaviour:
   mannaText: {fileID: 312435948}
   dodgeChanceText: {fileID: 340342192}
   criticalRateText: {fileID: 2127991330}
+  damageAdditionText: {fileID: 1887178957}
+  strengthAdditionText: {fileID: 373660685}
+  intelAdditionText: {fileID: 1524496665}
+  agilityAdditionText: {fileID: 314700885}
+  defenceAdditionText: {fileID: 1892868394}
+  hpAdditionText: {fileID: 1141358243}
+  mannaAdditionText: {fileID: 1222068671}
+  dodgeChanceAdditionText: {fileID: 494668328}
+  criticalRateAdditionText: {fileID: 234782892}
 --- !u!1 &1163680822
 GameObject:
   m_ObjectHideFlags: 0
@@ -3466,6 +3482,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9caa60ecbe776c44dbefa1ccd05c2d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptedTags:
+  - Weapon2
+  - Weapon1
 --- !u!1 &1503124735
 GameObject:
   m_ObjectHideFlags: 0
@@ -3763,15 +3782,6 @@ MonoBehaviour:
   strengthText: {fileID: 1084797518}
   intelText: {fileID: 1999404683}
   agilityText: {fileID: 1358163522}
-  damageAdditionText: {fileID: 1887178957}
-  strengthAdditionText: {fileID: 373660685}
-  intelAdditionText: {fileID: 1524496665}
-  agilityAdditionText: {fileID: 314700885}
-  defenceAdditionText: {fileID: 1892868394}
-  hpAdditionText: {fileID: 1141358243}
-  mannaAdditionText: {fileID: 1222068671}
-  dodgeChanceAdditionText: {fileID: 494668328}
-  criticalRateAdditionText: {fileID: 234782892}
   selectedHolder: {fileID: 1296245220}
   deselectedHolder: {fileID: 1882695206}
   headSlot: {fileID: 2019401859}
@@ -4090,7 +4100,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000046052483}
+  m_AnchoredPosition: {x: 0, y: 0.000030522853}
   m_SizeDelta: {x: 0, y: -236.71545}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1935888941
@@ -4395,6 +4405,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9caa60ecbe776c44dbefa1ccd05c2d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptedTags:
+  - Head
 --- !u!1 &2074766922
 GameObject:
   m_ObjectHideFlags: 0

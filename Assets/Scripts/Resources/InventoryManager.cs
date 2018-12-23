@@ -34,15 +34,6 @@ namespace UNetUI.Resources
         public Text intelText;
         public Text agilityText;
 
-        [Header("Item Additions")] public Text damageAdditionText;
-        public Text strengthAdditionText;
-        public Text intelAdditionText;
-        public Text agilityAdditionText;
-        public Text defenceAdditionText;
-        public Text hpAdditionText;
-        public Text mannaAdditionText;
-        public Text dodgeChanceAdditionText;
-        public Text criticalRateAdditionText;
 
         [Header("Selected Holder")] public GameObject selectedHolder;
         public GameObject deselectedHolder;
@@ -98,7 +89,7 @@ namespace UNetUI.Resources
                 return;
 
             if (ItemSelected.itemEquipped)
-                UnEquipItem();
+                UnEquipItemSelected();
             else
                 CheckAndEquipItem();
         }
@@ -155,7 +146,7 @@ namespace UNetUI.Resources
             }
         }
 
-        private void UnEquipItem()
+        private void UnEquipItemSelected()
         {
             Item.ItemSlot itemSlot = ItemSelected.item.slot;
 
@@ -190,28 +181,54 @@ namespace UNetUI.Resources
 
         #endregion EquipUnEquipButtonFunction
 
+        #region ExternalInventoryManipulation
+
+        public void SetItemSelected(InventoryItem inventoryItem) => ItemSelected = inventoryItem;
+
         public void CheckAndAddInventoryItem(Item item)
         {
             bool itemExists = false;
-            InventoryItem validItem = null;
 
-            foreach (InventoryItem inventoryItem in _items)
+            for (var i = 0; i < _items.Count; i++)
             {
-                if (inventoryItem.item.itemName == item.itemName)
+                if (_items[i].item.itemName == item.itemName)
                 {
                     itemExists = true;
-                    validItem = inventoryItem;
                     break;
                 }
             }
 
-            if (itemExists)
-                validItem.itemEquipped = false;
-            else
+            if (!itemExists)
                 AddInventoryItem(item);
 
             UpdateUiWithItemSelected();
         }
+
+        public void SetItemUnEquipped(Item item)
+        {
+            foreach (InventoryItem inventoryItem in _items)
+            {
+                if (inventoryItem.item.itemName != item.itemName)
+                    continue;
+
+                inventoryItem.itemEquipped = false;
+                break;
+            }
+        }
+
+        public void SetItemEquipped(Item item)
+        {
+            foreach (InventoryItem inventoryItem in _items)
+            {
+                if (inventoryItem.item.itemName != item.itemName)
+                    continue;
+
+                inventoryItem.itemEquipped = true;
+                break;
+            }
+        }
+
+        #endregion ExternalInventoryManipulation
 
         private void AddInventoryItem(Item item)
         {
@@ -301,25 +318,33 @@ namespace UNetUI.Resources
                     intelText.text = $"Intel: {inventoryItem.item.intel}";
                     agilityText.text = $"Agility: {inventoryItem.item.agility}";
 
-                    DisplayItemAdditionInfo(inventoryItem.item);
+                    Item equippedItem = null;
+                    switch (inventoryItem.item.slot)
+                    {
+                        case Item.ItemSlot.Head:
+                            equippedItem = headSlot.GetItem();
+                            break;
+
+                        case Item.ItemSlot.Body:
+                            equippedItem = bodySlot.GetItem();
+                            break;
+
+                        case Item.ItemSlot.Feet:
+                            equippedItem = feetSlot.GetItem();
+                            break;
+
+                        case Item.ItemSlot.Weapon:
+                            equippedItem = weapon1Slot.GetItem();
+                            if (equippedItem != null)
+                                equippedItem = weapon2Slot.GetItem();
+                            break;
+                    }
+
+                    PlayerBuffsManager.instance.DisplayBuffDifference(equippedItem, inventoryItem.item);
                 }
                 else
                     inventoryItem.itemBorder.sprite = defaultBorder;
             }
-        }
-
-        private void DisplayItemAdditionInfo(Item item)
-        {
-            damageAdditionText.text = $"+ {item.damage}";
-            strengthAdditionText.text = $"+ {item.strength}";
-            intelAdditionText.text = $"+ {item.intel}";
-            agilityAdditionText.text = $"+ {item.agility}";
-            defenceAdditionText.text = $"+ {item.defence}";
-
-            hpAdditionText.text = $"+ {12 * item.strength}";
-            mannaAdditionText.text = $"+ {14 * item.intel}";
-            dodgeChanceAdditionText.text = $"+ {0.2f * item.agility}";
-            criticalRateAdditionText.text = $"+ {0.15f * item.agility}";
         }
 
         private void InventoryItemClicked(InventoryItem item) => ItemSelected = item;
