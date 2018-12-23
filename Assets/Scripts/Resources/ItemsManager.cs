@@ -20,12 +20,20 @@ namespace UNetUI.Resources
         }
 
         #endregion Singleton
-        
+
         public List<Item> items;
 
-        public List<Item> GetItems()
+        public List<Item> GetItems() => items;
+
+        public Item GetItemByName(string itemName)
         {
-            return items;
+            foreach (Item item in items)
+            {
+                if (item.itemName == itemName)
+                    return item;
+            }
+
+            return null;
         }
 
         public Sprite GetTextureByName(string itemName)

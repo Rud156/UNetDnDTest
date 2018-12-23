@@ -10,13 +10,26 @@ namespace UNetUI.Resources
     public class PartBuff : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         public string[] acceptedTags;
-        
+
         private Image _buffImage;
 
         private Item _buffItem;
 
         private Transform _draggableImage;
         private Image _draggableImageSprite;
+
+        private void Start()
+        {
+            _buffImage = GetComponent<Image>();
+
+            _draggableImage = GameObject.FindGameObjectWithTag(TagManager.DraggableImage).transform;
+            if (!_draggableImage)
+                throw new Exception("No Valid Image Found");
+
+            _draggableImageSprite = _draggableImage.GetComponent<Image>();
+
+            CheckAndLoadData();
+        }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
@@ -58,23 +71,7 @@ namespace UNetUI.Resources
             CheckAndRemoveItem(results[0].gameObject);
         }
 
-        private void Start()
-        {
-            _buffImage = GetComponent<Image>();
-
-            _draggableImage = GameObject.FindGameObjectWithTag(TagManager.DraggableImage).transform;
-            if (!_draggableImage)
-                throw new Exception("No Valid Image Found");
-
-            _draggableImageSprite = _draggableImage.GetComponent<Image>();
-
-            CheckAndLoadData();
-        }
-
-        public Item GetItem()
-        {
-            return _buffItem;
-        }
+        public Item GetItem() => _buffItem;
 
         public void SetItem(Item item)
         {
@@ -100,7 +97,10 @@ namespace UNetUI.Resources
             }
             else if (acceptedTags.Contains(itemBelowPointer.tag) && !itemBelowPointer.CompareTag(gameObject.tag))
             {
-                itemBelowPointer.GetComponent<PartBuff>().SetItem(_buffItem);
+                PartBuff partBuff = itemBelowPointer.GetComponent<PartBuff>();
+                InventoryManager.instance.SetItemUnEquipped(partBuff.GetItem());
+                
+                partBuff.SetItem(_buffItem);
                 SetItem(null);
                 PlayerBuffsManager.instance.ClearBuffsAddition();
             }
@@ -122,12 +122,16 @@ namespace UNetUI.Resources
 
         private void CheckAndLoadData()
         {
-            var item = ItemsDataSaver.LoadEquippedItem(gameObject.tag);
-            if (item != null)
+            Item item = ItemsDataSaver.LoadEquippedItem(gameObject.tag);
+            if(item == null)
+                return;
+            
+            Item itemRef = ItemsManager.instance.GetItemByName(item.itemName);
+            if (itemRef != null)
             {
-                SetItem(item);
-                InventoryManager.instance.CheckAndAddInventoryItem(item);
-                InventoryManager.instance.SetItemEquipped(item);
+                SetItem(itemRef);
+                InventoryManager.instance.CheckAndAddInventoryItem(itemRef);
+                InventoryManager.instance.SetItemEquipped(itemRef);
             }
         }
 

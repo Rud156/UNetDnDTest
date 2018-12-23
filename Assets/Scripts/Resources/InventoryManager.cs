@@ -179,8 +179,7 @@ namespace UNetUI.Resources
 
                 case Item.ItemSlot.Weapon:
                     var inventoryItem = weapon1Slot.GetItem();
-                    if (inventoryItem != null && (ItemSelected.item == inventoryItem ||
-                                                  ItemSelected.item.itemName == inventoryItem.itemName))
+                    if (ItemSelected.item == inventoryItem)
                         weapon1Slot.SetItem(null);
                     else
                         weapon2Slot.SetItem(null);
