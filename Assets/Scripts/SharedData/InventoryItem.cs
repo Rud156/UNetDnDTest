@@ -10,5 +10,7 @@ namespace UNetUI.SharedData
         public Image itemBorder;
 
         public bool itemEquipped;
+
+        public GameObject itemInstance;
     }
 }

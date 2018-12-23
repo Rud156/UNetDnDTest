@@ -1,53 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace UNetUI.Resources
 {
     public class PlayerBuffsManager : MonoBehaviour
-    {
-        #region Singleton
-
-        public static PlayerBuffsManager instance;
-
-        private void Awake()
-        {
-            if (instance == null)
-                instance = this;
-
-            if (instance != this)
-                Destroy(gameObject);
-        }
-
-        #endregion Singleton
+    {   
+        [Header("Item Additions")] public Text damageAdditionText;
+        public Text agilityAdditionText;
+        public Text criticalRateAdditionText;
+        public Text dodgeChanceAdditionText;
+        public Text hpAdditionText;
+        public Text intelAdditionText;
+        public Text mannaAdditionText;
+        public Text strengthAdditionText;
+        public Text defenceAdditionText;
 
         [Header("UI Display")] public Text damageText;
-        public Text strengthText;
-        public Text intelText;
-        public Text agilityText;
         public Text defenceText;
-        public Text hpText;
-        public Text mannaText;
+        public Text agilityText;
         public Text dodgeChanceText;
         public Text criticalRateText;
-
-        [Header("Item Additions")] public Text damageAdditionText;
-        public Text strengthAdditionText;
-        public Text intelAdditionText;
-        public Text agilityAdditionText;
-        public Text defenceAdditionText;
-        public Text hpAdditionText;
-        public Text mannaAdditionText;
-        public Text dodgeChanceAdditionText;
-        public Text criticalRateAdditionText;
-
+        public Text hpText;
+        public Text intelText;
+        public Text mannaText;
+        public Text strengthText;
+        
         private float _damage;
         private float _defence;
-        private float _strength;
-        private float _agility;
         private float _intel;
+        private float _agility;
+        private float _strength;
 
         private void Start()
         {
@@ -79,16 +61,16 @@ namespace UNetUI.Resources
 
         public void DisplayBuffDifference(Item prevItem, Item currentItem)
         {
-            float modifiedDamage = currentItem.damage;
-            float modifiedDefence = currentItem.defence;
-            float modifiedStrength = currentItem.strength;
-            float modifiedAgility = currentItem.agility;
-            float modifiedIntel = currentItem.intel;
+            var modifiedDamage = currentItem.damage;
+            var modifiedDefence = currentItem.defence;
+            var modifiedStrength = currentItem.strength;
+            var modifiedAgility = currentItem.agility;
+            var modifiedIntel = currentItem.intel;
 
-            float modifiedHp = (12 * currentItem.strength);
-            float modifiedManna = (14 * currentItem.intel);
-            float modifiedDodgeChance = (0.2f * currentItem.agility);
-            float modifiedCriticalChance = (0.15f * currentItem.agility);
+            var modifiedHp = 12 * currentItem.strength;
+            var modifiedManna = 14 * currentItem.intel;
+            var modifiedDodgeChance = 0.2f * currentItem.agility;
+            var modifiedCriticalChance = 0.15f * currentItem.agility;
 
             if (prevItem != null)
             {
@@ -113,10 +95,10 @@ namespace UNetUI.Resources
                     modifiedAgility -= prevItem.agility;
                     modifiedIntel -= prevItem.intel;
 
-                    modifiedHp -= (12 * prevItem.strength);
-                    modifiedManna -= (14 * prevItem.intel);
-                    modifiedDodgeChance -= (0.2f * prevItem.agility);
-                    modifiedCriticalChance -= (0.15f * prevItem.agility);
+                    modifiedHp -= 12 * prevItem.strength;
+                    modifiedManna -= 14 * prevItem.intel;
+                    modifiedDodgeChance -= 0.2f * prevItem.agility;
+                    modifiedCriticalChance -= 0.15f * prevItem.agility;
                 }
             }
 
@@ -165,15 +147,30 @@ namespace UNetUI.Resources
             agilityText.text = $"Agility: {_agility}";
             intelText.text = $"Intel: {_intel}";
 
-            float hitPoints = 12 * _strength;
-            float mannaPoints = 14 * _intel;
-            float dodgeChance = 0.2f * _agility;
-            float criticalChance = 0.15f * _agility;
+            var hitPoints = 12 * _strength;
+            var mannaPoints = 14 * _intel;
+            var dodgeChance = 0.2f * _agility;
+            var criticalChance = 0.15f * _agility;
 
             hpText.text = $"HP: {hitPoints}";
             mannaText.text = $"Manna: {mannaPoints}";
             dodgeChanceText.text = $"Dodge Chance: {dodgeChance}";
             criticalRateText.text = $"Critical Rate: {criticalChance}";
         }
+
+        #region Singleton
+
+        public static PlayerBuffsManager instance;
+
+        private void Awake()
+        {
+            if (instance == null)
+                instance = this;
+
+            if (instance != this)
+                Destroy(gameObject);
+        }
+
+        #endregion Singleton
     }
 }

@@ -354,8 +354,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b01036c7cb458644898b8eb6298d8a43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphicRaycaster: {fileID: 439737497}
   eventSystem: {fileID: 87183965}
+  graphicRaycaster: {fileID: 439737497}
 --- !u!1 &67006615
 GameObject:
   m_ObjectHideFlags: 0
@@ -3267,7 +3267,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1674073605}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3423,24 +3423,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee10baa92699d649994f0a1eca3ec05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageAdditionText: {fileID: 1887178957}
+  agilityAdditionText: {fileID: 314700885}
+  criticalRateAdditionText: {fileID: 234782892}
+  dodgeChanceAdditionText: {fileID: 494668328}
+  hpAdditionText: {fileID: 1141358243}
+  intelAdditionText: {fileID: 1524496665}
+  mannaAdditionText: {fileID: 1222068671}
+  strengthAdditionText: {fileID: 373660685}
+  defenceAdditionText: {fileID: 1892868394}
   damageText: {fileID: 959929718}
-  strengthText: {fileID: 451666261}
-  intelText: {fileID: 689692435}
-  agilityText: {fileID: 1043269133}
   defenceText: {fileID: 172437659}
-  hpText: {fileID: 1078652196}
-  mannaText: {fileID: 312435948}
+  agilityText: {fileID: 1043269133}
   dodgeChanceText: {fileID: 340342192}
   criticalRateText: {fileID: 2127991330}
-  damageAdditionText: {fileID: 1887178957}
-  strengthAdditionText: {fileID: 373660685}
-  intelAdditionText: {fileID: 1524496665}
-  agilityAdditionText: {fileID: 314700885}
-  defenceAdditionText: {fileID: 1892868394}
-  hpAdditionText: {fileID: 1141358243}
-  mannaAdditionText: {fileID: 1222068671}
-  dodgeChanceAdditionText: {fileID: 494668328}
-  criticalRateAdditionText: {fileID: 234782892}
+  hpText: {fileID: 1078652196}
+  intelText: {fileID: 689692435}
+  mannaText: {fileID: 312435948}
+  strengthText: {fileID: 451666261}
 --- !u!1 &1163680822
 GameObject:
   m_ObjectHideFlags: 0
@@ -4531,26 +4531,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5df01075594a64d8a8eb89d903ca37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultBorder: {fileID: 21300000, guid: 239673c02f92bb844bad0c1a77410268, type: 3}
+  selectedBorder: {fileID: 21300000, guid: e08c8e57df2c59c46b9aa0bec1e3e701, type: 3}
+  headSlot: {fileID: 2019401859}
+  bodySlot: {fileID: 12753141}
+  weapon1Slot: {fileID: 1468873874}
+  weapon2Slot: {fileID: 442086646}
+  feetSlot: {fileID: 341677901}
+  inventoryHolder: {fileID: 1935888940}
   inventoryScroller: {fileID: 573631025}
   itemImage: {fileID: 1025880641}
   itemName: {fileID: 1976737396}
   itemDescription: {fileID: 486887553}
   damageText: {fileID: 155824107}
-  defenceText: {fileID: 1183307929}
   strengthText: {fileID: 1084797518}
   intelText: {fileID: 1999404683}
   agilityText: {fileID: 1358163522}
+  defenceText: {fileID: 1183307929}
+  itemPrefab: {fileID: 1227999400724176, guid: ba71544e9f63dde49ab650493d4b3926, type: 2}
   selectedHolder: {fileID: 1296245220}
   deselectedHolder: {fileID: 1882695206}
-  headSlot: {fileID: 2019401859}
-  bodySlot: {fileID: 12753141}
-  feetSlot: {fileID: 341677901}
-  weapon1Slot: {fileID: 1468873874}
-  weapon2Slot: {fileID: 442086646}
-  defaultBorder: {fileID: 21300000, guid: 239673c02f92bb844bad0c1a77410268, type: 3}
-  selectedBorder: {fileID: 21300000, guid: e08c8e57df2c59c46b9aa0bec1e3e701, type: 3}
-  itemPrefab: {fileID: 1227999400724176, guid: ba71544e9f63dde49ab650493d4b3926, type: 2}
-  inventoryHolder: {fileID: 1935888940}
 --- !u!1 &1860946937
 GameObject:
   m_ObjectHideFlags: 0
@@ -4961,7 +4961,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000039673}
+  m_AnchoredPosition: {x: 0, y: 0.000038431757}
   m_SizeDelta: {x: 0, y: -236.71545}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1935888941

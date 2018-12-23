@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UNetUI.Extras;
-using UNetUI.SharedData;
 
 namespace UNetUI.Resources
 {
@@ -13,39 +11,12 @@ namespace UNetUI.Resources
     {
         public string[] acceptedTags;
         
-        private Item _buffItem;
         private Image _buffImage;
+
+        private Item _buffItem;
 
         private Transform _draggableImage;
         private Image _draggableImageSprite;
-
-        private void Start()
-        {
-            _buffImage = GetComponent<Image>();
-
-            _draggableImage = GameObject.FindGameObjectWithTag(TagManager.DraggableImage).transform;
-            if (!_draggableImage)
-                throw new Exception("No Valid Image Found");
-
-            _draggableImageSprite = _draggableImage.GetComponent<Image>();
-
-            CheckAndLoadData();
-        }
-
-        public Item GetItem() => _buffItem;
-
-        public void SetItem(Item item)
-        {
-            if (item != null)
-                PlayerBuffsManager.instance.AddItem(item);
-            else if (_buffItem != null)
-                PlayerBuffsManager.instance.RemoveItem(_buffItem);
-
-            _buffImage.sprite = item != null ? item.icon : null;
-            _buffItem = item;
-            
-            CheckAndSaveData();
-        }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
@@ -77,7 +48,7 @@ namespace UNetUI.Resources
 
             _buffImage.enabled = true;
 
-            List<RaycastResult> results = GraphicRaycastManager.instance.GetHitObjectsUnderMouse();
+            var results = GraphicRaycastManager.instance.GetHitObjectsUnderMouse();
             if (results.Count <= 0)
             {
                 CancelDrop();
@@ -87,28 +58,36 @@ namespace UNetUI.Resources
             CheckAndRemoveItem(results[0].gameObject);
         }
 
-        #region LoadAndSaveData
-
-        private void CheckAndLoadData()
+        private void Start()
         {
-            Item item = ItemsDataSaver.LoadEquippedItem(gameObject.tag);
+            _buffImage = GetComponent<Image>();
+
+            _draggableImage = GameObject.FindGameObjectWithTag(TagManager.DraggableImage).transform;
+            if (!_draggableImage)
+                throw new Exception("No Valid Image Found");
+
+            _draggableImageSprite = _draggableImage.GetComponent<Image>();
+
+            CheckAndLoadData();
+        }
+
+        public Item GetItem()
+        {
+            return _buffItem;
+        }
+
+        public void SetItem(Item item)
+        {
             if (item != null)
-            {
-                SetItem(item);
-                InventoryManager.instance.CheckAndAddInventoryItem(item);
-                InventoryManager.instance.SetItemEquipped(item);
-            }
-        }
+                PlayerBuffsManager.instance.AddItem(item);
+            else if (_buffItem != null)
+                PlayerBuffsManager.instance.RemoveItem(_buffItem);
 
-        private void CheckAndSaveData()
-        {
-            if (_buffItem != null)
-                ItemsDataSaver.SaveEquippedItems(_buffItem, gameObject.tag);
-            else
-                ItemsDataSaver.RemoveSavedData(gameObject.tag);
-        }
+            _buffImage.sprite = item != null ? item.icon : null;
+            _buffItem = item;
 
-        #endregion
+            CheckAndSaveData();
+        }
 
         private void CheckAndRemoveItem(GameObject itemBelowPointer)
         {
@@ -126,7 +105,9 @@ namespace UNetUI.Resources
                 PlayerBuffsManager.instance.ClearBuffsAddition();
             }
             else
+            {
                 CancelDrop();
+            }
         }
 
         private void CancelDrop()
@@ -136,5 +117,28 @@ namespace UNetUI.Resources
 
             _buffImage.enabled = true;
         }
+
+        #region LoadAndSaveData
+
+        private void CheckAndLoadData()
+        {
+            var item = ItemsDataSaver.LoadEquippedItem(gameObject.tag);
+            if (item != null)
+            {
+                SetItem(item);
+                InventoryManager.instance.CheckAndAddInventoryItem(item);
+                InventoryManager.instance.SetItemEquipped(item);
+            }
+        }
+
+        private void CheckAndSaveData()
+        {
+            if (_buffItem != null)
+                ItemsDataSaver.SaveEquippedItems(_buffItem, gameObject.tag);
+            else
+                ItemsDataSaver.RemoveSavedData(gameObject.tag);
+        }
+
+        #endregion
     }
 }
