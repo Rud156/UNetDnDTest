@@ -34,15 +34,14 @@ namespace UNetUI.Resources
         public void SetItem(Item item)
         {
             if (item != null)
-            {
                 PlayerBuffsManager.instance.AddItem(item);
-                CheckAndSaveData();
-            }
             else if (_buffItem != null)
                 PlayerBuffsManager.instance.RemoveItem(_buffItem);
 
             _buffImage.sprite = item.icon;
             _buffItem = item;
+            
+            CheckAndSaveData();
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -101,6 +100,8 @@ namespace UNetUI.Resources
         {
             if (_buffItem != null)
                 ItemsDataSaver.SaveEquippedItems(_buffItem, gameObject.tag);
+            else
+                ItemsDataSaver.RemoveSavedData(gameObject.tag);
         }
 
         #endregion

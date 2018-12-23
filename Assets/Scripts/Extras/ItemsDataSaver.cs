@@ -9,7 +9,7 @@ namespace UNetUI.Extras
     {
         public static void SaveEquippedItems(Item item, string equippedTag)
         {
-            string savePath = $"{Application.persistentDataPath}/${equippedTag}.UnUiTe";
+            string savePath = $"{Application.persistentDataPath}/{equippedTag}.UnUiTe";
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(savePath, FileMode.Create);
 
@@ -21,7 +21,7 @@ namespace UNetUI.Extras
 
         public static Item LoadEquippedItems(string equippedTag)
         {
-            string savePath = $"{Application.persistentDataPath}/${equippedTag}.UnUiTe";
+            string savePath = $"{Application.persistentDataPath}/{equippedTag}.UnUiTe";
             if (File.Exists(savePath))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
@@ -58,6 +58,14 @@ namespace UNetUI.Extras
                 Debug.Log($"No Save File Found At {savePath}");
                 return null;
             }
+        }
+
+        public static void RemoveSavedData(string equippedTag)
+        {
+            string savePath = $"{Application.persistentDataPath}/{equippedTag}";
+
+            if (File.Exists(savePath))
+                File.Delete(savePath);
         }
     }
 }
