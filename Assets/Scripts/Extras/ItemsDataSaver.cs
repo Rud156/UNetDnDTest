@@ -3,7 +3,6 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UNetUI.Resources;
-using UNetUI.SharedData;
 
 namespace UNetUI.Extras
 {

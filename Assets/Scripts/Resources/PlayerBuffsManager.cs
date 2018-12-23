@@ -5,6 +5,21 @@ namespace UNetUI.Resources
 {
     public class PlayerBuffsManager : MonoBehaviour
     {   
+        #region Singleton
+
+        public static PlayerBuffsManager instance;
+
+        private void Awake()
+        {
+            if (instance == null)
+                instance = this;
+
+            if (instance != this)
+                Destroy(gameObject);
+        }
+
+        #endregion Singleton
+        
         [Header("Item Additions")] public Text damageAdditionText;
         public Text agilityAdditionText;
         public Text criticalRateAdditionText;
@@ -157,20 +172,5 @@ namespace UNetUI.Resources
             dodgeChanceText.text = $"Dodge Chance: {dodgeChance}";
             criticalRateText.text = $"Critical Rate: {criticalChance}";
         }
-
-        #region Singleton
-
-        public static PlayerBuffsManager instance;
-
-        private void Awake()
-        {
-            if (instance == null)
-                instance = this;
-
-            if (instance != this)
-                Destroy(gameObject);
-        }
-
-        #endregion Singleton
     }
 }

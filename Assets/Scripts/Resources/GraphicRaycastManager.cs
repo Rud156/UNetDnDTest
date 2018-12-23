@@ -7,6 +7,21 @@ namespace UNetUI.Resources
 {
     public class GraphicRaycastManager : MonoBehaviour
     {
+        #region Singleton
+
+        public static GraphicRaycastManager instance;
+
+        private void Awake()
+        {
+            if (instance == null)
+                instance = this;
+
+            if (instance != this)
+                Destroy(gameObject);
+        }
+
+        #endregion Singleton
+        
         public EventSystem eventSystem;
         public GraphicRaycaster graphicRaycaster;
         
@@ -23,20 +38,5 @@ namespace UNetUI.Resources
             graphicRaycaster.Raycast(_pointerEventData, results);
             return results;
         }
-
-        #region Singleton
-
-        public static GraphicRaycastManager instance;
-
-        private void Awake()
-        {
-            if (instance == null)
-                instance = this;
-
-            if (instance != this)
-                Destroy(gameObject);
-        }
-
-        #endregion Singleton
     }
 }

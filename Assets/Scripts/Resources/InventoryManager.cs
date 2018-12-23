@@ -9,6 +9,21 @@ namespace UNetUI.Resources
 {
     public class InventoryManager : MonoBehaviour
     {
+        #region Singleton
+
+        public static InventoryManager instance;
+
+        private void Awake()
+        {
+            if (instance == null)
+                instance = this;
+
+            if (instance != this)
+                Destroy(gameObject);
+        }
+
+        #endregion Singleton
+
         [Header("Borders")] public Sprite defaultBorder;
         public Sprite selectedBorder;
 
@@ -57,6 +72,181 @@ namespace UNetUI.Resources
             ClearItemSelected();
             SetSortType();
         }
+
+        #region Scroller
+
+        public void DisableInventoryScrolling()
+        {
+            inventoryScroller.enabled = false;
+        }
+
+        public void EnableInventoryScrolling()
+        {
+            inventoryScroller.enabled = true;
+        }
+
+        #endregion Scroller
+
+        #region EquipUnEquipButtonFunction
+
+        // Called from external Button
+        public void EquipUnEquipButton()
+        {
+            if (ItemSelected == null)
+                return;
+
+            if (ItemSelected.itemEquipped)
+                UnEquipSelectedItem();
+            else
+                CheckAndEquipSelectedItem();
+
+            PlayerBuffsManager.instance.ClearBuffsAddition();
+        }
+
+        private void CheckAndEquipSelectedItem()
+        {
+            var itemSlot = ItemSelected.item.slot;
+            Item inventoryItem = null;
+
+            switch (itemSlot)
+            {
+                case Item.ItemSlot.Head:
+                    inventoryItem = headSlot.GetItem();
+                    if (inventoryItem != null)
+                        headSlot.SetItem(null);
+
+                    headSlot.SetItem(ItemSelected.item);
+                    break;
+
+                case Item.ItemSlot.Body:
+                    inventoryItem = bodySlot.GetItem();
+                    if (inventoryItem != null)
+                        bodySlot.SetItem(null);
+
+                    bodySlot.SetItem(ItemSelected.item);
+                    break;
+
+                case Item.ItemSlot.Feet:
+                    inventoryItem = feetSlot.GetItem();
+                    if (inventoryItem != null)
+                        feetSlot.SetItem(null);
+
+                    feetSlot.SetItem(ItemSelected.item);
+                    break;
+
+                case Item.ItemSlot.Weapon:
+                    inventoryItem = weapon1Slot.GetItem();
+                    if (inventoryItem == null)
+                    {
+                        weapon1Slot.SetItem(ItemSelected.item);
+                    }
+                    else
+                    {
+                        inventoryItem = weapon2Slot.GetItem();
+                        if (inventoryItem != null)
+                            weapon2Slot.SetItem(null);
+
+                        weapon2Slot.SetItem(ItemSelected.item);
+                    }
+
+                    break;
+            }
+
+            SetItemUnEquipped(inventoryItem);
+            ItemSelected.itemEquipped = true;
+        }
+
+        private void UnEquipSelectedItem()
+        {
+            var itemSlot = ItemSelected.item.slot;
+
+            switch (itemSlot)
+            {
+                case Item.ItemSlot.Head:
+                    headSlot.SetItem(null);
+                    ItemSelected.itemEquipped = false;
+                    break;
+
+                case Item.ItemSlot.Body:
+                    bodySlot.SetItem(null);
+                    ItemSelected.itemEquipped = false;
+                    break;
+
+                case Item.ItemSlot.Feet:
+                    feetSlot.SetItem(null);
+                    ItemSelected.itemEquipped = false;
+                    break;
+
+                case Item.ItemSlot.Weapon:
+                    var inventoryItem = weapon1Slot.GetItem();
+                    if (inventoryItem != null && (ItemSelected.item == inventoryItem ||
+                                                  ItemSelected.item.itemName == inventoryItem.itemName))
+                        weapon1Slot.SetItem(null);
+                    else
+                        weapon2Slot.SetItem(null);
+
+                    ItemSelected.itemEquipped = false;
+                    break;
+            }
+        }
+
+        #endregion EquipUnEquipButtonFunction
+
+        #region ExternalInventoryManipulation
+
+        public void SetItemSelected(InventoryItem inventoryItem)
+        {
+            ItemSelected = inventoryItem;
+        }
+
+        public void CheckAndAddInventoryItem(Item item)
+        {
+            var itemExists = false;
+
+            for (var i = 0; i < _items.Count; i++)
+                if (_items[i].item.itemName == item.itemName)
+                {
+                    itemExists = true;
+                    break;
+                }
+
+            if (!itemExists)
+                AddInventoryItem(item);
+
+            UpdateUiWithItemSelected();
+        }
+
+        public void SetItemUnEquipped(Item item)
+        {
+            if (item == null)
+                return;
+
+            foreach (var inventoryItem in _items)
+            {
+                if (inventoryItem.item.itemName != item.itemName)
+                    continue;
+
+                inventoryItem.itemEquipped = false;
+                break;
+            }
+        }
+
+        public void SetItemEquipped(Item item)
+        {
+            if (item == null)
+                return;
+
+            foreach (var inventoryItem in _items)
+            {
+                if (inventoryItem.item.itemName != item.itemName)
+                    continue;
+
+                inventoryItem.itemEquipped = true;
+                break;
+            }
+        }
+
+        #endregion ExternalInventoryManipulation
 
         #region Sorting
 
@@ -222,194 +412,5 @@ namespace UNetUI.Resources
         {
             ItemSelected = item;
         }
-
-        #region Singleton
-
-        public static InventoryManager instance;
-
-        private void Awake()
-        {
-            if (instance == null)
-                instance = this;
-
-            if (instance != this)
-                Destroy(gameObject);
-        }
-
-        #endregion Singleton
-
-        #region Scroller
-
-        public void DisableInventoryScrolling()
-        {
-            inventoryScroller.enabled = false;
-        }
-
-        public void EnableInventoryScrolling()
-        {
-            inventoryScroller.enabled = true;
-        }
-
-        #endregion Scroller
-
-        #region EquipUnEquipButtonFunction
-
-        // Called from external Button
-        public void EquipUnEquipButton()
-        {
-            if (ItemSelected == null)
-                return;
-
-            if (ItemSelected.itemEquipped)
-                UnEquipSelectedItem();
-            else
-                CheckAndEquipSelectedItem();
-
-            PlayerBuffsManager.instance.ClearBuffsAddition();
-        }
-
-        private void CheckAndEquipSelectedItem()
-        {
-            var itemSlot = ItemSelected.item.slot;
-            Item inventoryItem = null;
-
-            switch (itemSlot)
-            {
-                case Item.ItemSlot.Head:
-                    inventoryItem = headSlot.GetItem();
-                    if (inventoryItem != null)
-                        headSlot.SetItem(null);
-
-                    headSlot.SetItem(ItemSelected.item);
-                    break;
-
-                case Item.ItemSlot.Body:
-                    inventoryItem = bodySlot.GetItem();
-                    if (inventoryItem != null)
-                        bodySlot.SetItem(null);
-
-                    bodySlot.SetItem(ItemSelected.item);
-                    break;
-
-                case Item.ItemSlot.Feet:
-                    inventoryItem = feetSlot.GetItem();
-                    if (inventoryItem != null)
-                        feetSlot.SetItem(null);
-
-                    feetSlot.SetItem(ItemSelected.item);
-                    break;
-
-                case Item.ItemSlot.Weapon:
-                    inventoryItem = weapon1Slot.GetItem();
-                    if (inventoryItem == null)
-                    {
-                        weapon1Slot.SetItem(ItemSelected.item);
-                    }
-                    else
-                    {
-                        inventoryItem = weapon2Slot.GetItem();
-                        if (inventoryItem != null)
-                            weapon2Slot.SetItem(null);
-
-                        weapon2Slot.SetItem(ItemSelected.item);
-                    }
-
-                    break;
-            }
-
-            SetItemUnEquipped(inventoryItem);
-            ItemSelected.itemEquipped = true;
-        }
-
-        private void UnEquipSelectedItem()
-        {
-            var itemSlot = ItemSelected.item.slot;
-
-            switch (itemSlot)
-            {
-                case Item.ItemSlot.Head:
-                    headSlot.SetItem(null);
-                    ItemSelected.itemEquipped = false;
-                    break;
-
-                case Item.ItemSlot.Body:
-                    bodySlot.SetItem(null);
-                    ItemSelected.itemEquipped = false;
-                    break;
-
-                case Item.ItemSlot.Feet:
-                    feetSlot.SetItem(null);
-                    ItemSelected.itemEquipped = false;
-                    break;
-
-                case Item.ItemSlot.Weapon:
-                    var inventoryItem = weapon1Slot.GetItem();
-                    if (ItemSelected.item == inventoryItem)
-                        weapon1Slot.SetItem(null);
-                    else
-                        weapon2Slot.SetItem(null);
-
-                    ItemSelected.itemEquipped = false;
-                    break;
-            }
-        }
-
-        #endregion EquipUnEquipButtonFunction
-
-        #region ExternalInventoryManipulation
-
-        public void SetItemSelected(InventoryItem inventoryItem)
-        {
-            ItemSelected = inventoryItem;
-        }
-
-        public void CheckAndAddInventoryItem(Item item)
-        {
-            var itemExists = false;
-
-            for (var i = 0; i < _items.Count; i++)
-                if (_items[i].item.itemName == item.itemName)
-                {
-                    itemExists = true;
-                    break;
-                }
-
-            if (!itemExists)
-                AddInventoryItem(item);
-
-            UpdateUiWithItemSelected();
-        }
-
-        public void SetItemUnEquipped(Item item)
-        {
-            if (item == null)
-                return;
-
-            foreach (var inventoryItem in _items)
-            {
-                if (inventoryItem.item.itemName != item.itemName)
-                    continue;
-
-                inventoryItem.itemEquipped = false;
-                break;
-            }
-        }
-
-        public void SetItemEquipped(Item item)
-        {
-            if (item == null)
-                return;
-
-            foreach (var inventoryItem in _items)
-            {
-                if (inventoryItem.item.itemName != item.itemName)
-                    continue;
-
-                inventoryItem.itemEquipped = true;
-                break;
-            }
-        }
-
-        #endregion ExternalInventoryManipulation
     }
 }

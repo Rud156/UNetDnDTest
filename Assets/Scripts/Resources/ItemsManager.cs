@@ -2,10 +2,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UNetUI.Resources;
 
-namespace UNetUI.SharedData
+namespace UNetUI.Resources
 {
     public class ItemsManager : MonoBehaviour
     {
+        #region Singleton
+
+        public static ItemsManager instance;
+
+        private void Awake()
+        {
+            if (instance == null)
+                instance = this;
+
+            if (instance != this)
+                Destroy(gameObject);
+        }
+
+        #endregion Singleton
+        
         public List<Item> items;
 
         public List<Item> GetItems()
@@ -21,20 +36,5 @@ namespace UNetUI.SharedData
 
             return null;
         }
-
-        #region Singleton
-
-        public static ItemsManager instance;
-
-        private void Awake()
-        {
-            if (instance == null)
-                instance = this;
-
-            if (instance != this)
-                Destroy(gameObject);
-        }
-
-        #endregion Singleton
     }
 }
