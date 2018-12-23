@@ -75,62 +75,30 @@ namespace UNetUI.Resources
 
         public void DisplayBuffDifference(Item prevItem, Item currentItem)
         {
-            float modifiedDamage,
-                modifiedDefence,
-                modifiedStrength,
-                modifiedAgility,
-                modifiedIntel,
-                modifiedHp,
-                modifiedManna,
-                modifiedDodgeChance,
-                modifiedCriticalChance;
+            float modifiedDamage = currentItem.damage;
+            float modifiedDefence = currentItem.defence;
+            float modifiedStrength = currentItem.strength;
+            float modifiedAgility = currentItem.agility;
+            float modifiedIntel = currentItem.intel;
+
+            float modifiedHp = (12 * currentItem.strength);
+            float modifiedManna = (14 * currentItem.intel);
+            float modifiedDodgeChance = (0.2f * currentItem.agility);
+            float modifiedCriticalChance = (0.15f * currentItem.agility);
 
             if (prevItem != null)
             {
-                modifiedDamage = _damage - prevItem.damage + currentItem.damage;
-                modifiedDefence = _defence - prevItem.defence + currentItem.defence;
-                modifiedStrength = _strength - prevItem.strength + currentItem.strength;
-                modifiedAgility = _agility - prevItem.agility + currentItem.agility;
-                modifiedIntel = _intel - prevItem.intel + currentItem.intel;
+                modifiedDamage -= prevItem.damage;
+                modifiedDefence -= prevItem.defence;
+                modifiedStrength -= prevItem.strength;
+                modifiedAgility -= prevItem.agility;
+                modifiedIntel -= prevItem.intel;
 
-                modifiedHp = (12 * _strength) - (12 * prevItem.strength) + (12 * currentItem.strength);
-                modifiedManna = (14 * _intel) - (14 * prevItem.intel) + (14 * currentItem.intel);
-                modifiedDodgeChance =
-                    (0.2f * _agility) - (0.2f * prevItem.agility) + (0.2f * currentItem.agility);
-                modifiedCriticalChance =
-                    (0.15f * _agility) - (0.15f * prevItem.agility) + (0.15f * currentItem.agility);
+                modifiedHp -= (12 * prevItem.strength);
+                modifiedManna -= (14 * prevItem.intel);
+                modifiedDodgeChance -= (0.2f * prevItem.agility);
+                modifiedCriticalChance -= (0.15f * prevItem.agility);
             }
-            else
-            {
-                modifiedDamage = _damage + currentItem.damage;
-                modifiedDefence = _defence + currentItem.defence;
-                modifiedStrength = _strength + currentItem.strength;
-                modifiedAgility = _agility + currentItem.agility;
-                modifiedIntel = _intel + currentItem.intel;
-
-                modifiedHp = (12 * _strength) + (12 * currentItem.strength);
-                modifiedManna = (14 * _intel) + (14 * currentItem.intel);
-                modifiedDodgeChance =
-                    (0.2f * _agility) + (0.2f * currentItem.agility);
-                modifiedCriticalChance =
-                    (0.15f * _agility) + (0.15f * currentItem.agility);
-            }
-            
-            float hitPoints = 12 * _strength;
-            float mannaPoints = 14 * _intel;
-            float dodgeChance = 0.2f * _agility;
-            float criticalChance = 0.15f * _agility;
-
-            modifiedDamage -= _damage;
-            modifiedDefence -= _defence;
-            modifiedStrength -= _strength;
-            modifiedAgility -= _agility;
-            modifiedIntel -= _intel;
-
-            modifiedHp -= hitPoints;
-            modifiedManna -= mannaPoints;
-            modifiedDodgeChance -= dodgeChance;
-            modifiedCriticalChance -= criticalChance;
 
             damageAdditionText.text = $"{modifiedDamage}";
             strengthAdditionText.text = $"{modifiedStrength}";

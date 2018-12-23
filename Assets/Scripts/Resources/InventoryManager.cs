@@ -304,9 +304,6 @@ namespace UNetUI.Resources
 
         private void UpdateUiWithItemSelected()
         {
-            deselectedHolder.SetActive(false);
-            selectedHolder.SetActive(true);
-
             foreach (InventoryItem inventoryItem in _items)
             {
                 if (inventoryItem == ItemSelected)
@@ -345,6 +342,8 @@ namespace UNetUI.Resources
                             break;
                     }
 
+                    deselectedHolder.SetActive(false);
+                    selectedHolder.SetActive(true);
                     PlayerBuffsManager.instance.DisplayBuffDifference(equippedItem, inventoryItem.item);
                 }
                 else
