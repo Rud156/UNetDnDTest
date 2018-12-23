@@ -50,7 +50,6 @@ namespace UNetUI.Resources
         [Header("Selected Holder")] public GameObject selectedHolder;
         public GameObject deselectedHolder;
 
-
         private List<InventoryItem> _items;
         private InventoryItem _itemSelected;
 

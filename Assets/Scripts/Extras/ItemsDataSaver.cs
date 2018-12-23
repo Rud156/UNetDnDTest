@@ -14,12 +14,12 @@ namespace UNetUI.Extras
         {
             var savePath = $"{Application.persistentDataPath}/{equippedTag}.{FileExtension}";
             var formatter = new BinaryFormatter();
-            var stream = new FileStream(savePath, FileMode.Create);
 
-            var data = new ItemData(item);
-
-            formatter.Serialize(stream, data);
-            stream.Close();
+            using (FileStream stream = new FileStream(savePath, FileMode.Create))
+            {
+                var data = new ItemData(item);
+                formatter.Serialize(stream, data);
+            }
         }
 
         public static Item LoadEquippedItem(string equippedTag)
@@ -30,30 +30,29 @@ namespace UNetUI.Extras
                 var formatter = new BinaryFormatter();
                 try
                 {
-                    var stream = new FileStream(savePath, FileMode.Open);
+                    using (FileStream stream = new FileStream(savePath, FileMode.Open))
+                    {
+                        ItemData itemData = formatter.Deserialize(stream) as ItemData;
+                        if (itemData == null)
+                            return null;
 
-                    var itemData = formatter.Deserialize(stream) as ItemData;
-                    stream.Close();
+                        var item = ScriptableObject.CreateInstance<Item>();
 
-                    if (itemData == null)
-                        return null;
+                        item.icon = ItemsManager.instance.GetTextureByName(itemData.itemName);
+                        item.itemName = itemData.itemName;
+                        item.description = itemData.description;
 
-                    var item = ScriptableObject.CreateInstance<Item>();
+                        item.itemClass = itemData.itemClass;
+                        item.slot = itemData.slot;
 
-                    item.icon = ItemsManager.instance.GetTextureByName(itemData.itemName);
-                    item.itemName = itemData.itemName;
-                    item.description = itemData.description;
+                        item.damage = itemData.damage;
+                        item.defence = itemData.defence;
+                        item.strength = itemData.strength;
+                        item.agility = itemData.agility;
+                        item.intel = itemData.intel;
 
-                    item.itemClass = itemData.itemClass;
-                    item.slot = itemData.slot;
-
-                    item.damage = itemData.damage;
-                    item.defence = itemData.defence;
-                    item.strength = itemData.strength;
-                    item.agility = itemData.agility;
-                    item.intel = itemData.intel;
-
-                    return item;
+                        return item;
+                    }
                 }
                 catch (Exception e)
                 {

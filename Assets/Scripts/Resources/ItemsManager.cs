@@ -21,13 +21,13 @@ namespace UNetUI.Resources
 
         #endregion Singleton
 
-        public List<Item> items;
+        [SerializeField] private List<Item> _items;
 
-        public List<Item> GetItems() => items;
+        public List<Item> GetItems() => _items;
 
         public Item GetItemByName(string itemName)
         {
-            foreach (Item item in items)
+            foreach (Item item in _items)
             {
                 if (item.itemName == itemName)
                     return item;
@@ -38,7 +38,7 @@ namespace UNetUI.Resources
 
         public Sprite GetTextureByName(string itemName)
         {
-            foreach (var item in items)
+            foreach (var item in _items)
                 if (item.itemName == itemName)
                     return item.icon;
 
