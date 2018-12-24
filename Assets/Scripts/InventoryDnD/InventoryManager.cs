@@ -3,9 +3,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UNetUI.Extras;
-using UNetUI.SharedData;
 
-namespace UNetUI.Resources
+namespace UNetUI.InventoryDnD
 {
     public class InventoryManager : MonoBehaviour
     {

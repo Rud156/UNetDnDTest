@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace UNetUI.Resources
+namespace UNetUI.InventoryDnD
 {
     public class GraphicRaycastManager : MonoBehaviour
     {

@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UNetUI.Resources;
 
-namespace UNetUI.Resources
+namespace UNetUI.InventoryDnD
 {
     public class ItemsManager : MonoBehaviour
     {

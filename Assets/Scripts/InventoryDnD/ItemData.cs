@@ -1,6 +1,6 @@
 using System;
 
-namespace UNetUI.Resources
+namespace UNetUI.InventoryDnD
 {
     [Serializable]
     public class ItemData

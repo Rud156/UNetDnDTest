@@ -3,9 +3,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UNetUI.Extras;
-using UNetUI.SharedData;
 
-namespace UNetUI.Resources
+namespace UNetUI.InventoryDnD
 {
     public class InventoryItemDnD : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {

@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using UNetUI.Resources;
+using UNetUI.InventoryDnD;
 
 namespace UNetUI.Extras
 {

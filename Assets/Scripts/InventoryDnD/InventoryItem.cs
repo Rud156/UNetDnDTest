@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UNetUI.Resources;
 
-namespace UNetUI.SharedData
+namespace UNetUI.InventoryDnD
 {
     public class InventoryItem
     {

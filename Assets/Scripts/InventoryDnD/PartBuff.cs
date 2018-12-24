@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UNetUI.Extras;
 
-namespace UNetUI.Resources
+namespace UNetUI.InventoryDnD
 {
     public class PartBuff : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
