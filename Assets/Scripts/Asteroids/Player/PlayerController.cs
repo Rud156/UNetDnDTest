@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Asteroids.Networking;
 using UnityEngine;
+using UNetUI.Asteroids.NetworkedData;
+using UNetUI.Asteroids.Networking;
 using UNetUI.Extras;
 
 namespace UNetUI.Asteroids.Player
@@ -26,7 +27,7 @@ namespace UNetUI.Asteroids.Player
         private Animator _playerAnim;
         private float _roll;
 
-        private List<ReceivePackage> _predictedPackages;
+        private List<PositionReceivePackage> _predictedPackages;
         private Vector3 _lastPosition;
         private Vector3 _lastRotation;
 
@@ -40,7 +41,7 @@ namespace UNetUI.Asteroids.Player
             PacketManager.SendSpeed = networkSendRate;
             ServerPacketManager.SendSpeed = networkSendRate;
 
-            _predictedPackages = new List<ReceivePackage>();
+            _predictedPackages = new List<PositionReceivePackage>();
         }
 
         private void Update()
@@ -52,7 +53,7 @@ namespace UNetUI.Asteroids.Player
 
         private void LocalClientUpdate()
         {
-            if (!isLocalPlayer)
+            if (!isLocalPlayer || isServer)
                 return;
 
             float moveZ = Input.GetAxis(Controls.PlayerVM);
@@ -60,14 +61,14 @@ namespace UNetUI.Asteroids.Player
             float timestamp = Time.time;
 
             if (isPredictionEnabled)
-            {
+            {   
                 RotatePlayer(moveX);
                 MovePlayerForward(moveZ);
 
                 Vector3 position = transform.position;
                 Vector3 rotation = transform.rotation.eulerAngles;
 
-                _predictedPackages.Add(new ReceivePackage
+                _predictedPackages.Add(new PositionReceivePackage
                 {
                     positionX = position.x,
                     positionY = position.y,
@@ -79,7 +80,7 @@ namespace UNetUI.Asteroids.Player
                 });
             }
 
-            PacketManager.AddPackage(new Package
+            PacketManager.AddPackage(new InputSendPackage
             {
                 horizontal = moveX,
                 vertical = moveZ,
@@ -94,13 +95,13 @@ namespace UNetUI.Asteroids.Player
             if (!isServer || isLocalPlayer)
                 return;
 
-            Package packageData = PacketManager.GetNextDataReceived();
+            InputSendPackage inputSendPackageData = PacketManager.GetNextDataReceived();
 
-            if (packageData == null)
+            if (inputSendPackageData == null)
                 return;
 
-            RotatePlayer(packageData.horizontal);
-            MovePlayerForward(packageData.vertical);
+            RotatePlayer(inputSendPackageData.horizontal);
+            MovePlayerForward(inputSendPackageData.vertical);
 
             if (_lastPosition == transform.position && _lastRotation == transform.rotation.eulerAngles)
                 return;
@@ -108,7 +109,7 @@ namespace UNetUI.Asteroids.Player
             Vector3 position = transform.position;
             Vector3 rotation = transform.rotation.eulerAngles;
 
-            ServerPacketManager.AddPackage(new ReceivePackage
+            ServerPacketManager.AddPackage(new PositionReceivePackage
             {
                 positionX = position.x,
                 positionY = position.y,
@@ -117,7 +118,7 @@ namespace UNetUI.Asteroids.Player
                 rotationZ = rotation.z,
                 roll = _roll,
 
-                timestamp = packageData.timestamp
+                timestamp = inputSendPackageData.timestamp
             });
 
             _lastPosition = position;
@@ -126,16 +127,16 @@ namespace UNetUI.Asteroids.Player
 
         private void RemoteClientUpdate()
         {
-            if (isServer)
+            if (!isLocalPlayer || isServer)
                 return;
 
-            ReceivePackage data = ServerPacketManager.GetNextDataReceived();
+            PositionReceivePackage data = ServerPacketManager.GetNextDataReceived();
             if (data == null)
                 return;
 
             if (isLocalPlayer && isPredictionEnabled)
             {
-                ReceivePackage transmittedPackage =
+                PositionReceivePackage transmittedPackage =
                     _predictedPackages.FirstOrDefault(_ => _.timestamp == data.timestamp);
                 if (transmittedPackage == null)
                     return;

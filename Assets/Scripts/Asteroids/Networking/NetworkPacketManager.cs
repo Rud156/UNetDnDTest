@@ -4,7 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using MessagePack;
 using UnityEngine;
 
-namespace Asteroids.Networking
+namespace UNetUI.Asteroids.Networking
 {
     public class NetworkPacketManager<T> where T : class
     {

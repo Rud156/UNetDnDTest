@@ -1,50 +1,21 @@
 using MessagePack;
 using UnityEngine.Networking;
+using UNetUI.Asteroids.NetworkedData;
 
-namespace Asteroids.Networking
+namespace UNetUI.Asteroids.Networking
 {
     public class NetworkPacketController : NetworkBehaviour
     {
-        [MessagePackObject]
-        public class Package
-        {
-            [Key(0)]
-            public float horizontal;
-            [Key(1)]
-            public float vertical;
-            [Key(2)]
-            public float timestamp;
-        }
+        private NetworkPacketManager<InputSendPackage> _packetManager;
 
-        [MessagePackObject]
-        public class ReceivePackage
-        {
-            [Key(0)]
-            public float positionX;
-            [Key(1)]
-            public float positionY;
-            [Key(2)]
-            public float positionZ;
-
-            [Key(3)]
-            public float rotationZ;
-            [Key(4)]
-            public float roll;
-
-            [Key(5)]
-            public float timestamp;
-        }
-
-        private NetworkPacketManager<Package> _packetManager;
-
-        protected NetworkPacketManager<Package> PacketManager
+        protected NetworkPacketManager<InputSendPackage> PacketManager
         {
             get
             {
                 if (_packetManager != null)
                     return _packetManager;
 
-                _packetManager = new NetworkPacketManager<Package>();
+                _packetManager = new NetworkPacketManager<InputSendPackage>();
 
                 if (isLocalPlayer)
                     _packetManager.OnRequirePackageTransmit += TransmitPackageToServer;
@@ -53,16 +24,16 @@ namespace Asteroids.Networking
             }
         }
 
-        private NetworkPacketManager<ReceivePackage> _serverPacketManager;
+        private NetworkPacketManager<PositionReceivePackage> _serverPacketManager;
 
-        protected NetworkPacketManager<ReceivePackage> ServerPacketManager
+        protected NetworkPacketManager<PositionReceivePackage> ServerPacketManager
         {
             get
             {
                 if (_serverPacketManager!= null)
                     return _serverPacketManager;
 
-                _serverPacketManager= new NetworkPacketManager<ReceivePackage>();
+                _serverPacketManager= new NetworkPacketManager<PositionReceivePackage>();
 
                 if (isServer)
                     _serverPacketManager.OnRequirePackageTransmit += TransmitPackageToClient;
