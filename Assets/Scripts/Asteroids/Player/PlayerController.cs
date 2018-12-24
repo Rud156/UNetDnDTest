@@ -42,6 +42,9 @@ namespace UNetUI.Asteroids.Player
             ServerPacketManager.SendSpeed = networkSendRate;
 
             _predictedPackages = new List<PositionReceivePackage>();
+            
+            if(isLocalPlayer && isServer) 
+                gameObject.SetActive(false);
         }
 
         private void Update()
@@ -61,20 +64,24 @@ namespace UNetUI.Asteroids.Player
             float timestamp = Time.time;
 
             if (isPredictionEnabled)
-            {   
+            {
                 RotatePlayer(moveX);
                 MovePlayerForward(moveZ);
 
                 Vector3 position = transform.position;
                 Vector3 rotation = transform.rotation.eulerAngles;
+                Vector3 velocity = _playerRb.velocity;
 
                 _predictedPackages.Add(new PositionReceivePackage
                 {
                     positionX = position.x,
                     positionY = position.y,
-                    positionZ = position.z,
+
+                    velocityX = velocity.x,
+                    velocityY = velocity.y,
 
                     rotationZ = rotation.z,
+                    roll = _roll,
 
                     timestamp = timestamp,
                 });
@@ -108,12 +115,15 @@ namespace UNetUI.Asteroids.Player
 
             Vector3 position = transform.position;
             Vector3 rotation = transform.rotation.eulerAngles;
+            Vector3 velocity = _playerRb.velocity;
 
             ServerPacketManager.AddPackage(new PositionReceivePackage
             {
                 positionX = position.x,
                 positionY = position.y,
-                positionZ = position.z,
+
+                velocityX = velocity.x,
+                velocityY = velocity.y,
 
                 rotationZ = rotation.z,
                 roll = _roll,
@@ -141,11 +151,13 @@ namespace UNetUI.Asteroids.Player
                 if (transmittedPackage == null)
                     return;
 
-                if (Vector3.Distance(
-                        new Vector3(transmittedPackage.positionX, transmittedPackage.positionY,
-                            transmittedPackage.positionZ),
-                        new Vector3(data.positionX, data.positionY, data.positionZ)) > positionCorrectionThreshold)
-                    transform.position = new Vector3(data.positionX, data.positionY, data.positionZ);
+                if (Vector2.Distance(
+                        new Vector2(transmittedPackage.positionX, transmittedPackage.positionY),
+                        new Vector2(data.positionX, data.positionY)) > positionCorrectionThreshold)
+                {
+                    _playerRb.velocity = new Vector2(data.velocityX, data.velocityY);
+                    transform.position = new Vector2(data.positionX, data.positionY);
+                }
 
 
                 if (Mathf.Abs(data.rotationZ - transmittedPackage.rotationZ) > rotationCorrectionThreshold)
@@ -158,7 +170,7 @@ namespace UNetUI.Asteroids.Player
             }
             else
             {
-                transform.position = new Vector3(data.positionX, data.positionY, data.positionZ);
+                transform.position = new Vector2(data.positionX, data.positionY);
                 _roll = data.roll;
                 transform.rotation = Quaternion.Euler(Vector3.forward * data.rotationZ);
             }
