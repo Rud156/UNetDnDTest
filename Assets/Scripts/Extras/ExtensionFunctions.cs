@@ -1,8 +1,10 @@
+using System;
+
 namespace UNetUI.Extras
 {
     public static class ExtensionFunctions
     {
-        public static float Map(float from, float fromMin, float fromMax, float toMin, float toMax)
+        public static float Map(float from, float fromMin, float fromMax, float toMin, float toMax, bool round3Dec = true)
         {
             var fromAbs = from - fromMin;
             var fromMaxAbs = fromMax - fromMin;
@@ -14,7 +16,7 @@ namespace UNetUI.Extras
 
             var to = toAbs + toMin;
 
-            return to;
+            return (float)Math.Round(to, 3);
         }
     }
 }

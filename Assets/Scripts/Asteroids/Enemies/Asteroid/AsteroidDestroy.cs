@@ -10,7 +10,9 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
 	{
 		public bool spawnMiniAsteroid;
 		public GameObject miniAsteroid;
-		public int miniAsteroidCount;
+
+		[Header("Spawn Count")] public int minSpawnCount;
+		public int maxSpawnCount;
 
 		private HealthSetter _healthSetter;
 
@@ -25,7 +27,9 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
 		{
 			if (spawnMiniAsteroid)
 			{
-				for (int i = 0; i < miniAsteroidCount; i++)
+				int asteroidSpawnCount = Random.Range(minSpawnCount, maxSpawnCount);
+				
+				for (int i = 0; i < asteroidSpawnCount; i++)
 					Instantiate(miniAsteroid, transform.position, Quaternion.Euler(0, 0, Random.value * 360));
 			}
 			

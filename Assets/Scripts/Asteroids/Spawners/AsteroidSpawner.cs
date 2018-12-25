@@ -24,24 +24,40 @@ namespace UNetUI.Asteroids.Spawners
         public int spawnCount;
         public float leftRightOffset = 1;
 
-        private void Start() => CreateAsteroidsAtScreenEdge();
+        [Header("Debug")] public bool spawnOnStart;
 
-        private void CreateAsteroidsAtScreenEdge()
+        private void Start()
+        {
+            if (spawnOnStart)
+                CreateAsteroidsAtScreenEdge();
+        }
+
+        public void CreateAsteroidsAtScreenEdge()
         {
             Camera mainCamera = Camera.main;
             Vector3 topLeft = mainCamera.ScreenToWorldPoint(new Vector2(0, mainCamera.pixelHeight));
             Vector3 bottomRight =
                 mainCamera.ScreenToWorldPoint(new Vector2(mainCamera.pixelWidth, 0));
 
-            for (int i = 0; i < spawnCount; i++)
+            // Left Asteroids
+            for (int i = 0; i < spawnCount / 2 + 1; i++)
             {
                 float randomHeight = ExtensionFunctions.Map(Random.value, 0, 1,
                     bottomRight.y, topLeft.y);
 
                 Instantiate(asteroidPrefab,
-                    Random.value > 0.5f
-                        ? new Vector2(bottomRight.x - leftRightOffset, randomHeight)
-                        : new Vector2(topLeft.x + leftRightOffset, randomHeight),
+                    new Vector2(topLeft.x + leftRightOffset, randomHeight),
+                    Quaternion.identity);
+            }
+
+            // Right Asteroids
+            for (int i = 0; i < spawnCount / 2 + 1; i++)
+            {
+                float randomHeight = ExtensionFunctions.Map(Random.value, 0, 1,
+                    bottomRight.y, topLeft.y);
+
+                Instantiate(asteroidPrefab,
+                    new Vector2(bottomRight.x - leftRightOffset, randomHeight),
                     Quaternion.identity);
             }
         }

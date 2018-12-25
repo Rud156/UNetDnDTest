@@ -1,12 +1,24 @@
-using System;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements.StyleEnums;
-using UnityEngine.Networking;
 
 namespace UNetUI.Asteroids.Shared
 {
-    public class ScreenWrapper : NetworkBehaviour
+    public class ScreenWrapper : MonoBehaviour
     {
+        #region Singleton
+
+        public static ScreenWrapper instance;
+
+        private void Awake()
+        {
+            if (instance == null)
+                instance = this;
+            
+            if(instance != this)
+                Destroy(gameObject);
+        }
+
+        #endregion Singleton
+        
         [SerializeField][Range(0, 1)]
         private float incrementAmount = 0.3f;
         
@@ -41,9 +53,9 @@ namespace UNetUI.Asteroids.Shared
             }
         }
 
-        public void CheckObjectOutOfScreen()
+        public void CheckObjectOutOfScreen(Transform refTransform)
         {
-            Vector3 position = transform.position;
+            Vector3 position = refTransform.position;
             Vector3 newPosition = position;
 
             if (_leftMostPoint - 2 > position.x)
@@ -56,7 +68,7 @@ namespace UNetUI.Asteroids.Shared
             else if (_topMostPoint + 2 < position.y)
                 newPosition.y = BottomMostPoint;
 
-            transform.position = newPosition;
+            refTransform.position = newPosition;
         }
     }
 }

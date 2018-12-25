@@ -16,6 +16,8 @@ namespace UNetUI.Asteroids.Shared
 
         public HealthZero healthZero;
 
+        private void Start() => _currentHealth = maxHealth;
+
         private void OnTriggerEnter(Collider other)
         {
             DamageSetter damageSetter = other.GetComponent<DamageSetter>();
@@ -34,12 +36,13 @@ namespace UNetUI.Asteroids.Shared
         private void ReduceHealth(float amount)
         {
             _currentHealth -= amount;
+
             if (_currentHealth < 0 && !_zeroFunctionInvoked)
-            {   
+            {
                 healthZero?.Invoke();
                 _zeroFunctionInvoked = true;
-                
-                if(destroyOnZero)
+
+                if (destroyOnZero)
                     Destroy(gameObject);
             }
         }
