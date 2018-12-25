@@ -30,10 +30,10 @@ namespace UNetUI.Asteroids.Networking
         {
             get
             {
-                if (_serverPacketManager!= null)
+                if (_serverPacketManager != null)
                     return _serverPacketManager;
 
-                _serverPacketManager= new NetworkPacketManager<PositionReceivePackage>();
+                _serverPacketManager = new NetworkPacketManager<PositionReceivePackage>();
 
                 if (isServer)
                     _serverPacketManager.OnRequirePackageTransmit += TransmitPackageToClient;
@@ -45,12 +45,12 @@ namespace UNetUI.Asteroids.Networking
         private void TransmitPackageToServer(byte[] data) => CmdTransmitPackages(data);
 
         [Command]
-        void CmdTransmitPackages(byte[] data) => PacketManager.ReceiveData(data);
+        private void CmdTransmitPackages(byte[] data) => PacketManager.ReceiveData(data);
 
         private void TransmitPackageToClient(byte[] data) => RpcReceiveDataClient(data);
 
         [ClientRpc]
-        void RpcReceiveDataClient(byte[] data) => ServerPacketManager.ReceiveData(data);
+        private void RpcReceiveDataClient(byte[] data) => ServerPacketManager.ReceiveData(data);
 
         private void FixedUpdate()
         {

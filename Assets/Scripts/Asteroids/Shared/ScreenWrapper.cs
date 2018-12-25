@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements.StyleEnums;
 using UnityEngine.Networking;
@@ -17,9 +18,11 @@ namespace UNetUI.Asteroids.Shared
         {
             if (isLocalPlayer && !_isPointsSet)
             {
-                Vector3 topLeft = Camera.main.ScreenToWorldPoint(Vector3.zero);
+                Camera mainCamera = Camera.main;
+
+                Vector3 topLeft = mainCamera.ScreenToWorldPoint(Vector3.zero);
                 Vector3 bottomRight =
-                    Camera.main.ScreenToWorldPoint(new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight));
+                    mainCamera.ScreenToWorldPoint(new Vector2(mainCamera.pixelWidth, mainCamera.pixelHeight));
 
                 leftMostPoint = topLeft.x;
                 topMostPoint = topLeft.y;

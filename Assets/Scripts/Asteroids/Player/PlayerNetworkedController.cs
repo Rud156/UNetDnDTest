@@ -11,7 +11,7 @@ namespace UNetUI.Asteroids.Player
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(ScreenWrapper))]
-    public class PlayerController : NetworkPacketController
+    public class PlayerNetworkedController : NetworkPacketController
     {
         [Header("Velocities")] [SerializeField]
         private float movementSpeed;
