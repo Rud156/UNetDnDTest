@@ -71,8 +71,7 @@ namespace UNetUI.Asteroids.Player
             {
                 RotatePlayer(moveX);
                 MovePlayerForward(moveZ);
-                _screenWrapper.CheckObjectOutOfScreen(_screenWrapper.leftMostPoint, _screenWrapper.rightMostPoint,
-                    _screenWrapper.topMostPoint, _screenWrapper.bottomMostPoint);
+                _screenWrapper.CheckObjectOutOfScreen();
 
                 Vector3 position = transform.position;
                 Vector3 rotation = transform.rotation.eulerAngles;
@@ -80,8 +79,10 @@ namespace UNetUI.Asteroids.Player
 
                 _predictedPackages.Add(new PositionReceivePackage
                 {
-                    positionX = position.x,
-                    positionY = position.y,
+                    percentX = ExtensionFunctions.Map(position.x, _screenWrapper.LeftMostPoint,
+                        _screenWrapper.RightMostPoint, -1, 1),
+                    percentY = ExtensionFunctions.Map(position.y, _screenWrapper.TopMostPoint,
+                        _screenWrapper.BottomMostPoint, 1, -1),
 
                     velocityX = velocity.x,
                     velocityY = velocity.y,
@@ -97,11 +98,6 @@ namespace UNetUI.Asteroids.Player
             {
                 horizontal = moveX,
                 vertical = moveZ,
-
-                leftPoint = _screenWrapper.leftMostPoint,
-                rightPoint = _screenWrapper.rightMostPoint,
-                topPoint = _screenWrapper.topMostPoint,
-                bottomPoint = _screenWrapper.bottomMostPoint,
 
                 timestamp = timestamp
             });
@@ -121,8 +117,7 @@ namespace UNetUI.Asteroids.Player
 
             RotatePlayer(inputSendPackageData.horizontal);
             MovePlayerForward(inputSendPackageData.vertical);
-            _screenWrapper.CheckObjectOutOfScreen(inputSendPackageData.leftPoint, inputSendPackageData.rightPoint,
-                inputSendPackageData.topPoint, inputSendPackageData.bottomPoint);
+            _screenWrapper.CheckObjectOutOfScreen();
 
             if (_lastPosition == transform.position && _lastRotation == transform.rotation.eulerAngles)
                 return;
@@ -133,8 +128,10 @@ namespace UNetUI.Asteroids.Player
 
             ServerPacketManager.AddPackage(new PositionReceivePackage
             {
-                positionX = position.x,
-                positionY = position.y,
+                percentX = ExtensionFunctions.Map(position.x, _screenWrapper.LeftMostPoint,
+                    _screenWrapper.RightMostPoint, -1, 1),
+                percentY = ExtensionFunctions.Map(position.y, _screenWrapper.TopMostPoint,
+                    _screenWrapper.BottomMostPoint, 1, -1),
 
                 velocityX = velocity.x,
                 velocityY = velocity.y,
@@ -158,6 +155,13 @@ namespace UNetUI.Asteroids.Player
             if (data == null)
                 return;
 
+            Vector2 normalizedPosition = new Vector2(
+                ExtensionFunctions.Map(data.percentX, -1, 1,
+                    _screenWrapper.LeftMostPoint, _screenWrapper.RightMostPoint),
+                ExtensionFunctions.Map(data.percentY, 1, -1,
+                    _screenWrapper.TopMostPoint, _screenWrapper.BottomMostPoint)
+            );
+
             if (isLocalPlayer && isPredictionEnabled)
             {
                 PositionReceivePackage transmittedPackage =
@@ -165,12 +169,17 @@ namespace UNetUI.Asteroids.Player
                 if (transmittedPackage == null)
                     return;
 
-                if (Vector2.Distance(
-                        new Vector2(transmittedPackage.positionX, transmittedPackage.positionY),
-                        new Vector2(data.positionX, data.positionY)) > positionCorrectionThreshold)
+                Vector2 normalizedPredictedPosition = new Vector2(
+                    ExtensionFunctions.Map(transmittedPackage.percentX, -1, 1,
+                        _screenWrapper.LeftMostPoint, _screenWrapper.RightMostPoint),
+                    ExtensionFunctions.Map(transmittedPackage.percentY, 1, -1,
+                        _screenWrapper.TopMostPoint, _screenWrapper.BottomMostPoint)
+                );
+
+                if (Vector2.Distance(normalizedPredictedPosition, normalizedPosition) > positionCorrectionThreshold)
                 {
                     _playerRb.velocity = new Vector2(data.velocityX, data.velocityY);
-                    transform.position = new Vector2(data.positionX, data.positionY);
+                    transform.position = normalizedPosition;
                 }
 
 
@@ -184,7 +193,7 @@ namespace UNetUI.Asteroids.Player
             }
             else
             {
-                transform.position = new Vector2(data.positionX, data.positionY);
+                transform.position = normalizedPosition;
                 _roll = data.roll;
                 transform.rotation = Quaternion.Euler(Vector3.forward * data.rotationZ);
             }

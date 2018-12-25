@@ -5,8 +5,8 @@ namespace UNetUI.Asteroids.NetworkedData
     [MessagePackObject]
     public class PositionReceivePackage
     {
-        [Key(0)] public float positionX;
-        [Key(1)] public float positionY;
+        [Key(0)] public float percentX;
+        [Key(1)] public float percentY;
 
         [Key(2)] public float velocityX;
         [Key(3)] public float velocityY;
