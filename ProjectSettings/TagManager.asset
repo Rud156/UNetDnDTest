@@ -12,6 +12,7 @@ TagManager:
   - InventoryItem
   - Weapon1
   - Weapon2
+  - AsteroidsHolder
   layers:
   - Default
   - TransparentFX

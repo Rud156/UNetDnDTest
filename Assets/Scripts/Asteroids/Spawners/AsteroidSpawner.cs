@@ -25,9 +25,12 @@ namespace UNetUI.Asteroids.Spawners
         public float leftRightOffset = 1;
 
         [Header("Debug")] public bool spawnOnStart;
+        private Transform _asteroidsHolder;
 
         private void Start()
         {
+            _asteroidsHolder = GameObject.FindGameObjectWithTag(TagManager.AsteroidsHolder)?.transform;
+
             if (spawnOnStart)
                 CreateAsteroidsAtScreenEdge();
         }
@@ -45,9 +48,10 @@ namespace UNetUI.Asteroids.Spawners
                 float randomHeight = ExtensionFunctions.Map(Random.value, 0, 1,
                     bottomRight.y, topLeft.y);
 
-                Instantiate(asteroidPrefab,
+                GameObject asteroidInstance = Instantiate(asteroidPrefab,
                     new Vector2(topLeft.x + leftRightOffset, randomHeight),
                     Quaternion.identity);
+                asteroidInstance.transform.SetParent(_asteroidsHolder);
             }
 
             // Right Asteroids
@@ -56,9 +60,10 @@ namespace UNetUI.Asteroids.Spawners
                 float randomHeight = ExtensionFunctions.Map(Random.value, 0, 1,
                     bottomRight.y, topLeft.y);
 
-                Instantiate(asteroidPrefab,
+                GameObject asteroidInstance = Instantiate(asteroidPrefab,
                     new Vector2(bottomRight.x - leftRightOffset, randomHeight),
                     Quaternion.identity);
+                asteroidInstance.transform.SetParent(_asteroidsHolder);
             }
         }
     }

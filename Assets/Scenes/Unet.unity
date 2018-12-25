@@ -192,8 +192,8 @@ GameObject:
   m_Component:
   - component: {fileID: 886994236}
   m_Layer: 0
-  m_Name: Meteor Holder
-  m_TagString: Untagged
+  m_Name: Asteroids Holder
+  m_TagString: AsteroidsHolder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
