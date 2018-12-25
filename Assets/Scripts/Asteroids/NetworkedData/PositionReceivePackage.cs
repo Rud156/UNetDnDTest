@@ -14,6 +14,8 @@ namespace UNetUI.Asteroids.NetworkedData
         [Key(4)] public float rotationZ;
         [Key(5)] public float roll;
 
-        [Key(8)] public float timestamp;
+        [Key(6)] public bool movementAnimation;
+
+        [Key(7)] public float timestamp;
     }
 }

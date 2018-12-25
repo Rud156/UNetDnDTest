@@ -71,6 +71,7 @@ namespace UNetUI.Asteroids.Player
             {
                 RotatePlayer(moveX);
                 MovePlayerForward(moveZ);
+                SetMovementAnimation(moveZ);
                 _screenWrapper.CheckObjectOutOfScreen();
 
                 Vector3 position = transform.position;
@@ -89,6 +90,8 @@ namespace UNetUI.Asteroids.Player
 
                     rotationZ = rotation.z,
                     roll = _roll,
+                    
+                    movementAnimation = moveZ > 0,
 
                     timestamp = timestamp,
                 });
@@ -117,6 +120,7 @@ namespace UNetUI.Asteroids.Player
 
             RotatePlayer(inputSendPackageData.horizontal);
             MovePlayerForward(inputSendPackageData.vertical);
+            SetMovementAnimation(inputSendPackageData.vertical);
             _screenWrapper.CheckObjectOutOfScreen();
 
             if (_lastPosition == transform.position && _lastRotation == transform.rotation.eulerAngles)
@@ -138,6 +142,8 @@ namespace UNetUI.Asteroids.Player
 
                 rotationZ = rotation.z,
                 roll = _roll,
+                
+                movementAnimation = inputSendPackageData.vertical > 0,
 
                 timestamp = inputSendPackageData.timestamp
             });
@@ -148,7 +154,7 @@ namespace UNetUI.Asteroids.Player
 
         private void RemoteClientUpdate()
         {
-            if (!isLocalPlayer || isServer)
+            if (isServer)
                 return;
 
             PositionReceivePackage data = ServerPacketManager.GetNextDataReceived();
@@ -180,6 +186,7 @@ namespace UNetUI.Asteroids.Player
                 {
                     _playerRb.velocity = new Vector2(data.velocityX, data.velocityY);
                     transform.position = normalizedPosition;
+                    SetMovementAnimation(data.movementAnimation);
                 }
 
 
@@ -194,6 +201,9 @@ namespace UNetUI.Asteroids.Player
             else
             {
                 transform.position = normalizedPosition;
+                _playerRb.velocity = new Vector2(data.velocityX, data.velocityY);
+                SetMovementAnimation(data.movementAnimation);
+                
                 _roll = data.roll;
                 transform.rotation = Quaternion.Euler(Vector3.forward * data.rotationZ);
             }
@@ -213,12 +223,12 @@ namespace UNetUI.Asteroids.Player
             {
                 Vector3 velocityV = transform.up * moveZ * movementSpeed * Time.deltaTime;
                 _playerRb.AddForce(velocityV);
-
-                _playerAnim.SetBool(PlayerConstantData.MovementAnimParam, true);
             }
-            else
-                _playerAnim.SetBool(PlayerConstantData.MovementAnimParam, false);
         }
+
+        private void SetMovementAnimation(float moveZ) => _playerAnim.SetBool(PlayerConstantData.MovementAnimParam, moveZ > 0);
+
+        private void SetMovementAnimation(bool movementAnimation) => _playerAnim.SetBool(PlayerConstantData.MovementAnimParam, movementAnimation);
 
         #endregion Calculator
     }
