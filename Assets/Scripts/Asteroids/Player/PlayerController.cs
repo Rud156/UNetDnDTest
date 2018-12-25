@@ -3,12 +3,14 @@ using System.Linq;
 using UnityEngine;
 using UNetUI.Asteroids.NetworkedData;
 using UNetUI.Asteroids.Networking;
+using UNetUI.Asteroids.Shared;
 using UNetUI.Extras;
 
 namespace UNetUI.Asteroids.Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(ScreenWrapper))]
     public class PlayerController : NetworkPacketController
     {
         [Header("Velocities")] [SerializeField]
@@ -25,6 +27,7 @@ namespace UNetUI.Asteroids.Player
 
         private Rigidbody2D _playerRb;
         private Animator _playerAnim;
+        private ScreenWrapper _screenWrapper;
         private float _roll;
 
         private List<PositionReceivePackage> _predictedPackages;
@@ -35,6 +38,7 @@ namespace UNetUI.Asteroids.Player
         {
             _playerRb = GetComponent<Rigidbody2D>();
             _playerAnim = GetComponent<Animator>();
+            _screenWrapper = GetComponent<ScreenWrapper>();
 
             _roll = transform.rotation.eulerAngles.z;
 
@@ -42,8 +46,8 @@ namespace UNetUI.Asteroids.Player
             ServerPacketManager.SendSpeed = networkSendRate;
 
             _predictedPackages = new List<PositionReceivePackage>();
-            
-            if(isLocalPlayer && isServer) 
+
+            if (isLocalPlayer && isServer)
                 gameObject.SetActive(false);
         }
 
@@ -67,6 +71,8 @@ namespace UNetUI.Asteroids.Player
             {
                 RotatePlayer(moveX);
                 MovePlayerForward(moveZ);
+                _screenWrapper.CheckObjectOutOfScreen(_screenWrapper.leftMostPoint, _screenWrapper.rightMostPoint,
+                    _screenWrapper.topMostPoint, _screenWrapper.bottomMostPoint);
 
                 Vector3 position = transform.position;
                 Vector3 rotation = transform.rotation.eulerAngles;
@@ -91,6 +97,12 @@ namespace UNetUI.Asteroids.Player
             {
                 horizontal = moveX,
                 vertical = moveZ,
+
+                leftPoint = _screenWrapper.leftMostPoint,
+                rightPoint = _screenWrapper.rightMostPoint,
+                topPoint = _screenWrapper.topMostPoint,
+                bottomPoint = _screenWrapper.bottomMostPoint,
+
                 timestamp = timestamp
             });
         }
@@ -109,6 +121,8 @@ namespace UNetUI.Asteroids.Player
 
             RotatePlayer(inputSendPackageData.horizontal);
             MovePlayerForward(inputSendPackageData.vertical);
+            _screenWrapper.CheckObjectOutOfScreen(inputSendPackageData.leftPoint, inputSendPackageData.rightPoint,
+                inputSendPackageData.topPoint, inputSendPackageData.bottomPoint);
 
             if (_lastPosition == transform.position && _lastRotation == transform.rotation.eulerAngles)
                 return;
