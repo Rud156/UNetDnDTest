@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114270524329182858}
   - component: {fileID: 114940598056238792}
   - component: {fileID: 114319051422924230}
+  - component: {fileID: 114986881528540356}
   m_Layer: 9
   m_Name: Meteor 1 M
   m_TagString: Untagged
@@ -180,6 +181,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 40
   destroyOnZero: 0
+--- !u!114 &114986881528540356
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1783875940361610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 115
+    i1: 8
+    i2: 123
+    i3: 24
+    i4: 63
+    i5: 118
+    i6: 224
+    i7: 116
+    i8: 104
+    i9: 40
+    i10: 59
+    i11: 94
+    i12: 11
+    i13: 12
+    i14: 232
+    i15: 12
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212291309850879754
 SpriteRenderer:
   m_ObjectHideFlags: 1

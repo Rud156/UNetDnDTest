@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114630487411208690}
   - component: {fileID: 114799016447705506}
   - component: {fileID: 114507556375341686}
+  - component: {fileID: 114007536806914040}
   m_Layer: 9
   m_Name: Meteor 1 L
   m_TagString: Untagged
@@ -138,6 +139,38 @@ PolygonCollider2D:
       - {x: 0.16, y: -1.31}
       - {x: 0.32, y: -1.27}
       - {x: 0.58, y: -1.31}
+--- !u!114 &114007536806914040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1873628468162078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 95
+    i1: 74
+    i2: 85
+    i3: 215
+    i4: 204
+    i5: 94
+    i6: 98
+    i7: 212
+    i8: 153
+    i9: 75
+    i10: 30
+    i11: 17
+    i12: 161
+    i13: 107
+    i14: 136
+    i15: 223
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114507556375341686
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,20 +1,21 @@
 using UnityEngine;
+using UnityEngine.Networking;
 using UNetUI.Extras;
 
 namespace UNetUI.Asteroids.Spawners
 {
-    public class AsteroidSpawner : MonoBehaviour
+    public class AsteroidSpawner : NetworkBehaviour
     {
         #region Singleton
 
-        private static AsteroidSpawner _instance;
+        public static AsteroidSpawner instance;
 
         private void Awake()
         {
-            if (_instance == null)
-                _instance = this;
+            if (instance == null)
+                instance = this;
 
-            if (_instance != this)
+            if (instance != this)
                 Destroy(gameObject);
         }
 
@@ -37,6 +38,11 @@ namespace UNetUI.Asteroids.Spawners
 
         public void CreateAsteroidsAtScreenEdge()
         {
+            if (!isServer)
+                return;
+            
+            Debug.Log("Creating Asteroids");
+
             Camera mainCamera = Camera.main;
             Vector3 topLeft = mainCamera.ScreenToWorldPoint(new Vector2(0, mainCamera.pixelHeight));
             Vector3 bottomRight =
@@ -52,6 +58,7 @@ namespace UNetUI.Asteroids.Spawners
                     new Vector2(topLeft.x + leftRightOffset, randomHeight),
                     Quaternion.identity);
                 asteroidInstance.transform.SetParent(_asteroidsHolder);
+                NetworkServer.Spawn(asteroidInstance);
             }
 
             // Right Asteroids
@@ -64,6 +71,7 @@ namespace UNetUI.Asteroids.Spawners
                     new Vector2(bottomRight.x - leftRightOffset, randomHeight),
                     Quaternion.identity);
                 asteroidInstance.transform.SetParent(_asteroidsHolder);
+                NetworkServer.Spawn(asteroidInstance);
             }
         }
     }
