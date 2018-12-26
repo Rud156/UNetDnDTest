@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using UnityEngine;
+using UnityEngine.Networking;
 using UNetUI.Asteroids.Shared;
 
 namespace UNetUI.Asteroids.Enemies.Asteroid
 {
 	[RequireComponent(typeof(Rigidbody2D))]
-	public class AsteroidMovement : MonoBehaviour
+	public class AsteroidMovement : NetworkBehaviour
 	{
 		public float launchVelocity;
 		public float rotationSpeed;
@@ -28,8 +30,22 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
 
 		private void Update()
 		{
+			ServerUpdate();
+			RemoteClientUpdate();
+		}
+
+		private void ServerUpdate()
+		{
+			if(!isServer)
+				return;
+			
 			ScreenWrapper.instance.CheckObjectOutOfScreen(transform);
 			transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
+		}
+
+		private void RemoteClientUpdate()
+		{
+			
 		}
 	}
 }

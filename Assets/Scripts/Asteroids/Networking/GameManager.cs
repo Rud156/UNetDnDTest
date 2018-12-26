@@ -26,11 +26,11 @@ namespace UNetUI.Asteroids.Networking
         {
             base.OnServerConnect(conn);
 
-            if (!_gameStarted)
-            {
-                _gameStarted = true;
-                AsteroidSpawner.instance.CreateAsteroidsAtScreenEdge();
-            }
+//            if (!_gameStarted)
+//            {
+//                _gameStarted = true;
+//                AsteroidSpawner.instance.CreateAsteroidsAtScreenEdge();
+//            }
         }
     }
 }

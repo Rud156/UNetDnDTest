@@ -48,8 +48,10 @@ namespace UNetUI.Asteroids.Player
                 gameObject.SetActive(false);
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
+            base.SendDataUpdates();
+
             LocalClientUpdate();
             ServerUpdate();
             RemoteClientUpdate();
@@ -87,7 +89,7 @@ namespace UNetUI.Asteroids.Player
 
                     rotationZ = rotation.z,
                     roll = _roll,
-                    
+
                     movementAnimation = moveZ > 0,
 
                     timestamp = timestamp,
@@ -139,7 +141,7 @@ namespace UNetUI.Asteroids.Player
 
                 rotationZ = rotation.z,
                 roll = _roll,
-                
+
                 movementAnimation = inputSendPackageData.vertical > 0,
 
                 timestamp = inputSendPackageData.timestamp
@@ -187,7 +189,9 @@ namespace UNetUI.Asteroids.Player
                 }
 
 
-                if (Mathf.Abs(data.rotationZ - transmittedPackage.rotationZ) > rotationCorrectionThreshold)
+                if (Mathf.Abs(ExtensionFunctions.To360Angle(data.rotationZ) -
+                              ExtensionFunctions.To360Angle(transmittedPackage.rotationZ)) >
+                    rotationCorrectionThreshold)
                 {
                     _roll = data.roll;
                     transform.rotation = Quaternion.Euler(Vector3.forward * data.rotationZ);
@@ -200,7 +204,7 @@ namespace UNetUI.Asteroids.Player
                 transform.position = normalizedPosition;
                 _playerRb.velocity = new Vector2(data.velocityX, data.velocityY);
                 SetMovementAnimation(data.movementAnimation);
-                
+
                 _roll = data.roll;
                 transform.rotation = Quaternion.Euler(Vector3.forward * data.rotationZ);
             }
@@ -210,23 +214,23 @@ namespace UNetUI.Asteroids.Player
 
         private void RotatePlayer(float moveH)
         {
-            _roll += -moveH * rotationSpeed * Time.deltaTime;
+            _roll += -moveH * rotationSpeed * Time.fixedDeltaTime;
             transform.rotation = Quaternion.Euler(Vector3.forward * _roll);
         }
 
         private void MovePlayerForward(float moveZ)
         {
-            if (moveZ > 0)
-            {
-                Vector2 velocityV = transform.up * moveZ * movementSpeed * Time.deltaTime;
-                _playerRb.AddForce(velocityV);
-            }
+            if (moveZ <= 0)
+                return;
+
+            Vector2 velocityV = transform.up * moveZ * movementSpeed * Time.fixedDeltaTime;
+            _playerRb.AddForce(velocityV, ForceMode2D.Force);
         }
 
-        private void SetMovementAnimation(float moveZ) => 
+        private void SetMovementAnimation(float moveZ) =>
             _playerAnim.SetBool(PlayerConstantData.MovementAnimParam, moveZ > 0);
 
-        private void SetMovementAnimation(bool movementAnimation) => 
+        private void SetMovementAnimation(bool movementAnimation) =>
             _playerAnim.SetBool(PlayerConstantData.MovementAnimParam, movementAnimation);
 
         #endregion Calculator

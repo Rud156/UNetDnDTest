@@ -55,10 +55,10 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
+  m_UseAutoMass: 1
+  m_Mass: 0.5
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -151,12 +151,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37314f69928e82349b18e53a7c5a4355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 200
+  movementSpeed: 100
   rotationSpeed: 200
   isPredictionEnabled: 1
   networkSendRate: 0.1
   positionCorrectionThreshold: 1
-  rotationCorrectionThreshold: 1
+  rotationCorrectionThreshold: 6
 --- !u!212 &212132472933849196
 SpriteRenderer:
   m_ObjectHideFlags: 1

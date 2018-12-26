@@ -52,7 +52,7 @@ namespace UNetUI.Asteroids.Networking
         [ClientRpc]
         private void RpcReceiveDataClient(byte[] data) => ServerPacketManager.ReceiveData(data);
 
-        private void FixedUpdate()
+        protected void SendDataUpdates()
         {
             PacketManager.Tick();
             ServerPacketManager.Tick();
