@@ -49,8 +49,8 @@ namespace UNetUI.Asteroids.Player
 
             _predictedPackages = new List<PositionReceivePackage>();
 
-            if (isLocalPlayer && isServer)
-                gameObject.SetActive(false);
+            /* if (isLocalPlayer && isServer)
+                Destroy(gameObject); */
         }
 
         private void FixedUpdate()

@@ -13,6 +13,7 @@ TagManager:
   - Weapon1
   - Weapon2
   - AsteroidsHolder
+  - SpaceshipHolder
   layers:
   - Default
   - TransparentFX
