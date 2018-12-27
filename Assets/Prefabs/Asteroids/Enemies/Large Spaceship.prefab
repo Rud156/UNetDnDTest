@@ -11,6 +11,21 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1938763141219932}
   m_IsPrefabAsset: 1
+--- !u!1 &1545070933818918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4455520640781744}
+  m_Layer: 0
+  m_Name: Shoot Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1938763141219932
 GameObject:
   m_ObjectHideFlags: 0
@@ -22,6 +37,7 @@ GameObject:
   - component: {fileID: 212497204410594622}
   - component: {fileID: 95836412522495658}
   - component: {fileID: 114103369432132274}
+  - component: {fileID: 114187211273335436}
   m_Layer: 0
   m_Name: Large Spaceship
   m_TagString: Untagged
@@ -37,9 +53,23 @@ Transform:
   m_GameObject: {fileID: 1938763141219932}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_Children:
+  - {fileID: 4455520640781744}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4455520640781744
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1545070933818918}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 4377933207582890}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &95836412522495658
@@ -92,6 +122,25 @@ MonoBehaviour:
     i15: 194
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114187211273335436
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938763141219932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb9501faf1a222c40bd0791627f0e4db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useConstantRate: 0
+  fireRate: 0
+  minFireRate: 3
+  maxFireRate: 5
+  shootPoint: {fileID: 4455520640781744}
+  bullet: {fileID: 1324607070732052, guid: ce8e29a77a9049e4d8adab950bbef72c, type: 2}
+  launchSpeed: 10
+  launchAngleOffset: {x: 3, y: 3, z: 0}
 --- !u!212 &212497204410594622
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -101,7 +101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb9501faf1a222c40bd0791627f0e4db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 1
+  useConstantRate: 1
+  fireRate: 1.5
+  minFireRate: 0
+  maxFireRate: 0
   shootPoint: {fileID: 4532484590652970}
   bullet: {fileID: 1324607070732052, guid: ce8e29a77a9049e4d8adab950bbef72c, type: 2}
   launchSpeed: 7

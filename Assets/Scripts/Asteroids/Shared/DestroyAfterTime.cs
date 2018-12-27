@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace UNetUI.Asteroids.Shared
 {
@@ -6,6 +7,8 @@ namespace UNetUI.Asteroids.Shared
     {
         public float destroyTime = 5;
 
-        private void Start() => Destroy(gameObject, destroyTime);
+        private void Start() => Invoke(nameof(DestroyGameObject), destroyTime);
+
+        private void DestroyGameObject() => NetworkServer.Destroy(gameObject);
     }
 }

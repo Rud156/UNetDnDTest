@@ -58,7 +58,7 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
                 }
             }
 
-            Destroy(gameObject);
+            NetworkServer.Destroy(gameObject);
         }
     }
 }

@@ -24,6 +24,9 @@ GameObject:
   - component: {fileID: 114698950672578872}
   - component: {fileID: 58185078287246280}
   - component: {fileID: 114588190659418950}
+  - component: {fileID: 114046423941787690}
+  - component: {fileID: 114675864053320724}
+  - component: {fileID: 114462135753250760}
   m_Layer: 8
   m_Name: Player Bullet
   m_TagString: Untagged
@@ -79,6 +82,31 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.15
+--- !u!114 &114046423941787690
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1620465293651798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba5a198a0754221a946c0c9733af493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  incrementAmount: 0.3
+  screenOffsetRange: 1
+--- !u!114 &114462135753250760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1620465293651798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feca11f9af8b4b4cacfb5fe3cdf01235, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAmount: 20
 --- !u!114 &114588190659418950
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -91,6 +119,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyTime: 5
+--- !u!114 &114675864053320724
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1620465293651798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9706d7d89eb46219830df00c2412541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114698950672578872
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114407038110196222}
   - component: {fileID: 114151862909884024}
   - component: {fileID: 114737626584919844}
+  - component: {fileID: 114976665455572320}
   m_Layer: 9
   m_Name: Enemy Bullet
   m_TagString: Untagged
@@ -137,6 +138,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   incrementAmount: 0.3
   screenOffsetRange: 1
+--- !u!114 &114976665455572320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1324607070732052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feca11f9af8b4b4cacfb5fe3cdf01235, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAmount: 20
 --- !u!212 &212383064153270662
 SpriteRenderer:
   m_ObjectHideFlags: 1
