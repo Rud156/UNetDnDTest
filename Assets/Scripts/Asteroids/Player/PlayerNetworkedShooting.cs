@@ -36,8 +36,8 @@ namespace UNetUI.Asteroids.Player
             if (!isServer || isLocalPlayer || !keyPressed)
                 return;
 
-         
-            GameObject bulletInstance = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            GameObject bulletInstance = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
+            bulletInstance.GetComponent<Rigidbody2D>().velocity = launchVelocity * shootPoint.forward;
             NetworkServer.Spawn(bulletInstance);
         }
     }
