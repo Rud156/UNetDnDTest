@@ -1,5 +1,7 @@
+using UnityEngine;
 using UnityEngine.Networking;
 using UNetUI.Asteroids.Spawners;
+using UNetUI.Extras;
 
 namespace UNetUI.Asteroids.Networking
 {
@@ -22,6 +24,16 @@ namespace UNetUI.Asteroids.Networking
 
         private bool _gameStarted;
         private int _clientsConnected;
+        private Transform _playerHolder;
+
+        private void Start() => _playerHolder = GameObject.FindGameObjectWithTag(TagManager.PlayerHolder)?.transform;
+
+        public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+        {
+            GameObject playerInstance = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+            playerInstance.transform.SetParent(_playerHolder);
+            NetworkServer.AddPlayerForConnection(conn, playerInstance, playerControllerId);
+        }
 
         public override void OnServerConnect(NetworkConnection conn)
         {

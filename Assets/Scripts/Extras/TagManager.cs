@@ -17,6 +17,7 @@
         // Asteroids Tags
         public const string AsteroidsHolder = "AsteroidsHolder";
         public const string SpaceshipHolder = "SpaceshipHolder";
+        public const string PlayerHolder = "PlayerHolder";
         public const string Player = "Player";
     }
 }
