@@ -18,33 +18,50 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
         public float launchSpeed;
         public Vector3 launchAngleOffset;
 
-        private float _nextTick;
-        private float _currentRate;
+        [Header("Movement")] public float movementLerpHeight;
+        public float movementSwitchTime;
+        public float initialLaunchVelocity;
+
+        private float _nextShootTick;
+        private float _currentShootRate;
+        
+        private float _nextMovementTick;
+        private float _movementLerpYPosition;
 
         private ScreenWrapper _screenWrapper;
 
         private void Start()
         {
             _screenWrapper = GetComponent<ScreenWrapper>();
-            _currentRate = useConstantRate ? fireRate : Random.Range(minFireRate, maxFireRate);
+            _currentShootRate = useConstantRate ? fireRate : Random.Range(minFireRate, maxFireRate);
+
+            if (Random.value > 0.5f)
+                GetComponent<Rigidbody2D>()
+                    .AddForce(Vector2.right * initialLaunchVelocity, ForceMode2D.Impulse);
+            else
+                GetComponent<Rigidbody2D>()
+                    .AddForce(Vector2.left * initialLaunchVelocity, ForceMode2D.Impulse);
+
+            _movementLerpYPosition = transform.position.y;
         }
 
         private void Update() => ServerUpdate();
 
         private void ServerUpdate()
         {
-            _nextTick += Time.deltaTime;
-            if (_nextTick / _currentRate >= 1)
+            _nextShootTick += Time.deltaTime;
+            if (_nextShootTick / _currentShootRate >= 1)
             {
                 ShootAtPlayer();
 
-                _nextTick = 0;
-                _currentRate = useConstantRate ? fireRate : Random.Range(minFireRate, maxFireRate);
+                _nextShootTick = 0;
+                _currentShootRate = useConstantRate ? fireRate : Random.Range(minFireRate, maxFireRate);
             }
 
             if (isServer)
                 return;
 
+            MoveSpaceship();
             _screenWrapper.CheckObjectOutOfScreen();
 
             Vector3 position = transform.position;
@@ -55,6 +72,24 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
                 _screenWrapper.BottomMostPoint, 1, -1);
 
             RpcSendPositionsToClients(percentX, percentY);
+        }
+
+        private void MoveSpaceship()
+        {
+            _nextMovementTick += Time.deltaTime;
+            if (_nextMovementTick / movementSwitchTime >= 1)
+            {
+                _movementLerpYPosition =
+                    ExtensionFunctions.Map(Random.value, 0, 1,
+                        -movementLerpHeight, movementLerpHeight);
+            }
+
+            Vector2 currentPosition = transform.position;
+            transform.position = Vector2.Lerp(
+                new Vector2(currentPosition.x, currentPosition.y),
+                new Vector2(currentPosition.x, _movementLerpYPosition),
+                0.7f * Time.deltaTime
+            );
         }
 
         [ClientRpc]
@@ -73,7 +108,7 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
 
         private void ShootAtPlayer()
         {
-            GameObject[] players = GameObject.FindGameObjectsWithTag(TagManager.Player);
+            GameObject[] players = GameObject.FindGameObjectsWithTag(TagManager.Player); // TODO: Fix this later on...
             if (players.Length <= 0)
                 return;
 
