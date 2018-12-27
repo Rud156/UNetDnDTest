@@ -1,7 +1,8 @@
+using UnityEngine;
 using UnityEngine.Networking;
 using UNetUI.Extras;
 
-namespace UnityEngine
+namespace UNetUI.Asteroids.Enemies.Spaceship
 {
     public class SmallSpaceshipController : NetworkBehaviour
     {
@@ -9,6 +10,7 @@ namespace UnityEngine
         public Transform shootPoint;
         public GameObject bullet;
         public float launchSpeed;
+        public Vector3 launchAngleOffset;
 
         private float _nextTick;
 
@@ -33,13 +35,16 @@ namespace UnityEngine
             int randomPlayerIndex = Random.Range(0, 1000) % players.Length;
             Transform randomPlayer = players[randomPlayerIndex]?.transform;
 
-            Vector2 playerDirection = randomPlayer.position - shootPoint.position;
+            Vector2 playerDirection = (randomPlayer.position + new Vector3(
+                                           Random.Range(-launchAngleOffset.x, launchAngleOffset.x),
+                                           Random.Range(-launchAngleOffset.y, launchAngleOffset.y)
+                                       )) - shootPoint.position;
             Quaternion lookRotation = Quaternion.LookRotation(playerDirection);
 
             shootPoint.rotation = lookRotation;
-            GameObject bulletInstance = Instantiate(bullet, shootPoint.position, lookRotation);
+            GameObject bulletInstance = Instantiate(bullet, shootPoint.position, Quaternion.identity);
             bulletInstance.GetComponent<Rigidbody2D>().velocity = shootPoint.forward * launchSpeed;
-            
+
             NetworkServer.Spawn(bulletInstance);
         }
     }
