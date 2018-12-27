@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212214623450024790}
   - component: {fileID: 60359316680107630}
   - component: {fileID: 50644388049385074}
+  - component: {fileID: 114156198962158802}
   - component: {fileID: 114450674815811722}
   - component: {fileID: 114832803165374908}
   - component: {fileID: 114119516189373746}
@@ -56,7 +57,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.7
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -170,6 +171,19 @@ MonoBehaviour:
     i15: 223
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114156198962158802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1051282179377030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba5a198a0754221a946c0c9733af493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  incrementAmount: 0.5
+  screenOffsetRange: 2
 --- !u!114 &114450674815811722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bc78cd03e021f4598ff897cc3c9332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 200
+  launchVelocity: 6
   rotationSpeed: 100
 --- !u!114 &114832803165374908
 MonoBehaviour:

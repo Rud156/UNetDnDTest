@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements.StyleEnums;
 using UNetUI.Asteroids.NetworkedData;
 using UNetUI.Asteroids.Networking;
 using UNetUI.Asteroids.Shared;
@@ -10,6 +11,7 @@ namespace UNetUI.Asteroids.Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(ScreenWrapper))]
     public class PlayerNetworkedController : NetworkPacketController
     {
         [Header("Velocities")] [SerializeField]
@@ -26,6 +28,8 @@ namespace UNetUI.Asteroids.Player
 
         private Rigidbody2D _playerRb;
         private Animator _playerAnim;
+        private ScreenWrapper _screenWrapper;
+        
         private float _roll;
 
         private List<PositionReceivePackage> _predictedPackages;
@@ -36,6 +40,7 @@ namespace UNetUI.Asteroids.Player
         {
             _playerRb = GetComponent<Rigidbody2D>();
             _playerAnim = GetComponent<Animator>();
+            _screenWrapper = GetComponent<ScreenWrapper>();
 
             _roll = transform.rotation.eulerAngles.z;
 
@@ -71,7 +76,7 @@ namespace UNetUI.Asteroids.Player
                 RotatePlayer(moveX);
                 MovePlayerForward(moveZ);
                 SetMovementAnimation(moveZ);
-                ScreenWrapper.instance.CheckObjectOutOfScreen(transform);
+                _screenWrapper.CheckObjectOutOfScreen();
 
                 Vector3 position = transform.position;
                 Vector3 rotation = transform.rotation.eulerAngles;
@@ -79,10 +84,10 @@ namespace UNetUI.Asteroids.Player
 
                 _predictedPackages.Add(new PositionReceivePackage
                 {
-                    percentX = ExtensionFunctions.Map(position.x, ScreenWrapper.instance.LeftMostPoint,
-                        ScreenWrapper.instance.RightMostPoint, -1, 1),
-                    percentY = ExtensionFunctions.Map(position.y, ScreenWrapper.instance.TopMostPoint,
-                        ScreenWrapper.instance.BottomMostPoint, 1, -1),
+                    percentX = ExtensionFunctions.Map(position.x, _screenWrapper.LeftMostPoint,
+                        _screenWrapper.RightMostPoint, -1, 1),
+                    percentY = ExtensionFunctions.Map(position.y, _screenWrapper.TopMostPoint,
+                        _screenWrapper.BottomMostPoint, 1, -1),
 
                     velocityX = velocity.x,
                     velocityY = velocity.y,
@@ -120,7 +125,7 @@ namespace UNetUI.Asteroids.Player
             RotatePlayer(inputSendPackageData.horizontal);
             MovePlayerForward(inputSendPackageData.vertical);
             SetMovementAnimation(inputSendPackageData.vertical);
-            ScreenWrapper.instance.CheckObjectOutOfScreen(transform);
+            _screenWrapper.CheckObjectOutOfScreen();
 
             if (_lastPosition == transform.position && _lastRotation == transform.rotation.eulerAngles)
                 return;
@@ -131,10 +136,10 @@ namespace UNetUI.Asteroids.Player
 
             ServerPacketManager.AddPackage(new PositionReceivePackage
             {
-                percentX = ExtensionFunctions.Map(position.x, ScreenWrapper.instance.LeftMostPoint,
-                    ScreenWrapper.instance.RightMostPoint, -1, 1),
-                percentY = ExtensionFunctions.Map(position.y, ScreenWrapper.instance.TopMostPoint,
-                    ScreenWrapper.instance.BottomMostPoint, 1, -1),
+                percentX = ExtensionFunctions.Map(position.x, _screenWrapper.LeftMostPoint,
+                    _screenWrapper.RightMostPoint, -1, 1),
+                percentY = ExtensionFunctions.Map(position.y, _screenWrapper.TopMostPoint,
+                    _screenWrapper.BottomMostPoint, 1, -1),
 
                 velocityX = velocity.x,
                 velocityY = velocity.y,
@@ -162,9 +167,9 @@ namespace UNetUI.Asteroids.Player
 
             Vector2 normalizedPosition = new Vector2(
                 ExtensionFunctions.Map(data.percentX, -1, 1,
-                    ScreenWrapper.instance.LeftMostPoint, ScreenWrapper.instance.RightMostPoint),
+                    _screenWrapper.LeftMostPoint, _screenWrapper.RightMostPoint),
                 ExtensionFunctions.Map(data.percentY, 1, -1,
-                    ScreenWrapper.instance.TopMostPoint, ScreenWrapper.instance.BottomMostPoint)
+                    _screenWrapper.TopMostPoint, _screenWrapper.BottomMostPoint)
             );
 
             if (isLocalPlayer && isPredictionEnabled)
@@ -176,9 +181,9 @@ namespace UNetUI.Asteroids.Player
 
                 Vector2 normalizedPredictedPosition = new Vector2(
                     ExtensionFunctions.Map(transmittedPackage.percentX, -1, 1,
-                        ScreenWrapper.instance.LeftMostPoint, ScreenWrapper.instance.RightMostPoint),
+                        _screenWrapper.LeftMostPoint, _screenWrapper.RightMostPoint),
                     ExtensionFunctions.Map(transmittedPackage.percentY, 1, -1,
-                        ScreenWrapper.instance.TopMostPoint, ScreenWrapper.instance.BottomMostPoint)
+                        _screenWrapper.TopMostPoint, _screenWrapper.BottomMostPoint)
                 );
 
                 if (Vector2.Distance(normalizedPredictedPosition, normalizedPosition) > positionCorrectionThreshold)

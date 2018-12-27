@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using UnityEngine;
+using UnityEngine.Networking;
 using UNetUI.Asteroids.Shared;
 using UNetUI.Extras;
 
 namespace UNetUI.Asteroids.Enemies.Asteroid
 {
     [RequireComponent(typeof(HealthSetter))]
-    public class AsteroidDestroy : MonoBehaviour
+    public class AsteroidDestroy : NetworkBehaviour
     {
         public bool spawnMiniAsteroid;
         public GameObject miniAsteroid;
@@ -29,6 +31,9 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
 
         private void DestroyAsteroid()
         {
+            if(!isServer)
+                return;
+            
             if (spawnMiniAsteroid)
             {
                 int asteroidSpawnCount = Random.Range(minSpawnCount, maxSpawnCount);
@@ -38,6 +43,18 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
                     GameObject miniAsteroidInstance = Instantiate(miniAsteroid, transform.position,
                         Quaternion.Euler(0, 0, Random.value * 360));
                     miniAsteroidInstance.transform.SetParent(_asteroidsHolder);
+                    
+                    Rigidbody2D rb = miniAsteroidInstance.GetComponent<Rigidbody2D>();
+                    float launchVelocity = miniAsteroidInstance.GetComponent<AsteroidMovement>().launchVelocity;
+
+                    int launchAngle = Random.Range(0, 360);
+                    Vector2 launchVector = new Vector2(
+                        Mathf.Cos(launchAngle * Mathf.Deg2Rad) * launchVelocity,
+                        Mathf.Sin(launchAngle * Mathf.Deg2Rad) * launchVelocity
+                    );
+                    rb.AddForce(launchVector, ForceMode2D.Impulse);
+                    
+                    NetworkServer.Spawn(miniAsteroidInstance);
                 }
             }
 

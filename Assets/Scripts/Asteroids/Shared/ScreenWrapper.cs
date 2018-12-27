@@ -4,24 +4,9 @@ namespace UNetUI.Asteroids.Shared
 {
     public class ScreenWrapper : MonoBehaviour
     {
-        #region Singleton
+        [SerializeField] [Range(0, 5)] private float incrementAmount = 0.3f;
+        [SerializeField] private float screenOffsetRange;
 
-        public static ScreenWrapper instance;
-
-        private void Awake()
-        {
-            if (instance == null)
-                instance = this;
-            
-            if(instance != this)
-                Destroy(gameObject);
-        }
-
-        #endregion Singleton
-        
-        [SerializeField][Range(0, 1)]
-        private float incrementAmount = 0.3f;
-        
         private float _leftMostPoint;
         private float _rightMostPoint;
         private float _topMostPoint;
@@ -32,43 +17,36 @@ namespace UNetUI.Asteroids.Shared
         public float LeftMostPoint => _leftMostPoint - incrementAmount;
         public float RightMostPoint => _rightMostPoint + incrementAmount;
 
-        private bool _isPointsSet;
-
-        private void Update()
+        private void Start()
         {
-            if (!_isPointsSet)
-            {
-                Camera mainCamera = Camera.main;
+            Camera mainCamera = Camera.main;
 
-                Vector3 topLeft = mainCamera.ScreenToWorldPoint(new Vector2(0, mainCamera.pixelHeight));
-                Vector3 bottomRight =
-                    mainCamera.ScreenToWorldPoint(new Vector2(mainCamera.pixelWidth, 0));
+            Vector3 topLeft = mainCamera.ScreenToWorldPoint(new Vector2(0, mainCamera.pixelHeight));
+            Vector3 bottomRight =
+                mainCamera.ScreenToWorldPoint(new Vector2(mainCamera.pixelWidth, 0));
 
-                _leftMostPoint = topLeft.x;
-                _topMostPoint = topLeft.y;
-                _rightMostPoint = bottomRight.x;
-                _bottomMostPoint = bottomRight.y;
-
-                _isPointsSet = true;
-            }
+            _leftMostPoint = topLeft.x;
+            _topMostPoint = topLeft.y;
+            _rightMostPoint = bottomRight.x;
+            _bottomMostPoint = bottomRight.y;
         }
 
-        public void CheckObjectOutOfScreen(Transform refTransform)
+        public void CheckObjectOutOfScreen()
         {
-            Vector3 position = refTransform.position;
+            Vector3 position = transform.position;
             Vector3 newPosition = position;
 
-            if (_leftMostPoint - 2 > position.x)
+            if (_leftMostPoint - screenOffsetRange > position.x)
                 newPosition.x = RightMostPoint;
-            else if (_rightMostPoint + 2 < position.x)
+            else if (_rightMostPoint + screenOffsetRange < position.x)
                 newPosition.x = LeftMostPoint;
 
-            if (_bottomMostPoint - 2 > position.y)
+            if (_bottomMostPoint - screenOffsetRange > position.y)
                 newPosition.y = TopMostPoint;
-            else if (_topMostPoint + 2 < position.y)
+            else if (_topMostPoint + screenOffsetRange < position.y)
                 newPosition.y = BottomMostPoint;
 
-            refTransform.position = newPosition;
+            transform.position = newPosition;
         }
     }
 }

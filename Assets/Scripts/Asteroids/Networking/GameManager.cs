@@ -21,16 +21,23 @@ namespace UNetUI.Asteroids.Networking
         #endregion Singleton
 
         private bool _gameStarted;
+        private int _clientsConnected;
 
         public override void OnServerConnect(NetworkConnection conn)
         {
             base.OnServerConnect(conn);
 
-//            if (!_gameStarted)
-//            {
-//                _gameStarted = true;
-//                AsteroidSpawner.instance.CreateAsteroidsAtScreenEdge();
-//            }
+            _clientsConnected += 1;
+            
+            if(_clientsConnected == 2)
+                AsteroidSpawner.instance.CreateAsteroidsAtScreenEdge();
+        }
+
+        public override void OnClientDisconnect(NetworkConnection conn)
+        {
+            base.OnClientDisconnect(conn);
+
+            _clientsConnected -= 1;
         }
     }
 }
