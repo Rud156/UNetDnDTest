@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 using UNetUI.Asteroids.Shared;
 using UNetUI.Extras;
 
-namespace UNetUI.Asteroids.Enemies.Spaceship
+namespace UNetUI.Asteroids.Shared
 {
     [RequireComponent(typeof(ScreenWrapper))]
     public class BulletController : NetworkBehaviour

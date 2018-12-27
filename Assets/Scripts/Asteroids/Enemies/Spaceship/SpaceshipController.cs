@@ -58,7 +58,7 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
                 _currentShootRate = useConstantRate ? fireRate : Random.Range(minFireRate, maxFireRate);
             }
 
-            if (isServer)
+            if (!isServer)
                 return;
 
             MoveSpaceship();
