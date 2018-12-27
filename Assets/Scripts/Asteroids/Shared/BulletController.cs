@@ -14,8 +14,10 @@ namespace UNetUI.Asteroids.Shared
 
         private void Update()
         {
-            if(isServer)
+            if(!isServer)
                 return;
+            
+            Debug.Log("Checking Positions");
             
             _screenWrapper.CheckObjectOutOfScreen();
             

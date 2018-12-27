@@ -28,8 +28,18 @@ namespace UNetUI.Asteroids.Networking
 
         private void Start() => _playerHolder = GameObject.FindGameObjectWithTag(TagManager.PlayerHolder)?.transform;
 
-        public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+        public override void OnClientConnect(NetworkConnection conn)
         {
+            base.OnClientConnect(conn);
+
+            // TODO: Save these Id's and later use them to create players...
+            ClientScene.AddPlayer(conn, (short)Mathf.FloorToInt(Random.value * 16)); 
+        }
+
+        public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+        {   
+            Debug.Log("Adding Player");
+            
             GameObject playerInstance = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
             playerInstance.transform.SetParent(_playerHolder);
             NetworkServer.AddPlayerForConnection(conn, playerInstance, playerControllerId);

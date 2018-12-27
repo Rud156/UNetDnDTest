@@ -33,12 +33,23 @@ namespace UNetUI.Asteroids.Player
         [Command]
         private void CmdServerUpdate(bool keyPressed)
         {
-            if (!isServer || isLocalPlayer || !keyPressed)
+            if (!isServer || !keyPressed)
                 return;
 
+            // TODO: Check Spawning
             GameObject bulletInstance = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
-            bulletInstance.GetComponent<Rigidbody2D>().velocity = launchVelocity * shootPoint.forward;
+            bulletInstance.GetComponent<Rigidbody2D>().velocity = launchVelocity * shootPoint.up;
+
             NetworkServer.Spawn(bulletInstance);
+        }
+
+        [ClientRpc]
+        private void RpcPlayerShoot()
+        {
+            if(isServer)
+                return;
+            
+            
         }
     }
 }
