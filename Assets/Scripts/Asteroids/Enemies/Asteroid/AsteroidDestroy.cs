@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using UnityEngine;
 using UnityEngine.Networking;
+using UNetUI.Asteroids.Scene.MainScene;
 using UNetUI.Asteroids.Shared;
 using UNetUI.Extras;
 
 namespace UNetUI.Asteroids.Enemies.Asteroid
 {
     [RequireComponent(typeof(HealthSetter))]
+    [RequireComponent(typeof(ScoreSetter))]
     public class AsteroidDestroy : NetworkBehaviour
     {
         public bool spawnMiniAsteroid;
@@ -57,6 +59,9 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
                     NetworkServer.Spawn(miniAsteroidInstance);
                 }
             }
+
+            float scoreAmount = GetComponent<ScoreSetter>().scoreAmount;
+            NetworkedScoreManager.instance.AddScore(scoreAmount);
 
             NetworkServer.Destroy(gameObject);
         }
