@@ -15,6 +15,7 @@ TagManager:
   - AsteroidsHolder
   - SpaceshipHolder
   - PlayerHolder
+  - PowerUpsHolder
   layers:
   - Default
   - TransparentFX

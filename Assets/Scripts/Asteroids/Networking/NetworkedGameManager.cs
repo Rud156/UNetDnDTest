@@ -33,12 +33,8 @@ namespace UNetUI.Asteroids.Networking
         private bool _gameStarted;
         private int _clientsConnected;
 
-        private List<NetworkConnection> _players;
-
         private void Start()
         {
-            _players = new List<NetworkConnection>();
-
             scoreHolder.SetActive(false);
             healthHolder.SetActive(false);
         }
@@ -59,7 +55,6 @@ namespace UNetUI.Asteroids.Networking
         {
             GameObject playerInstance = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
             playerInstance.transform.SetParent(playerHolder);
-            playerInstance.GetComponent<PlayerNetworkedController>().playerControllerId = playerControllerId;
 
             NetworkServer.AddPlayerForConnection(conn, playerInstance, playerControllerId);
         }

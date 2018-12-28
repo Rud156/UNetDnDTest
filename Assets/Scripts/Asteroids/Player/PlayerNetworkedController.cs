@@ -38,8 +38,6 @@ namespace UNetUI.Asteroids.Player
         private Vector3 _lastPosition;
         private Vector3 _lastRotation;
 
-        public short playerControllerId;
-
         private void Start()
         {
             _playerRb = GetComponent<Rigidbody2D>();
