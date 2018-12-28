@@ -34,15 +34,13 @@ namespace UNetUI.Asteroids.Scene.MainScene
             UpdateUiWithText();
         }
 
-        [Command]
-        public void CmdAddScore(int scoreAmount)
+        public void AddScore(int scoreAmount)
         {
             if (!isServer)
                 return;
 
             _currentScore += scoreAmount;
             UpdateUiWithText();
-            Debug.Log("Score Added");
 
             RpcUpdateClientsScoreUi(_currentScore);
         }

@@ -742,7 +742,7 @@ MonoBehaviour:
     type: 2}
   largeSpaceship: {fileID: 1751700692480806, guid: 5d7a7647e40f62f4cb85fe3886b951e8,
     type: 2}
-  spawnSmallShipOnStart: 1
+  spawnSmallShipOnStart: 0
   spawnLargeShipOnStart: 0
 --- !u!114 &1410555244
 MonoBehaviour:
@@ -1158,8 +1158,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2017361275}
-  - component: {fileID: 2017361276}
   - component: {fileID: 2017361277}
+  - component: {fileID: 2017361276}
   m_Layer: 0
   m_Name: Asteroid Spawner
   m_TagString: Untagged

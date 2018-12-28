@@ -33,7 +33,7 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
                 return;
 
             _shipAnimator.SetBool(Dead, true);
-            Invoke(nameof(SanityDestroyCheck), 1.2f * animationTime);
+            Invoke(nameof(RemoveSpaceship), animationTime);
             
             RpcDisplayDamageOnClients(true);
         }
@@ -45,15 +45,12 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
                 return;
             
             _shipAnimator.SetBool(Dead, playDeadAnimation);
-            Invoke(nameof(RemoveSpaceship), animationTime);
         }
 
-        private void RemoveSpaceship() => Destroy(gameObject);
-
-        private void SanityDestroyCheck()
+        private void RemoveSpaceship()
         {
             int scoreAmount = GetComponent<ScoreSetter>().scoreAmount;
-            NetworkedScoreManager.instance.CmdAddScore(scoreAmount);
+            NetworkedScoreManager.instance.AddScore(scoreAmount);
             NetworkServer.Destroy(gameObject);
         }
     }

@@ -54,6 +54,9 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
 
         private void ServerUpdate()
         {
+            if (!isServer)
+                return;
+            
             _nextShootTick += Time.deltaTime;
             if (_nextShootTick / _currentShootRate >= 1)
             {
@@ -62,9 +65,6 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
                 _nextShootTick = 0;
                 _currentShootRate = useConstantRate ? fireRate : Random.Range(minFireRate, maxFireRate);
             }
-
-            if (!isServer)
-                return;
 
             MoveSpaceship();
             _screenWrapper.CheckObjectOutOfScreen();
