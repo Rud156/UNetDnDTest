@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,7 +12,6 @@ namespace UNetUI.Asteroids.Player
     public class PlayerNetworkedShooting : NetworkBehaviour
     {
         public GameObject bulletPrefab;
-        public Transform shootPoint;
         [SerializeField] private float launchVelocity;
 
         private void Update()
@@ -36,20 +36,10 @@ namespace UNetUI.Asteroids.Player
             if (!isServer || !keyPressed)
                 return;
 
-            // TODO: Check Spawning
-            GameObject bulletInstance = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
-            bulletInstance.GetComponent<Rigidbody2D>().velocity = launchVelocity * shootPoint.up;
+            GameObject bulletInstance = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            bulletInstance.GetComponent<Rigidbody2D>().velocity = transform.up * launchVelocity;
 
             NetworkServer.Spawn(bulletInstance);
-        }
-
-        [ClientRpc]
-        private void RpcPlayerShoot()
-        {
-            if(isServer)
-                return;
-            
-            
         }
     }
 }

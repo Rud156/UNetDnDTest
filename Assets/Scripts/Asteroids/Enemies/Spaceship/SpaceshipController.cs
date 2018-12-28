@@ -29,11 +29,13 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
         private float _movementLerpYPosition;
 
         private ScreenWrapper _screenWrapper;
+        private Transform _playerHolder;
 
         private void Start()
         {
             _screenWrapper = GetComponent<ScreenWrapper>();
             _currentShootRate = useConstantRate ? fireRate : Random.Range(minFireRate, maxFireRate);
+            _playerHolder = GameObject.FindGameObjectWithTag(TagManager.PlayerHolder)?.transform;
 
             if (Random.value > 0.5f)
                 GetComponent<Rigidbody2D>()
@@ -108,12 +110,11 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
 
         private void ShootAtPlayer()
         {
-            GameObject[] players = GameObject.FindGameObjectsWithTag(TagManager.Player); // TODO: Fix this later on...
-            if (players.Length <= 0)
+            if (_playerHolder.childCount <= 0)
                 return;
 
-            int randomPlayerIndex = Random.Range(0, 1000) % players.Length;
-            Transform randomPlayer = players[randomPlayerIndex]?.transform;
+            int randomPlayerIndex = Random.Range(0, 1000) % _playerHolder.childCount;
+            Transform randomPlayer = _playerHolder.GetChild(randomPlayerIndex);
 
             Vector2 playerDirection = (randomPlayer.position + new Vector3(
                                            Random.Range(-launchAngleOffset.x, launchAngleOffset.x),
