@@ -22,7 +22,6 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
         private HealthSetter _healthSetter;
         private Transform _asteroidsHolder;
 
-        // Use this for initialization
         private void Start()
         {
             _healthSetter = GetComponent<HealthSetter>();
@@ -60,7 +59,7 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
                 }
             }
 
-            float scoreAmount = GetComponent<ScoreSetter>().scoreAmount;
+            int scoreAmount = GetComponent<ScoreSetter>().scoreAmount;
             NetworkedScoreManager.instance.AddScore(scoreAmount);
 
             NetworkServer.Destroy(gameObject);

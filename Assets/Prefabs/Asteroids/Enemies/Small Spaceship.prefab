@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4532484590652970}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Shoot Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,13 +35,16 @@ GameObject:
   m_Component:
   - component: {fileID: 4676411586759224}
   - component: {fileID: 212980371788253442}
+  - component: {fileID: 58765049631992858}
   - component: {fileID: 95619262110473452}
+  - component: {fileID: 50245108543518914}
   - component: {fileID: 114362918831416754}
   - component: {fileID: 114339567881721316}
   - component: {fileID: 114747727080569142}
   - component: {fileID: 114348699837501002}
   - component: {fileID: 114741273558688324}
-  m_Layer: 0
+  - component: {fileID: 114977915320854202}
+  m_Layer: 9
   m_Name: Small Spaceship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,13 +71,48 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1751700692480806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.09, y: 1.68, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 4532484590652970}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50245108543518914
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1751700692480806}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.5
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
+--- !u!58 &58765049631992858
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1751700692480806}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.7049999
 --- !u!95 &95619262110473452
 Animator:
   serializedVersion: 3
@@ -112,9 +150,9 @@ MonoBehaviour:
   bullet: {fileID: 1324607070732052, guid: ce8e29a77a9049e4d8adab950bbef72c, type: 2}
   launchSpeed: 7
   launchAngleOffset: {x: 2, y: 2, z: 0}
-  movementLerpHeight: 0
-  movementSwitchTime: 0
-  initialLaunchVelocity: 0
+  movementLerpHeight: 3
+  movementSwitchTime: 5
+  initialLaunchVelocity: 4
 --- !u!114 &114348699837501002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -171,6 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f778d79c29a543f8a9b3fd6131be6395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationTime: 0.75
 --- !u!114 &114747727080569142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -182,7 +221,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c605879077de5e4d8a7521512eabea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreAmount: 250
+  scoreAmount: 0
+--- !u!114 &114977915320854202
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1751700692480806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba5a198a0754221a946c0c9733af493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  incrementAmount: 0.3
+  screenOffsetRange: 1.5
 --- !u!212 &212980371788253442
 SpriteRenderer:
   m_ObjectHideFlags: 1

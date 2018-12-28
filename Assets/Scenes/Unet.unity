@@ -742,7 +742,7 @@ MonoBehaviour:
     type: 2}
   largeSpaceship: {fileID: 1751700692480806, guid: 5d7a7647e40f62f4cb85fe3886b951e8,
     type: 2}
-  spawnSmallShipOnStart: 0
+  spawnSmallShipOnStart: 1
   spawnLargeShipOnStart: 0
 --- !u!114 &1410555244
 MonoBehaviour:
@@ -1147,6 +1147,9 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+  scoreHolder: {fileID: 1258498967}
+  healthHolder: {fileID: 298276440}
+  playerHolder: {fileID: 1691183050}
 --- !u!1 &2017361274
 GameObject:
   m_ObjectHideFlags: 0

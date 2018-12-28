@@ -6,6 +6,6 @@ namespace UNetUI.Asteroids.Shared
 {
     public class ScoreSetter : MonoBehaviour
     {
-        public float scoreAmount;
+        public int scoreAmount;
     }
 }

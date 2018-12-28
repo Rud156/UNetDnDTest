@@ -7,6 +7,8 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
     [RequireComponent(typeof(HealthSetter))]
     [RequireComponent(typeof(ScoreSetter))]
     [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(SpriteRenderer))]
+    [RequireComponent(typeof(Collider2D))]
     public class SpaceshipDestroy : NetworkBehaviour
     {
         public float animationTime;
@@ -30,18 +32,23 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
                 return;
 
             _shipAnimator.SetBool(Dead, true);
-            Invoke(nameof(RemoveSpaceship), animationTime);
-
+            Invoke(nameof(SanityDestroyCheck), 1.2f * animationTime);
+            
             RpcDisplayDamageOnClients(true);
         }
 
         [ClientRpc]
         private void RpcDisplayDamageOnClients(bool playDeadAnimation)
         {
+            if(isServer)
+                return;
+            
             _shipAnimator.SetBool(Dead, playDeadAnimation);
             Invoke(nameof(RemoveSpaceship), animationTime);
         }
 
         private void RemoveSpaceship() => Destroy(gameObject);
+
+        private void SanityDestroyCheck() => NetworkServer.Destroy(gameObject);
     }
 }

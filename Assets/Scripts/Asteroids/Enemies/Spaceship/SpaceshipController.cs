@@ -84,6 +84,8 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
                 _movementLerpYPosition =
                     ExtensionFunctions.Map(Random.value, 0, 1,
                         -movementLerpHeight, movementLerpHeight);
+
+                _nextMovementTick = 0;
             }
 
             Vector2 currentPosition = transform.position;

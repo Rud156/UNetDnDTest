@@ -28,5 +28,7 @@ namespace UNetUI.Extras
 
             return angle;
         }
+
+        public static string FormatWithCommas(int score) => $"{score:n0}";
     }
 }

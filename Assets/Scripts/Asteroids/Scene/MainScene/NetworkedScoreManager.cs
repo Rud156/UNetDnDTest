@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UNetUI.Extras;
 
 namespace UNetUI.Asteroids.Scene.MainScene
 {
@@ -25,14 +26,35 @@ namespace UNetUI.Asteroids.Scene.MainScene
 
         public Text scoreDisplay;
 
-        private float _currentScore;
+        private int _currentScore;
 
-        private void Start() => _currentScore = 0;
-
-        public void AddScore(float scoreAmount)
+        private void Start()
         {
-            _currentScore += scoreAmount;
-            scoreDisplay.text = _currentScore.ToString();
+            _currentScore = 0;
+            UpdateUiWithText();
         }
+
+        public void AddScore(int scoreAmount)
+        {
+            if (!isServer)
+                return;
+
+            _currentScore += scoreAmount;
+            UpdateUiWithText();
+
+            RpcUpdateClientsScoreUi(_currentScore);
+        }
+
+        [ClientRpc]
+        private void RpcUpdateClientsScoreUi(int currentScore)
+        {
+            if (isServer)
+                return;
+
+            _currentScore = currentScore;
+            UpdateUiWithText();
+        }
+
+        private void UpdateUiWithText() => scoreDisplay.text = ExtensionFunctions.FormatWithCommas(_currentScore);
     }
 }
