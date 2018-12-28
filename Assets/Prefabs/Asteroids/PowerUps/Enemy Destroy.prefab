@@ -22,6 +22,9 @@ GameObject:
   - component: {fileID: 212878093762881798}
   - component: {fileID: 50120046615974932}
   - component: {fileID: 58280639645573630}
+  - component: {fileID: 114199853651049948}
+  - component: {fileID: 114167571127693512}
+  - component: {fileID: 114730550859323440}
   m_Layer: 8
   m_Name: Enemy Destroy
   m_TagString: Untagged
@@ -56,7 +59,7 @@ Rigidbody2D:
   m_Mass: 0.5
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -77,6 +80,63 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.5
+--- !u!114 &114167571127693512
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1130303382284690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba5a198a0754221a946c0c9733af493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  incrementAmount: 0.3
+  screenOffsetRange: 1.5
+--- !u!114 &114199853651049948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1130303382284690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 203
+    i1: 255
+    i2: 220
+    i3: 197
+    i4: 242
+    i5: 155
+    i6: 86
+    i7: 212
+    i8: 59
+    i9: 236
+    i10: 191
+    i11: 161
+    i12: 194
+    i13: 77
+    i14: 84
+    i15: 222
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114730550859323440
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1130303382284690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0a82f6c123da04e9a650835aaa47bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  launchVelocity: 3
 --- !u!212 &212878093762881798
 SpriteRenderer:
   m_ObjectHideFlags: 1

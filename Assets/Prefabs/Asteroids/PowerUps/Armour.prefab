@@ -22,6 +22,9 @@ GameObject:
   - component: {fileID: 212676902696796512}
   - component: {fileID: 50030454557170276}
   - component: {fileID: 58660250309603772}
+  - component: {fileID: 114856177646807852}
+  - component: {fileID: 114756571214521512}
+  - component: {fileID: 114112890704168408}
   m_Layer: 8
   m_Name: Armour
   m_TagString: Untagged
@@ -56,7 +59,7 @@ Rigidbody2D:
   m_Mass: 0.5
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -77,6 +80,63 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.5
+--- !u!114 &114112890704168408
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444320558548360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0a82f6c123da04e9a650835aaa47bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  launchVelocity: 3
+--- !u!114 &114756571214521512
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444320558548360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba5a198a0754221a946c0c9733af493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  incrementAmount: 0.3
+  screenOffsetRange: 1.5
+--- !u!114 &114856177646807852
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444320558548360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 14
+    i1: 171
+    i2: 0
+    i3: 21
+    i4: 128
+    i5: 148
+    i6: 194
+    i7: 244
+    i8: 59
+    i9: 15
+    i10: 83
+    i11: 64
+    i12: 100
+    i13: 64
+    i14: 248
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212676902696796512
 SpriteRenderer:
   m_ObjectHideFlags: 1

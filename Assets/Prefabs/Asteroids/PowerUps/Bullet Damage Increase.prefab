@@ -22,6 +22,9 @@ GameObject:
   - component: {fileID: 212512715854058512}
   - component: {fileID: 50279808439581452}
   - component: {fileID: 58467508303991082}
+  - component: {fileID: 114420273297453674}
+  - component: {fileID: 114586097152417176}
+  - component: {fileID: 114793109321526164}
   m_Layer: 8
   m_Name: Bullet Damage Increase
   m_TagString: Untagged
@@ -56,7 +59,7 @@ Rigidbody2D:
   m_Mass: 0.5
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -77,6 +80,63 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.5
+--- !u!114 &114420273297453674
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1971584133319900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 234
+    i1: 250
+    i2: 251
+    i3: 242
+    i4: 66
+    i5: 93
+    i6: 240
+    i7: 228
+    i8: 56
+    i9: 12
+    i10: 37
+    i11: 83
+    i12: 196
+    i13: 13
+    i14: 29
+    i15: 111
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114586097152417176
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1971584133319900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba5a198a0754221a946c0c9733af493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  incrementAmount: 0.3
+  screenOffsetRange: 1.5
+--- !u!114 &114793109321526164
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1971584133319900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0a82f6c123da04e9a650835aaa47bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  launchVelocity: 3
 --- !u!212 &212512715854058512
 SpriteRenderer:
   m_ObjectHideFlags: 1
