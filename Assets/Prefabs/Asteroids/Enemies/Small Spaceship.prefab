@@ -40,10 +40,10 @@ GameObject:
   - component: {fileID: 50245108543518914}
   - component: {fileID: 114362918831416754}
   - component: {fileID: 114339567881721316}
-  - component: {fileID: 114747727080569142}
   - component: {fileID: 114348699837501002}
   - component: {fileID: 114741273558688324}
   - component: {fileID: 114977915320854202}
+  - component: {fileID: 114747727080569142}
   m_Layer: 9
   m_Name: Small Spaceship
   m_TagString: Untagged
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c605879077de5e4d8a7521512eabea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreAmount: 0
+  scoreAmount: 250
 --- !u!114 &114977915320854202
 MonoBehaviour:
   m_ObjectHideFlags: 1

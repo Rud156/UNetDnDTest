@@ -22,11 +22,11 @@ GameObject:
   - component: {fileID: 212369151253258338}
   - component: {fileID: 60645047479846726}
   - component: {fileID: 50129186561490564}
+  - component: {fileID: 114007536806914040}
   - component: {fileID: 114730885332183168}
   - component: {fileID: 114630487411208690}
   - component: {fileID: 114799016447705506}
   - component: {fileID: 114507556375341686}
-  - component: {fileID: 114007536806914040}
   - component: {fileID: 114803824096413382}
   m_Layer: 9
   m_Name: Meteor 1 L

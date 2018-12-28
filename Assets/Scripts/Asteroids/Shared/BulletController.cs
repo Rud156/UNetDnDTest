@@ -17,8 +17,6 @@ namespace UNetUI.Asteroids.Shared
             if(!isServer)
                 return;
             
-            Debug.Log("Checking Positions");
-            
             _screenWrapper.CheckObjectOutOfScreen();
             
             Vector3 position = transform.position;

@@ -37,12 +37,15 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
             _currentShootRate = useConstantRate ? fireRate : Random.Range(minFireRate, maxFireRate);
             _playerHolder = GameObject.FindGameObjectWithTag(TagManager.PlayerHolder)?.transform;
 
-            if (Random.value > 0.5f)
-                GetComponent<Rigidbody2D>()
-                    .AddForce(Vector2.right * initialLaunchVelocity, ForceMode2D.Impulse);
-            else
-                GetComponent<Rigidbody2D>()
-                    .AddForce(Vector2.left * initialLaunchVelocity, ForceMode2D.Impulse);
+            if (isServer)
+            {
+                if (Random.value > 0.5f)
+                    GetComponent<Rigidbody2D>()
+                        .AddForce(Vector2.right * initialLaunchVelocity, ForceMode2D.Impulse);
+                else
+                    GetComponent<Rigidbody2D>()
+                        .AddForce(Vector2.left * initialLaunchVelocity, ForceMode2D.Impulse);
+            }
 
             _movementLerpYPosition = transform.position.y;
         }

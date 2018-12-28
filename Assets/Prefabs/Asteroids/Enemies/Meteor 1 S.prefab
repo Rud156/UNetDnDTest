@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 212214623450024790}
   - component: {fileID: 60359316680107630}
   - component: {fileID: 50644388049385074}
+  - component: {fileID: 114119516189373746}
   - component: {fileID: 114156198962158802}
   - component: {fileID: 114450674815811722}
   - component: {fileID: 114832803165374908}
-  - component: {fileID: 114119516189373746}
   - component: {fileID: 114977784686059318}
   m_Layer: 9
   m_Name: Meteor 1 S

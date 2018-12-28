@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Networking;
+using UNetUI.Asteroids.Scene.MainScene;
 using UNetUI.Asteroids.Shared;
 
 namespace UNetUI.Asteroids.Enemies.Spaceship
@@ -49,6 +50,11 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
 
         private void RemoveSpaceship() => Destroy(gameObject);
 
-        private void SanityDestroyCheck() => NetworkServer.Destroy(gameObject);
+        private void SanityDestroyCheck()
+        {
+            int scoreAmount = GetComponent<ScoreSetter>().scoreAmount;
+            NetworkedScoreManager.instance.CmdAddScore(scoreAmount);
+            NetworkServer.Destroy(gameObject);
+        }
     }
 }

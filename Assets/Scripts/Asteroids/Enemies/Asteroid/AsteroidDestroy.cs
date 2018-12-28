@@ -60,7 +60,7 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
             }
 
             int scoreAmount = GetComponent<ScoreSetter>().scoreAmount;
-            NetworkedScoreManager.instance.AddScore(scoreAmount);
+            NetworkedScoreManager.instance.CmdAddScore(scoreAmount);
 
             NetworkServer.Destroy(gameObject);
         }
