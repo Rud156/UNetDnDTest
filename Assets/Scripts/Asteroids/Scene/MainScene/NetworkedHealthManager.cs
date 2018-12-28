@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace UNetUI.Asteroids.Scene.MainScene
 {
-    public class NetworkedHealthManager : MonoBehaviour
+    public class NetworkedHealthManager : NetworkBehaviour
     {
         #region Singleton
 

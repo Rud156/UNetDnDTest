@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 95836412522495658}
   - component: {fileID: 114103369432132274}
   - component: {fileID: 114187211273335436}
+  - component: {fileID: 114435375011274852}
   m_Layer: 0
   m_Name: Large Spaceship
   m_TagString: Untagged
@@ -141,6 +142,21 @@ MonoBehaviour:
   bullet: {fileID: 1324607070732052, guid: ce8e29a77a9049e4d8adab950bbef72c, type: 2}
   launchSpeed: 10
   launchAngleOffset: {x: 3, y: 3, z: 0}
+  movementLerpHeight: 0
+  movementSwitchTime: 0
+  initialLaunchVelocity: 0
+--- !u!114 &114435375011274852
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938763141219932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c605879077de5e4d8a7521512eabea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreAmount: 150
 --- !u!212 &212497204410594622
 SpriteRenderer:
   m_ObjectHideFlags: 1

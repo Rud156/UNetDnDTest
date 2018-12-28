@@ -36,8 +36,9 @@ GameObject:
   - component: {fileID: 4676411586759224}
   - component: {fileID: 212980371788253442}
   - component: {fileID: 95619262110473452}
-  - component: {fileID: 114339567881721316}
   - component: {fileID: 114362918831416754}
+  - component: {fileID: 114339567881721316}
+  - component: {fileID: 114747727080569142}
   m_Layer: 0
   m_Name: Small Spaceship
   m_TagString: Untagged
@@ -109,6 +110,9 @@ MonoBehaviour:
   bullet: {fileID: 1324607070732052, guid: ce8e29a77a9049e4d8adab950bbef72c, type: 2}
   launchSpeed: 7
   launchAngleOffset: {x: 2, y: 2, z: 0}
+  movementLerpHeight: 0
+  movementSwitchTime: 0
+  initialLaunchVelocity: 0
 --- !u!114 &114362918831416754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,6 +145,18 @@ MonoBehaviour:
     i15: 232
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114747727080569142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1751700692480806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c605879077de5e4d8a7521512eabea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreAmount: 250
 --- !u!212 &212980371788253442
 SpriteRenderer:
   m_ObjectHideFlags: 1
