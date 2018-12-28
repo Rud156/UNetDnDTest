@@ -2,8 +2,10 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements.StyleEnums;
+using UnityEngine.Networking;
 using UNetUI.Asteroids.NetworkedData;
 using UNetUI.Asteroids.Networking;
+using UNetUI.Asteroids.Scene.MainScene;
 using UNetUI.Asteroids.Shared;
 using UNetUI.Extras;
 
@@ -29,12 +31,14 @@ namespace UNetUI.Asteroids.Player
         private Rigidbody2D _playerRb;
         private Animator _playerAnim;
         private ScreenWrapper _screenWrapper;
-        
+
         private float _roll;
 
         private List<PositionReceivePackage> _predictedPackages;
         private Vector3 _lastPosition;
         private Vector3 _lastRotation;
+
+        public short playerControllerId;
 
         private void Start()
         {
@@ -50,7 +54,16 @@ namespace UNetUI.Asteroids.Player
             _predictedPackages = new List<PositionReceivePackage>();
 
             if (isLocalPlayer && isServer)
-                Destroy(gameObject);
+                ClientScene.RemovePlayer(playerControllerId);
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.gameObject.layer != 9)
+                return;
+
+            ClientScene.RemovePlayer(playerControllerId);
+            NetworkedHealthManager.instance.ReduceHealth();
         }
 
         private void FixedUpdate()

@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UNetUI.Asteroids.Player;
 using UNetUI.Asteroids.Scene.MainScene;
 using UNetUI.Asteroids.Shared;
 using UNetUI.Asteroids.Spawners;
@@ -27,12 +29,16 @@ namespace UNetUI.Asteroids.Networking
         public GameObject scoreHolder;
         public GameObject healthHolder;
         public Transform playerHolder;
-            
+
         private bool _gameStarted;
         private int _clientsConnected;
 
+        private List<NetworkConnection> _players;
+
         private void Start()
         {
+            _players = new List<NetworkConnection>();
+
             scoreHolder.SetActive(false);
             healthHolder.SetActive(false);
         }
@@ -41,20 +47,20 @@ namespace UNetUI.Asteroids.Networking
         public override void OnClientConnect(NetworkConnection conn)
         {
             base.OnClientConnect(conn);
-            
+
             scoreHolder.SetActive(true);
             healthHolder.SetActive(true);
 
             // TODO: Save these Id's and later use them to create players...
-            ClientScene.AddPlayer(conn, (short)Mathf.FloorToInt(Random.value * 16)); 
+            // ClientScene.AddPlayer(conn, (short) Mathf.FloorToInt(Random.value * 16));
         }
 
         public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
-        {    
-            Debug.Log("Adding Player");
-            
+        {
             GameObject playerInstance = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
             playerInstance.transform.SetParent(playerHolder);
+            playerInstance.GetComponent<PlayerNetworkedController>().playerControllerId = playerControllerId;
+
             NetworkServer.AddPlayerForConnection(conn, playerInstance, playerControllerId);
         }
 
@@ -63,8 +69,8 @@ namespace UNetUI.Asteroids.Networking
             base.OnServerConnect(conn);
 
             _clientsConnected += 1;
-            
-            if(_clientsConnected == 1)
+
+            if (_clientsConnected == 1)
                 AsteroidSpawner.instance.CreateAsteroidsAtScreenEdge();
         }
 

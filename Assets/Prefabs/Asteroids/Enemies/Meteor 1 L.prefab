@@ -172,7 +172,7 @@ MonoBehaviour:
     i14: 136
     i15: 223
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114507556375341686
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -200,9 +200,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bc78cd03e021f4598ff897cc3c9332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  updateRate: 0.1
   launchVelocity: 2
   rotationSpeed: 70
-  isPredictionEnabled: 1
 --- !u!114 &114730885332183168
 MonoBehaviour:
   m_ObjectHideFlags: 1
