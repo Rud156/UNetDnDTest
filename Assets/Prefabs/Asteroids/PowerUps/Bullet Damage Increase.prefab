@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114586097152417176}
   - component: {fileID: 114793109321526164}
   - component: {fileID: 114445642504124756}
+  - component: {fileID: 114953707658695920}
   m_Layer: 8
   m_Name: Bullet Damage Increase
   m_TagString: Untagged
@@ -150,6 +151,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchVelocity: 2
+--- !u!114 &114953707658695920
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1971584133319900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045037d9643148bf97f007649d0cf3f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpType: 1
+  powerUpAffectTime: 5
 --- !u!212 &212512715854058512
 SpriteRenderer:
   m_ObjectHideFlags: 1

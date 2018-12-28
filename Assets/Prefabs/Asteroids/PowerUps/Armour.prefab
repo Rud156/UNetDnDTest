@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114756571214521512}
   - component: {fileID: 114112890704168408}
   - component: {fileID: 114325485253469914}
+  - component: {fileID: 114023596680914246}
   m_Layer: 8
   m_Name: Armour
   m_TagString: Untagged
@@ -81,6 +82,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.5
+--- !u!114 &114023596680914246
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444320558548360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045037d9643148bf97f007649d0cf3f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpType: 0
+  powerUpAffectTime: 7
 --- !u!114 &114112890704168408
 MonoBehaviour:
   m_ObjectHideFlags: 1
