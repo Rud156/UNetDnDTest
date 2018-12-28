@@ -17,19 +17,22 @@ namespace UNetUI.Asteroids.Enemies.Common
 
         private void Start()
         {
-            _powerUpsHolder = GameObject.FindGameObjectWithTag(TagManager.PowerUpsHolder)?.transform;
-
+            if(!isServer)
+                return;
+            
             _healthSetter = GetComponent<HealthSetter>();
             _healthSetter.healthZero += CheckAndSpawnPowerUp;
+            
+            _powerUpsHolder = GameObject.FindGameObjectWithTag(TagManager.PowerUpsHolder)?.transform;
         }
 
         private void CheckAndSpawnPowerUp()
         {
             if (!isServer)
                 return;
-
-            float randomValue = Random.value;
-            if (randomValue < spawnProbability)
+   
+            float randomValue = Random.value;            
+            if (randomValue > spawnProbability)
                 return;
 
             int randomPowerUp = Random.Range(0, 1000) % powerUps.Length;

@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 114125489920756150}
   - component: {fileID: 114355673208130640}
   - component: {fileID: 114435375011274852}
+  - component: {fileID: 114532762290940786}
   m_Layer: 9
   m_Name: Large Spaceship
   m_TagString: Untagged
@@ -232,6 +233,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreAmount: 150
+--- !u!114 &114532762290940786
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938763141219932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e48a217adddc478da2d2d2513404fa2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUps:
+  - {fileID: 1444320558548360, guid: 0eab00158094c2f43b0f53406440f800, type: 2}
+  - {fileID: 1971584133319900, guid: eafafbf2425df0e4380c2553c40d1d6f, type: 2}
+  - {fileID: 1130303382284690, guid: cbffdcc5f29b56d43becbfa1c24d54de, type: 2}
+  spawnProbability: 0.4
 --- !u!114 &114996422198267352
 MonoBehaviour:
   m_ObjectHideFlags: 1

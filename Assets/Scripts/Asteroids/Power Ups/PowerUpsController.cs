@@ -43,11 +43,11 @@ namespace UNetUI.Asteroids.Power_Ups
             float percentY = ExtensionFunctions.Map(position.y, _screenWrapper.TopMostPoint,
                 _screenWrapper.BottomMostPoint, 1, -1);
 
-            RpcRemoteClientsUpdate(percentX, percentY);
+            RpcRemoteClientPowerUpUpdate(percentX, percentY);
         }
 
         [ClientRpc]
-        private void RpcRemoteClientsUpdate(float percentX, float percentY)
+        private void RpcRemoteClientPowerUpUpdate(float percentX, float percentY)
         {
             if (isServer)
                 return;

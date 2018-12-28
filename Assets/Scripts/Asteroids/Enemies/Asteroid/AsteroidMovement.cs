@@ -54,11 +54,11 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
             float percentY = ExtensionFunctions.Map(position.y, _screenWrapper.TopMostPoint,
                 _screenWrapper.BottomMostPoint, 1, -1);
 
-            RpcRemoteClientsUpdate(percentX, percentY, rotationZ);
+            RpcRemoteClientAsteroidUpdate(percentX, percentY, rotationZ);
         }
 
         [ClientRpc]
-        private void RpcRemoteClientsUpdate(float percentX, float percentY, float rotationZ)
+        private void RpcRemoteClientAsteroidUpdate(float percentX, float percentY, float rotationZ)
         {
             if (isServer)
                 return;

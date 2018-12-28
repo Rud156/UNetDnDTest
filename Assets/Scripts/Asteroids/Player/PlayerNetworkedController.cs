@@ -60,8 +60,8 @@ namespace UNetUI.Asteroids.Player
             if (other.gameObject.layer != 9)
                 return;
 
-            ClientScene.RemovePlayer(playerControllerId);
-            NetworkedHealthManager.instance.ReduceHealth();
+//            ClientScene.RemovePlayer(playerControllerId);
+//            NetworkedHealthManager.instance.ReduceHealth();
         }
 
         private void FixedUpdate()

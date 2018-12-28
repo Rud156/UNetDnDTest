@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace UNetUI.Asteroids.Shared
 {
-    public class HealthSetter : MonoBehaviour
+    public class HealthSetter : NetworkBehaviour
     {
         [SerializeField] private float maxHealth;
         public bool destroyOnZero;
@@ -20,17 +21,12 @@ namespace UNetUI.Asteroids.Shared
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (!isServer)
+                return;
+
             DamageSetter damageSetter = other.GetComponent<DamageSetter>();
             if (damageSetter != null)
                 ReduceHealth(damageSetter.damageAmount);
-        }
-
-        public void AddHealth(float amount)
-        {
-            if (_currentHealth + amount > maxHealth)
-                _currentHealth = maxHealth;
-            else
-                _currentHealth += amount;
         }
 
         private void ReduceHealth(float amount)

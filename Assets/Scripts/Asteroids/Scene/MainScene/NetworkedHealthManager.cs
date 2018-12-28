@@ -31,7 +31,6 @@ namespace UNetUI.Asteroids.Scene.MainScene
         {
             _currentHealth = 3;
             UpdateUiWithText();
-            Debug.Log($"{_currentHealth}");
         }
 
         public void ReduceHealth()
@@ -41,17 +40,6 @@ namespace UNetUI.Asteroids.Scene.MainScene
 
             if (_currentHealth - 1 >= 0)
                 _currentHealth -= 1;
-
-            UpdateUiWithText();
-            RpcUpdateClientsHealthUi(_currentHealth);
-        }
-
-        public void AddHealth()
-        {
-            if (!isServer)
-                return;
-
-            _currentHealth += 1;
 
             UpdateUiWithText();
             RpcUpdateClientsHealthUi(_currentHealth);

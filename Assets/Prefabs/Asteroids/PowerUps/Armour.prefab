@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114856177646807852}
   - component: {fileID: 114756571214521512}
   - component: {fileID: 114112890704168408}
+  - component: {fileID: 114325485253469914}
   m_Layer: 8
   m_Name: Armour
   m_TagString: Untagged
@@ -91,7 +92,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0a82f6c123da04e9a650835aaa47bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 3
+  launchVelocity: 2.5
+--- !u!114 &114325485253469914
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444320558548360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f655ec60a3ac4ab1a1deef460c2e63ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyTime: 5
 --- !u!114 &114756571214521512
 MonoBehaviour:
   m_ObjectHideFlags: 1

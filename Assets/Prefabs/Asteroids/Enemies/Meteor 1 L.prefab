@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114730885332183168}
   - component: {fileID: 114630487411208690}
   - component: {fileID: 114799016447705506}
+  - component: {fileID: 114866593274849256}
   - component: {fileID: 114507556375341686}
   - component: {fileID: 114803824096413382}
   m_Layer: 9
@@ -200,7 +201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bc78cd03e021f4598ff897cc3c9332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateRate: 0.1
   launchVelocity: 2
   rotationSpeed: 70
 --- !u!114 &114730885332183168
@@ -241,6 +241,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreAmount: 100
+--- !u!114 &114866593274849256
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1873628468162078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e48a217adddc478da2d2d2513404fa2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUps:
+  - {fileID: 1444320558548360, guid: 0eab00158094c2f43b0f53406440f800, type: 2}
+  - {fileID: 1971584133319900, guid: eafafbf2425df0e4380c2553c40d1d6f, type: 2}
+  - {fileID: 1130303382284690, guid: cbffdcc5f29b56d43becbfa1c24d54de, type: 2}
+  spawnProbability: 0.4
 --- !u!212 &212369151253258338
 SpriteRenderer:
   m_ObjectHideFlags: 1

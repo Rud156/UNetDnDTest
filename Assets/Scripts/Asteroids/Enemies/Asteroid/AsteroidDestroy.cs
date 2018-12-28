@@ -24,6 +24,9 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
 
         private void Start()
         {
+            if(!isServer)
+                return;
+            
             _healthSetter = GetComponent<HealthSetter>();
             _healthSetter.healthZero += DestroyAsteroid;
 
@@ -34,7 +37,7 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
         {
             if(!isServer)
                 return;
-            
+
             if (spawnMiniAsteroid)
             {
                 int asteroidSpawnCount = Random.Range(minSpawnCount, maxSpawnCount);
