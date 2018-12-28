@@ -39,6 +39,8 @@ GameObject:
   - component: {fileID: 114103369432132274}
   - component: {fileID: 114187211273335436}
   - component: {fileID: 114435375011274852}
+  - component: {fileID: 114996422198267352}
+  - component: {fileID: 114125489920756150}
   m_Layer: 0
   m_Name: Large Spaceship
   m_TagString: Untagged
@@ -123,6 +125,17 @@ MonoBehaviour:
     i15: 194
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114125489920756150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938763141219932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f778d79c29a543f8a9b3fd6131be6395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114187211273335436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -157,6 +170,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreAmount: 150
+--- !u!114 &114996422198267352
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938763141219932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd025f39aebd1574c94682c2d0fe8219, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 0
+  destroyOnZero: 0
 --- !u!212 &212497204410594622
 SpriteRenderer:
   m_ObjectHideFlags: 1

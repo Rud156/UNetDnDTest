@@ -39,6 +39,8 @@ GameObject:
   - component: {fileID: 114362918831416754}
   - component: {fileID: 114339567881721316}
   - component: {fileID: 114747727080569142}
+  - component: {fileID: 114348699837501002}
+  - component: {fileID: 114741273558688324}
   m_Layer: 0
   m_Name: Small Spaceship
   m_TagString: Untagged
@@ -113,6 +115,19 @@ MonoBehaviour:
   movementLerpHeight: 0
   movementSwitchTime: 0
   initialLaunchVelocity: 0
+--- !u!114 &114348699837501002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1751700692480806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd025f39aebd1574c94682c2d0fe8219, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 0
+  destroyOnZero: 0
 --- !u!114 &114362918831416754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -145,6 +160,17 @@ MonoBehaviour:
     i15: 232
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114741273558688324
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1751700692480806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f778d79c29a543f8a9b3fd6131be6395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114747727080569142
 MonoBehaviour:
   m_ObjectHideFlags: 1
