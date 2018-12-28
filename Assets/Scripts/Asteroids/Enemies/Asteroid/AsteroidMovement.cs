@@ -36,7 +36,7 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
             _asteroidRb.AddForce(launchVector, ForceMode2D.Impulse);
         }
 
-        private void Update() => ServerUpdate();
+        private void FixedUpdate() => ServerUpdate();
 
         private void ServerUpdate()
         {
@@ -44,7 +44,7 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
                 return;
 
             _screenWrapper.CheckObjectOutOfScreen();
-            transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.forward * rotationSpeed * Time.fixedDeltaTime);
 
             float rotationZ = transform.rotation.eulerAngles.z;
             Vector3 position = transform.position;

@@ -50,14 +50,14 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
             _movementLerpYPosition = transform.position.y;
         }
 
-        private void Update() => ServerUpdate();
+        private void FixedUpdate() => ServerUpdate();
 
         private void ServerUpdate()
         {
             if (!isServer)
                 return;
 
-            _nextShootTick += Time.deltaTime;
+            _nextShootTick += Time.fixedDeltaTime;
             if (_nextShootTick / _currentShootRate >= 1)
             {
                 ShootAtPlayer();
@@ -81,7 +81,7 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
 
         private void MoveSpaceship()
         {
-            _nextMovementTick += Time.deltaTime;
+            _nextMovementTick += Time.fixedDeltaTime;
             if (_nextMovementTick / movementSwitchTime >= 1)
             {
                 _movementLerpYPosition =
@@ -95,7 +95,7 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
             transform.position = Vector2.Lerp(
                 new Vector2(currentPosition.x, currentPosition.y),
                 new Vector2(currentPosition.x, _movementLerpYPosition),
-                0.7f * Time.deltaTime
+                0.7f * Time.fixedDeltaTime
             );
         }
 

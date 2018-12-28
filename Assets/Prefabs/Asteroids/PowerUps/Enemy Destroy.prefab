@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0a82f6c123da04e9a650835aaa47bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 2.5
+  launchVelocity: 2
 --- !u!114 &114754204160295246
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f655ec60a3ac4ab1a1deef460c2e63ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyTime: 5
+  destroyTime: 10
 --- !u!212 &212878093762881798
 SpriteRenderer:
   m_ObjectHideFlags: 1
