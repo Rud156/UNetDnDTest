@@ -64,7 +64,7 @@ namespace UNetUI.Asteroids.Networking
 
             _clientsConnected += 1;
             
-            if(_clientsConnected == 2)
+            if(_clientsConnected == 1)
                 AsteroidSpawner.instance.CreateAsteroidsAtScreenEdge();
         }
 

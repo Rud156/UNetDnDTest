@@ -42,7 +42,8 @@ namespace UNetUI.Asteroids.Spawners
             if (!isServer)
                 return;
 
-            Debug.Log("Creating Asteroids");
+            if (_asteroidsHolder == null)
+                _asteroidsHolder = GameObject.FindGameObjectWithTag(TagManager.AsteroidsHolder)?.transform;
 
             Camera mainCamera = Camera.main;
             Vector3 topLeft = mainCamera.ScreenToWorldPoint(new Vector2(0, mainCamera.pixelHeight));
@@ -60,16 +61,6 @@ namespace UNetUI.Asteroids.Spawners
                     Quaternion.identity);
                 asteroidInstance.transform.SetParent(_asteroidsHolder);
 
-                Rigidbody2D rb = asteroidInstance.GetComponent<Rigidbody2D>();
-                float launchVelocity = asteroidInstance.GetComponent<AsteroidMovement>().launchVelocity;
-
-                int launchAngle = Random.Range(0, 360);
-                Vector2 launchVector = new Vector2(
-                    Mathf.Cos(launchAngle * Mathf.Deg2Rad) * launchVelocity,
-                    Mathf.Sin(launchAngle * Mathf.Deg2Rad) * launchVelocity
-                );
-                rb.AddForce(launchVector, ForceMode2D.Impulse);
-
                 NetworkServer.Spawn(asteroidInstance);
             }
 
@@ -83,16 +74,6 @@ namespace UNetUI.Asteroids.Spawners
                     new Vector2(bottomRight.x - leftRightOffset, randomHeight),
                     Quaternion.identity);
                 asteroidInstance.transform.SetParent(_asteroidsHolder);
-
-                Rigidbody2D rb = asteroidInstance.GetComponent<Rigidbody2D>();
-                float launchVelocity = asteroidInstance.GetComponent<AsteroidMovement>().launchVelocity;
-
-                int launchAngle = Random.Range(0, 360);
-                Vector2 launchVector = new Vector2(
-                    Mathf.Cos(launchAngle * Mathf.Deg2Rad) * launchVelocity,
-                    Mathf.Sin(launchAngle * Mathf.Deg2Rad) * launchVelocity
-                );
-                rb.AddForce(launchVector, ForceMode2D.Impulse);
 
                 NetworkServer.Spawn(asteroidInstance);
             }

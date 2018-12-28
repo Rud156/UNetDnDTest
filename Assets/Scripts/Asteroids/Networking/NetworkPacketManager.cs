@@ -10,7 +10,7 @@ namespace UNetUI.Asteroids.Networking
     {
         public event System.Action<byte[]> OnRequirePackageTransmit;
 
-        private float _sendSpeed = 0.2f;
+        private float _sendSpeed = 0.1f;
 
         public float SendSpeed
         {

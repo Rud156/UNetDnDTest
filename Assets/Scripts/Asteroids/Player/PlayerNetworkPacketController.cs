@@ -1,10 +1,11 @@
 using MessagePack;
 using UnityEngine.Networking;
 using UNetUI.Asteroids.NetworkedData;
+using UNetUI.Asteroids.Networking;
 
-namespace UNetUI.Asteroids.Networking
+namespace UNetUI.Asteroids.Player
 {
-    public class NetworkPacketController : NetworkBehaviour
+    public class PlayerNetworkPacketController : NetworkBehaviour
     {
         private NetworkPacketManager<InputSendPackage> _packetManager;
 

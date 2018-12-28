@@ -24,7 +24,7 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
 
         private float _nextShootTick;
         private float _currentShootRate;
-        
+
         private float _nextMovementTick;
         private float _movementLerpYPosition;
 
@@ -56,7 +56,7 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
         {
             if (!isServer)
                 return;
-            
+
             _nextShootTick += Time.deltaTime;
             if (_nextShootTick / _currentShootRate >= 1)
             {

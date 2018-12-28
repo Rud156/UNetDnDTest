@@ -1,6 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.Experimental.UIElements.StyleEnums;
 using UnityEngine.Networking;
+using UNetUI.Asteroids.NetworkedData;
+using UNetUI.Asteroids.Networking;
 using UNetUI.Asteroids.Shared;
 using UNetUI.Extras;
 
@@ -10,12 +14,30 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
     [RequireComponent(typeof(ScreenWrapper))]
     public class AsteroidMovement : NetworkBehaviour
     {
+        public float updateRate = 0.1f;
         public float launchVelocity;
         public float rotationSpeed;
 
+        private Rigidbody2D _asteroidRb;
         private ScreenWrapper _screenWrapper;
 
-        private void Start() => _screenWrapper = GetComponent<ScreenWrapper>();
+        private float _nextTick;
+
+        private void Start()
+        {
+            _screenWrapper = GetComponent<ScreenWrapper>();
+            _asteroidRb = GetComponent<Rigidbody2D>();
+
+            if (!isServer)
+                return;
+
+            int launchAngle = Random.Range(0, 360);
+            Vector2 launchVector = new Vector2(
+                Mathf.Cos(launchAngle * Mathf.Deg2Rad) * launchVelocity,
+                Mathf.Sin(launchAngle * Mathf.Deg2Rad) * launchVelocity
+            );
+            _asteroidRb.AddForce(launchVector, ForceMode2D.Impulse);
+        }
 
         private void Update() => ServerUpdate();
 
@@ -35,23 +57,24 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
             float percentY = ExtensionFunctions.Map(position.y, _screenWrapper.TopMostPoint,
                 _screenWrapper.BottomMostPoint, 1, -1);
 
-            RpcSendPositionToClients(rotationZ, percentX, percentY);
+            RpcRemoteClientsUpdate(percentX, percentY, rotationZ);
         }
 
         [ClientRpc]
-        private void RpcSendPositionToClients(float rotationZ, float percentX, float percentY)
+        private void RpcRemoteClientsUpdate(float percentX, float percentY, float rotationZ)
         {
             if (isServer)
                 return;
 
-            transform.rotation = Quaternion.Euler(0, 0, rotationZ);
-
-            transform.position = new Vector2(
+            Vector2 normalizedPosition = new Vector2(
                 ExtensionFunctions.Map(percentX, -1, 1,
                     _screenWrapper.LeftMostPoint, _screenWrapper.RightMostPoint),
                 ExtensionFunctions.Map(percentY, 1, -1,
                     _screenWrapper.TopMostPoint, _screenWrapper.BottomMostPoint)
             );
+
+            transform.position = normalizedPosition;
+            transform.rotation = Quaternion.Euler(Vector3.forward * rotationZ);
         }
     }
 }

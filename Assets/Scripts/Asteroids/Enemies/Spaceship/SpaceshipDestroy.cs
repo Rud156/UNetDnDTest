@@ -33,17 +33,17 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
                 return;
 
             _shipAnimator.SetBool(Dead, true);
-            Invoke(nameof(RemoveSpaceship), animationTime);
-            
+            Invoke(nameof(RemoveSpaceship), animationTime + 0.1f);
+
             RpcDisplayDamageOnClients(true);
         }
 
         [ClientRpc]
         private void RpcDisplayDamageOnClients(bool playDeadAnimation)
         {
-            if(isServer)
+            if (isServer)
                 return;
-            
+
             _shipAnimator.SetBool(Dead, playDeadAnimation);
         }
 
