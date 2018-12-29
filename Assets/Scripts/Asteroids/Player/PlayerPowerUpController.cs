@@ -28,6 +28,8 @@ namespace UNetUI.Asteroids.Player
         private Coroutine _shieldCoroutine;
         private Coroutine _bulletCoroutine;
 
+        private GameObject _shieldInstance;
+
         private void Start()
         {
             _asteroidHolder = GameObject.FindGameObjectWithTag(TagManager.AsteroidsHolder)?.transform;
@@ -77,16 +79,24 @@ namespace UNetUI.Asteroids.Player
 
         private void CreateShieldAroundPlayer()
         {
-            StopCoroutine(_shieldCoroutine);
-            _isShieldActive = false;
+            ResetShieldDefence();
 
             GameObject shieldInstance =
                 Instantiate(_collectedPowerUp.powerUpPrefab, transform.position, Quaternion.identity);
             shieldInstance.transform.SetParent(transform);
             shieldInstance.transform.localPosition = Vector3.zero;
 
+            _shieldInstance = shieldInstance;
+
             NetworkServer.Spawn(shieldInstance);
             _shieldCoroutine = StartCoroutine(DestroyShield(shieldInstance));
+        }
+
+        private void ResetShieldDefence()
+        {
+            StopCoroutine(_shieldCoroutine);
+            _isShieldActive = false;
+            NetworkServer.Destroy(_shieldInstance);
         }
 
         private IEnumerator DestroyShield(GameObject shieldInstance)
