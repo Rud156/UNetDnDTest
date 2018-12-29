@@ -48,7 +48,7 @@ public class SpaceshipSpawner : NetworkBehaviour
             SpawnLargeSpaceship();
     }
 
-    private void SpawnSmallSpaceship()
+    public void SpawnSmallSpaceship()
     {
         float randomY = ExtensionFunctions.Map(Random.value, 0, 1,
             _bottomRight.y, _topLeft.y);
@@ -60,7 +60,7 @@ public class SpaceshipSpawner : NetworkBehaviour
         NetworkServer.Spawn(smallSpaceshipInstance);
     }
 
-    private void SpawnLargeSpaceship()
+    public void SpawnLargeSpaceship()
     {
         float randomY = ExtensionFunctions.Map(Random.value, 0, 1,
             _bottomRight.y, _topLeft.y);

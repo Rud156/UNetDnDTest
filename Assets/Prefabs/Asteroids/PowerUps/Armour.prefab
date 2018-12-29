@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0a82f6c123da04e9a650835aaa47bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 2
+  launchVelocity: 0
   powerUpData: {fileID: 11400000, guid: aeeca3b6f5ae0974b96b4e914b7ae0a5, type: 2}
 --- !u!114 &114325485253469914
 MonoBehaviour:
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f655ec60a3ac4ab1a1deef460c2e63ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyTime: 10
+  destroyTime: 300
 --- !u!114 &114633818375600724
 MonoBehaviour:
   m_ObjectHideFlags: 1

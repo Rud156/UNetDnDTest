@@ -669,7 +669,7 @@ GameObject:
   - component: {fileID: 1241615082}
   - component: {fileID: 1241615081}
   m_Layer: 0
-  m_Name: Score Display
+  m_Name: Score Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -700,6 +700,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreDisplay: {fileID: 2107953478}
+  enemyPollRate: 2
 --- !u!114 &1241615082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,6 +1063,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1812285988}
   - component: {fileID: 1812285987}
+  - component: {fileID: 1812285989}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -1128,6 +1130,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1812285989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1812285986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8909a1f5ea4fd3a405fd19c7e39552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  refResolution: {x: 1920, y: 1080}
+  refScale: {x: 2, y: 2}
 --- !u!1 &1891184866
 GameObject:
   m_ObjectHideFlags: 0
@@ -1343,8 +1358,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidPrefab: {fileID: 1873628468162078, guid: 5f4a55d7cc5e62d4994b1e11a16b88df,
     type: 2}
-  spawnCount: 3
   leftRightOffset: 1
+  minSpawnCount: 0
+  maxSpawnCount: 10
   spawnOnStart: 0
 --- !u!114 &2017361277
 MonoBehaviour:

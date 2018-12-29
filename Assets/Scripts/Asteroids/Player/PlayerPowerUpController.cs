@@ -14,8 +14,6 @@ namespace UNetUI.Asteroids.Player
     [RequireComponent(typeof(PlayerNetworkedShooting))]
     public class PlayerPowerUpController : NetworkBehaviour
     {
-        public Sprite defaultPowerUpImage;
-
         private PowerUpData _collectedPowerUp;
         private Transform _asteroidHolder;
         private Transform _spaceshipHolder;
@@ -178,7 +176,14 @@ namespace UNetUI.Asteroids.Player
             if (!isLocalPlayer || isServer)
                 return;
 
-            _powerUpDisplay.sprite = PowerUpGetter.instance.GetPowerUpImageByName(powerUpName);
+            Sprite powerUpImage = PowerUpGetter.instance.GetPowerUpImageByName(powerUpName);
+            if (!powerUpImage)
+                _powerUpDisplay.gameObject.SetActive(false);
+            else
+            {
+                _powerUpDisplay.gameObject.SetActive(true);
+                _powerUpDisplay.sprite = powerUpImage;
+            }
         }
     }
 }
