@@ -26,11 +26,11 @@ namespace UNetUI.Asteroids.Shared
             float percentY = ExtensionFunctions.Map(position.y, _screenWrapper.TopMostPoint,
                 _screenWrapper.BottomMostPoint, 1, -1);
             
-            RpcSendPositionToClients(percentX, percentY);
+            RpcSendBulletPositionToClients(percentX, percentY);
         }
 
         [ClientRpc]
-        private void RpcSendPositionToClients(float percentX, float percentY)
+        private void RpcSendBulletPositionToClients(float percentX, float percentY)
         {
             if (isServer)
                 return;

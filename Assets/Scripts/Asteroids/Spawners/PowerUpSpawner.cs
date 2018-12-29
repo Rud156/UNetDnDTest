@@ -4,7 +4,7 @@ using UNetUI.Asteroids.Scene.MainScene;
 using UNetUI.Asteroids.Shared;
 using UNetUI.Extras;
 
-namespace UNetUI.Asteroids.Enemies.Common
+namespace UNetUI.Asteroids.Spawners
 {
     [RequireComponent(typeof(HealthSetter))]
     public class PowerUpSpawner : NetworkBehaviour
@@ -17,12 +17,12 @@ namespace UNetUI.Asteroids.Enemies.Common
 
         private void Start()
         {
-            if(!isServer)
+            if (!isServer)
                 return;
-            
+
             _healthSetter = GetComponent<HealthSetter>();
             _healthSetter.healthZero += CheckAndSpawnPowerUp;
-            
+
             _powerUpsHolder = GameObject.FindGameObjectWithTag(TagManager.PowerUpsHolder)?.transform;
         }
 
@@ -30,8 +30,8 @@ namespace UNetUI.Asteroids.Enemies.Common
         {
             if (!isServer)
                 return;
-   
-            float randomValue = Random.value;            
+
+            float randomValue = Random.value;
             if (randomValue > spawnProbability)
                 return;
 

@@ -34,6 +34,7 @@ namespace UNetUI.Asteroids.Player
             _spaceshipHolder = GameObject.FindGameObjectWithTag(TagManager.SpaceshipHolder)?.transform;
 
             _powerUpDisplay = GameObject.FindGameObjectWithTag(TagManager.PowerUpDisplay)?.GetComponent<Image>();
+            _powerUpDisplay.enabled = false;
 
             _playerNetworkedShooting = GetComponent<PlayerNetworkedShooting>();
             _playerNetworkedShooting.bulletModifier += ModifyBulletDamage;
@@ -167,7 +168,7 @@ namespace UNetUI.Asteroids.Player
                 return;
 
             _collectedPowerUp = powerUp;
-            RpcUpdateLocalClientPowerUpDisplay(!powerUp ? powerUp.powerUpName : null);
+            RpcUpdateLocalClientPowerUpDisplay(!powerUp ? null : powerUp.powerUpName);
         }
 
         [ClientRpc]
@@ -177,11 +178,12 @@ namespace UNetUI.Asteroids.Player
                 return;
 
             Sprite powerUpImage = PowerUpGetter.instance.GetPowerUpImageByName(powerUpName);
+
             if (!powerUpImage)
-                _powerUpDisplay.gameObject.SetActive(false);
+                _powerUpDisplay.enabled = false;
             else
             {
-                _powerUpDisplay.gameObject.SetActive(true);
+                _powerUpDisplay.enabled = true;
                 _powerUpDisplay.sprite = powerUpImage;
             }
         }

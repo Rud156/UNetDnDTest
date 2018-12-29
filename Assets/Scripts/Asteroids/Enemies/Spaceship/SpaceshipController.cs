@@ -76,7 +76,7 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
             float percentY = ExtensionFunctions.Map(position.y, _screenWrapper.TopMostPoint,
                 _screenWrapper.BottomMostPoint, 1, -1);
 
-            RpcSendPositionsToClients(percentX, percentY);
+            RpcSendSpaceshipPositionToClients(percentX, percentY);
         }
 
         private void MoveSpaceship()
@@ -100,7 +100,7 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
         }
 
         [ClientRpc]
-        private void RpcSendPositionsToClients(float percentX, float percentY)
+        private void RpcSendSpaceshipPositionToClients(float percentX, float percentY)
         {
             if (isServer)
                 return;
