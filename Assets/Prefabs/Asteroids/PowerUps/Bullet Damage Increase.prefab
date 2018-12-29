@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114586097152417176}
   - component: {fileID: 114793109321526164}
   - component: {fileID: 114445642504124756}
-  - component: {fileID: 114953707658695920}
+  - component: {fileID: 114998546801508792}
   m_Layer: 8
   m_Name: Bullet Damage Increase
   m_TagString: Untagged
@@ -151,7 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchVelocity: 2
---- !u!114 &114953707658695920
+  powerUpData: {fileID: 11400000, guid: 52576b7ea0a38ad4ebe00895582ac5ec, type: 2}
+--- !u!114 &114998546801508792
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,11 +160,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1971584133319900}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 045037d9643148bf97f007649d0cf3f2, type: 3}
+  m_Script: {fileID: 11500000, guid: da8909a1f5ea4fd3a405fd19c7e39552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerUpType: 1
-  powerUpAffectTime: 5
+  refResolution: {x: 1920, y: 1080}
+  refScale: {x: 0.2, y: 0.2}
 --- !u!212 &212512715854058512
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -8,5 +8,6 @@ namespace UNetUI.Extras
         public const string PlayerVM = "Vertical";
 
         public const KeyCode ShootKey = KeyCode.Space;
+        public const KeyCode PowerUpUseKey = KeyCode.Q;
     }
 }

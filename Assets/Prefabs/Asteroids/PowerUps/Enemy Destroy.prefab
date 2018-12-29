@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114167571127693512}
   - component: {fileID: 114730550859323440}
   - component: {fileID: 114754204160295246}
-  - component: {fileID: 114941640485272040}
+  - component: {fileID: 114563779613035800}
   m_Layer: 8
   m_Name: Enemy Destroy
   m_TagString: Untagged
@@ -127,6 +127,19 @@ MonoBehaviour:
     i15: 222
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114563779613035800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1130303382284690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8909a1f5ea4fd3a405fd19c7e39552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  refResolution: {x: 1920, y: 1080}
+  refScale: {x: 0.2, y: 0.2}
 --- !u!114 &114730550859323440
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,6 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchVelocity: 2
+  powerUpData: {fileID: 11400000, guid: f6e442510710bea43aaee464902b81a3, type: 2}
 --- !u!114 &114754204160295246
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -151,18 +165,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyTime: 10
---- !u!114 &114941640485272040
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1130303382284690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 045037d9643148bf97f007649d0cf3f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  powerUpType: 2
 --- !u!212 &212878093762881798
 SpriteRenderer:
   m_ObjectHideFlags: 1

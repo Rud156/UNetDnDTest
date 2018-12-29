@@ -14,6 +14,7 @@ namespace UNetUI.Asteroids.Player
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(ScreenWrapper))]
+    [RequireComponent(typeof(PlayerPowerUpController))]
     public class PlayerNetworkedController : PlayerNetworkPacketController
     {
         [Header("Velocities")] [SerializeField]
@@ -31,6 +32,7 @@ namespace UNetUI.Asteroids.Player
         private Rigidbody2D _playerRb;
         private Animator _playerAnim;
         private ScreenWrapper _screenWrapper;
+        private PlayerPowerUpController _playerPowerUpController;
 
         private float _roll;
 
@@ -43,6 +45,7 @@ namespace UNetUI.Asteroids.Player
             _playerRb = GetComponent<Rigidbody2D>();
             _playerAnim = GetComponent<Animator>();
             _screenWrapper = GetComponent<ScreenWrapper>();
+            _playerPowerUpController = GetComponent<PlayerPowerUpController>();
 
             _roll = transform.rotation.eulerAngles.z;
 
@@ -57,11 +60,18 @@ namespace UNetUI.Asteroids.Player
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (!isServer)
+                return;
+
             if (other.gameObject.layer != 9)
                 return;
 
-//            ClientScene.RemovePlayer(playerControllerId);
-//            NetworkedHealthManager.instance.ReduceHealth();
+            bool isShieldActive = _playerPowerUpController.IsShieldActive();
+            if (isShieldActive)
+                return;
+
+            ClientScene.RemovePlayer(playerControllerId);
+            NetworkedHealthManager.instance.ReduceHealth();
         }
 
         private void FixedUpdate()

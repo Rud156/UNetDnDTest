@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 114741273558688324}
   - component: {fileID: 114977915320854202}
   - component: {fileID: 114747727080569142}
+  - component: {fileID: 114057081105397214}
   m_Layer: 9
   m_Name: Small Spaceship
   m_TagString: Untagged
@@ -72,7 +73,7 @@ Transform:
   m_GameObject: {fileID: 1751700692480806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
   - {fileID: 4532484590652970}
   m_Father: {fileID: 0}
@@ -131,6 +132,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114057081105397214
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1751700692480806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8909a1f5ea4fd3a405fd19c7e39552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  refResolution: {x: 1920, y: 1080}
+  refScale: {x: 0.2, y: 0.2}
 --- !u!114 &114339567881721316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd025f39aebd1574c94682c2d0fe8219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 60
   destroyOnZero: 0
 --- !u!114 &114362918831416754
 MonoBehaviour:

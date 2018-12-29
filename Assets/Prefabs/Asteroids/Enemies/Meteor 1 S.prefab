@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114450674815811722}
   - component: {fileID: 114832803165374908}
   - component: {fileID: 114977784686059318}
+  - component: {fileID: 114260553470424518}
   m_Layer: 9
   m_Name: Meteor 1 S
   m_TagString: Untagged
@@ -41,7 +42,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1051282179377030}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -4.03, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
@@ -185,6 +186,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   incrementAmount: 0.5
   screenOffsetRange: 2
+--- !u!114 &114260553470424518
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1051282179377030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8909a1f5ea4fd3a405fd19c7e39552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  refResolution: {x: 1920, y: 1080}
+  refScale: {x: 0.3, y: 0.3}
 --- !u!114 &114450674815811722
 MonoBehaviour:
   m_ObjectHideFlags: 1

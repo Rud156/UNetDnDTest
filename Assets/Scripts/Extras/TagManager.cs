@@ -19,6 +19,7 @@
         public const string SpaceshipHolder = "SpaceshipHolder";
         public const string PlayerHolder = "PlayerHolder";
         public const string PowerUpsHolder = "PowerUpsHolder";
+        public const string PowerUpDisplay = "PowerUpDisplay";
         public const string Player = "Player";
     }
 }

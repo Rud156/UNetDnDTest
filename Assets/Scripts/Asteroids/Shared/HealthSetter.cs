@@ -29,7 +29,7 @@ namespace UNetUI.Asteroids.Shared
                 ReduceHealth(damageSetter.damageAmount);
         }
 
-        private void ReduceHealth(float amount)
+        public void ReduceHealth(float amount)
         {
             _currentHealth -= amount;
 

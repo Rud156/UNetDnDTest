@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Networking;
+using UNetUI.Asteroids.Player;
 using UNetUI.Asteroids.Shared;
 using UNetUI.Extras;
 
@@ -10,6 +11,7 @@ namespace UNetUI.Asteroids.Power_Ups
     public class PowerUpsController : NetworkBehaviour
     {
         public float launchVelocity = 3f;
+        public PowerUpData powerUpData;
 
         private ScreenWrapper _screenWrapper;
         private Rigidbody2D _powerUpRb;
@@ -28,6 +30,15 @@ namespace UNetUI.Asteroids.Power_Ups
                 Mathf.Sin(launchAngle * Mathf.Deg2Rad) * launchVelocity
             );
             _powerUpRb.AddForce(launchVector, ForceMode2D.Impulse);
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (!isServer)
+                return;
+
+            if (other.CompareTag(TagManager.Player))
+                other.GetComponent<PlayerPowerUpController>().CollectPowerUp(powerUpData);
         }
 
         private void Update()

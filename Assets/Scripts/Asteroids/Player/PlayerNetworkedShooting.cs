@@ -14,6 +14,9 @@ namespace UNetUI.Asteroids.Player
         public GameObject bulletPrefab;
         [SerializeField] private float launchVelocity;
 
+        public delegate void BulletModifier(GameObject bulletInstance);
+        public BulletModifier bulletModifier;
+
         private void Update()
         {
             if (!Input.GetKeyDown(Controls.ShootKey))
@@ -37,6 +40,7 @@ namespace UNetUI.Asteroids.Player
                 return;
 
             GameObject bulletInstance = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            bulletModifier?.Invoke(bulletInstance);
             bulletInstance.GetComponent<Rigidbody2D>().velocity = transform.up * launchVelocity;
 
             NetworkServer.Spawn(bulletInstance);

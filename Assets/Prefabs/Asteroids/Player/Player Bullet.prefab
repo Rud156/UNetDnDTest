@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114046423941787690}
   - component: {fileID: 114675864053320724}
   - component: {fileID: 114462135753250760}
+  - component: {fileID: 114971941520551432}
   m_Layer: 8
   m_Name: Player Bullet
   m_TagString: Untagged
@@ -162,6 +163,19 @@ MonoBehaviour:
     i15: 243
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114971941520551432
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1620465293651798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8909a1f5ea4fd3a405fd19c7e39552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  refResolution: {x: 1920, y: 1080}
+  refScale: {x: 0.05, y: 0.05}
 --- !u!212 &212494446112518188
 SpriteRenderer:
   m_ObjectHideFlags: 1

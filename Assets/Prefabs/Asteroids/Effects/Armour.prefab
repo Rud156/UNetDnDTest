@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4804372115027622}
   - component: {fileID: 212448682163349250}
+  - component: {fileID: 114077029492328362}
+  - component: {fileID: 114879055312857888}
   m_Layer: 0
   m_Name: Armour
   m_TagString: Untagged
@@ -40,6 +42,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114077029492328362
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1081453943510604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 46
+    i1: 117
+    i2: 39
+    i3: 184
+    i4: 150
+    i5: 71
+    i6: 16
+    i7: 164
+    i8: 137
+    i9: 54
+    i10: 158
+    i11: 115
+    i12: 6
+    i13: 4
+    i14: 178
+    i15: 76
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114879055312857888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1081453943510604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8909a1f5ea4fd3a405fd19c7e39552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  refResolution: {x: 1920, y: 1080}
+  refScale: {x: 0.05, y: 0.05}
 --- !u!212 &212448682163349250
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -74,7 +121,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: fdd59d02750c8124587263f4f367b13e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_FlipX: 0

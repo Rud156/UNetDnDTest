@@ -4,8 +4,6 @@ namespace UNetUI.Asteroids.Enums
     {
         Shield,
         BulletDamageIncrease,
-        EnemyDestroy,
-            
-        None
+        EnemyDestroy
     }
 }
