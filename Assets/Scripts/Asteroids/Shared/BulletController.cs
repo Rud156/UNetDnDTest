@@ -14,18 +14,18 @@ namespace UNetUI.Asteroids.Shared
 
         private void Update()
         {
-            if(!isServer)
+            if (!isServer)
                 return;
-            
+
             _screenWrapper.CheckObjectOutOfScreen();
-            
+
             Vector3 position = transform.position;
 
             float percentX = ExtensionFunctions.Map(position.x, _screenWrapper.LeftMostPoint,
                 _screenWrapper.RightMostPoint, -1, 1);
             float percentY = ExtensionFunctions.Map(position.y, _screenWrapper.TopMostPoint,
                 _screenWrapper.BottomMostPoint, 1, -1);
-            
+
             RpcSendBulletPositionToClients(percentX, percentY);
         }
 

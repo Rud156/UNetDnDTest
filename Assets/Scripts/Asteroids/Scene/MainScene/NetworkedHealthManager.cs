@@ -33,6 +33,16 @@ namespace UNetUI.Asteroids.Scene.MainScene
             UpdateUiWithText();
         }
 
+        public void IncrementHealth()
+        {
+            if (!isServer)
+                return;
+
+            _currentHealth += 1;
+            UpdateUiWithText();
+            RpcUpdateClientsHealthUi(_currentHealth);
+        }
+
         public void ReduceHealth()
         {
             if (!isServer)

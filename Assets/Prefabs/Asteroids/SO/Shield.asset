@@ -15,6 +15,6 @@ MonoBehaviour:
   powerUpType: 0
   powerUpAffectTime: 10
   powerUpImage: {fileID: 21300000, guid: f4ecd703f725e3440a098e44a226f485, type: 3}
-  powerUpPrefab: {fileID: 1444320558548360, guid: 0eab00158094c2f43b0f53406440f800,
+  powerUpPrefab: {fileID: 1081453943510604, guid: 2e7527b8964710a489369e730604b24c,
     type: 2}
   damageAmount: 0

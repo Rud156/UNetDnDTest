@@ -40,7 +40,7 @@ namespace UNetUI.Asteroids.Power_Ups
             if (!other.CompareTag(TagManager.Player))
                 return;
 
-            other.GetComponent<PlayerPowerUpController>().CollectPowerUp(powerUpData);
+            other.GetComponent<PlayerNetworkedPowerUpController>().CollectPowerUp(powerUpData);
             NetworkServer.Destroy(gameObject);
         }
 

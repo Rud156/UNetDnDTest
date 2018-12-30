@@ -262,7 +262,7 @@ MonoBehaviour:
   - {fileID: 1444320558548360, guid: 0eab00158094c2f43b0f53406440f800, type: 2}
   - {fileID: 1971584133319900, guid: eafafbf2425df0e4380c2553c40d1d6f, type: 2}
   - {fileID: 1130303382284690, guid: cbffdcc5f29b56d43becbfa1c24d54de, type: 2}
-  spawnProbability: 1
+  spawnProbability: 0.4
 --- !u!114 &114996422198267352
 MonoBehaviour:
   m_ObjectHideFlags: 1

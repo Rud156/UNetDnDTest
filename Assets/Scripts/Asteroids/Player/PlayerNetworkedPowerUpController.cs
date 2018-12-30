@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 namespace UNetUI.Asteroids.Player
 {
     [RequireComponent(typeof(PlayerNetworkedShooting))]
-    public class PlayerPowerUpController : NetworkBehaviour
+    public class PlayerNetworkedPowerUpController : NetworkBehaviour
     {
         private PowerUpData _collectedPowerUp;
         private Transform _asteroidHolder;
@@ -27,6 +27,7 @@ namespace UNetUI.Asteroids.Player
         private Coroutine _bulletCoroutine;
 
         private GameObject _shieldInstance;
+        private float _bulletDamageIncrease;
 
         private void Start()
         {
@@ -45,6 +46,8 @@ namespace UNetUI.Asteroids.Player
             if (!Input.GetKeyDown(Controls.PowerUpUseKey))
                 return;
 
+            Debug.Log(_collectedPowerUp.powerUpName);
+
             if (!_collectedPowerUp)
                 return;
 
@@ -54,6 +57,11 @@ namespace UNetUI.Asteroids.Player
         [Command]
         private void CmdUsePowerUp()
         {
+            Debug.Log(_collectedPowerUp.powerUpName);
+
+            if (!_collectedPowerUp)
+                return;
+
             switch (_collectedPowerUp.powerUpType)
             {
                 case PowerUpType.Shield:
@@ -88,14 +96,17 @@ namespace UNetUI.Asteroids.Player
             _shieldInstance = shieldInstance;
 
             NetworkServer.Spawn(shieldInstance);
+            RpcSetShieldOnClients(shieldInstance, gameObject);
             _shieldCoroutine = StartCoroutine(DestroyShield(shieldInstance));
         }
 
         private void ResetShieldDefence()
         {
-            StopCoroutine(_shieldCoroutine);
+            if (_shieldCoroutine != null)
+                StopCoroutine(_shieldCoroutine);
             _isShieldActive = false;
-            NetworkServer.Destroy(_shieldInstance);
+            if (_shieldInstance != null)
+                NetworkServer.Destroy(_shieldInstance);
         }
 
         private IEnumerator DestroyShield(GameObject shieldInstance)
@@ -108,6 +119,16 @@ namespace UNetUI.Asteroids.Player
             _isShieldActive = false;
         }
 
+        [ClientRpc]
+        private void RpcSetShieldOnClients(GameObject shieldInstance, GameObject player)
+        {
+            if (isServer)
+                return;
+
+            shieldInstance.transform.SetParent(player.transform);
+            shieldInstance.transform.localPosition = Vector3.zero;
+        }
+
         #endregion Shield
 
         #region Bullet
@@ -115,14 +136,16 @@ namespace UNetUI.Asteroids.Player
         private void ModifyBulletDamage(GameObject bulletInstance)
         {
             if (_isBulletEnhanced)
-                bulletInstance.GetComponent<DamageSetter>().damageAmount += _collectedPowerUp.damageAmount;
+                bulletInstance.GetComponent<DamageSetter>().damageAmount += _bulletDamageIncrease;
         }
 
         private void IncreaseBulletDamage()
         {
-            StopCoroutine(_bulletCoroutine);
+            if (_bulletCoroutine != null)
+                StopCoroutine(_bulletCoroutine);
             _isBulletEnhanced = false;
 
+            _bulletDamageIncrease = _collectedPowerUp.damageAmount;
             _bulletCoroutine = StartCoroutine(RemoveBulletEnhancement());
         }
 
@@ -178,11 +201,14 @@ namespace UNetUI.Asteroids.Player
                 return;
 
             Sprite powerUpImage = PowerUpGetter.instance.GetPowerUpImageByName(powerUpName);
+            PowerUpData powerUp = PowerUpGetter.instance.GetPowerUpByName(powerUpName);
 
-            if (!powerUpImage)
+            if (!powerUpImage || !powerUp)
                 _powerUpDisplay.enabled = false;
             else
             {
+                _collectedPowerUp = powerUp;
+
                 _powerUpDisplay.enabled = true;
                 _powerUpDisplay.sprite = powerUpImage;
             }

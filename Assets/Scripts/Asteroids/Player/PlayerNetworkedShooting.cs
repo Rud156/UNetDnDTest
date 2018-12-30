@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UNetUI.Asteroids.NetworkedData;
 using UNetUI.Asteroids.Networking;
+using UNetUI.Asteroids.Shared;
 using UNetUI.Extras;
 
 namespace UNetUI.Asteroids.Player
@@ -15,6 +16,7 @@ namespace UNetUI.Asteroids.Player
         [SerializeField] private float launchVelocity;
 
         public delegate void BulletModifier(GameObject bulletInstance);
+
         public BulletModifier bulletModifier;
 
         private void Update()

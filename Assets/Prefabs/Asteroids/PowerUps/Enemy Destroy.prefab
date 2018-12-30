@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0a82f6c123da04e9a650835aaa47bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 0
+  launchVelocity: 2
   powerUpData: {fileID: 11400000, guid: f6e442510710bea43aaee464902b81a3, type: 2}
 --- !u!114 &114754204160295246
 MonoBehaviour:
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f655ec60a3ac4ab1a1deef460c2e63ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyTime: 300
+  destroyTime: 20
 --- !u!212 &212878093762881798
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -199,7 +199,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: 781a7d860ba6d6e43baeb7696ff70e73, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

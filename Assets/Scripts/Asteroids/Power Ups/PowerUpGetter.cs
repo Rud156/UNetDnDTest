@@ -14,16 +14,19 @@ namespace UNetUI.Asteroids.Power_Ups
         {
             if (instance == null)
                 instance = this;
-            
-            if(instance != this)
+
+            if (instance != this)
                 Destroy(gameObject);
         }
 
         #endregion Singleton
-        
+
         public List<PowerUpData> powerUps;
 
         public Sprite GetPowerUpImageByName(string powerUpName) =>
             powerUps.FirstOrDefault(_ => _.powerUpName == powerUpName)?.powerUpImage;
+
+        public PowerUpData GetPowerUpByName(string powerUpName) =>
+            powerUps.FirstOrDefault(_ => _.powerUpName == powerUpName);
     }
 }
