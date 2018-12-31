@@ -15,6 +15,7 @@ namespace UNetUI.Asteroids.Player
     public class PlayerNetworkedPowerUpController : NetworkBehaviour
     {
         private PowerUpData _collectedPowerUp;
+        
         private Transform _asteroidHolder;
         private Transform _spaceshipHolder;
 
@@ -64,15 +65,15 @@ namespace UNetUI.Asteroids.Player
 
             switch (_collectedPowerUp.powerUpType)
             {
-                case PowerUpType.Shield:
+                case PowerUpType.Defence:
                     CreateShieldAroundPlayer();
                     break;
 
-                case PowerUpType.BulletDamageIncrease:
+                case PowerUpType.Modifier:
                     IncreaseBulletDamage();
                     break;
 
-                case PowerUpType.EnemyDestroy:
+                case PowerUpType.SingleUse:
                     DestroyRandomEnemy();
                     break;
             }
@@ -80,7 +81,7 @@ namespace UNetUI.Asteroids.Player
             CollectPowerUp(null);
         }
 
-        #region Shield
+        #region Defence
 
         public bool IsShieldActive() => _isShieldActive;
 
@@ -129,7 +130,7 @@ namespace UNetUI.Asteroids.Player
             shieldInstance.transform.localPosition = Vector3.zero;
         }
 
-        #endregion Shield
+        #endregion Defence
 
         #region Bullet
 
