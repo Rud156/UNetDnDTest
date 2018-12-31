@@ -61,7 +61,6 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
                 return;
 
             SetDefaults();
-
             _asteroidRb.AddForce(force, ForceMode2D.Impulse);
         }
 

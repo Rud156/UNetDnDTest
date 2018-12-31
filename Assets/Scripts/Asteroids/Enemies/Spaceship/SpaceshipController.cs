@@ -1,5 +1,7 @@
+using Boo.Lang;
 using UnityEngine;
 using UnityEngine.Networking;
+using UNetUI.Asteroids.NetworkedData.Common;
 using UNetUI.Asteroids.Shared;
 using UNetUI.Extras;
 
@@ -22,6 +24,9 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
         public float movementSwitchTime;
         public float initialLaunchVelocity;
 
+        [Header("Network Data")] public bool isPredictionEnabled = false;
+        public float updateSendRate = 0.1f;
+
         private float _nextShootTick;
         private float _currentShootRate;
 
@@ -30,24 +35,48 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
 
         private ScreenWrapper _screenWrapper;
         private Transform _playerHolder;
+        private Rigidbody2D _spaceshipRb;
+        
+        private List<PositionTimestampReceivePackage> _predictedPackages;
+        private bool _defaultsSet;
+        private float _nextTick;
 
         private void Start()
         {
-            _screenWrapper = GetComponent<ScreenWrapper>();
-            _currentShootRate = useConstantRate ? fireRate : Random.Range(minFireRate, maxFireRate);
-            _playerHolder = GameObject.FindGameObjectWithTag(TagManager.PlayerHolder)?.transform;
+            SetDefaults();
 
             if (isServer)
             {
                 if (Random.value > 0.5f)
-                    GetComponent<Rigidbody2D>()
-                        .AddForce(Vector2.right * initialLaunchVelocity, ForceMode2D.Impulse);
+                    _spaceshipRb.AddForce(Vector2.right * initialLaunchVelocity, ForceMode2D.Impulse);
                 else
-                    GetComponent<Rigidbody2D>()
-                        .AddForce(Vector2.left * initialLaunchVelocity, ForceMode2D.Impulse);
+                    _spaceshipRb.AddForce(Vector2.left * initialLaunchVelocity, ForceMode2D.Impulse);
             }
 
             _movementLerpYPosition = transform.position.y;
+        }
+
+        private void SetDefaults()
+        {
+            if(_defaultsSet)
+                return;
+            
+            _screenWrapper = GetComponent<ScreenWrapper>();
+            _currentShootRate = useConstantRate ? fireRate : Random.Range(minFireRate, maxFireRate);
+            _playerHolder = GameObject.FindGameObjectWithTag(TagManager.PlayerHolder)?.transform;
+            _spaceshipRb = GetComponent<Rigidbody2D>();
+            
+            _defaultsSet = true;
+        }
+
+        [ClientRpc]
+        private void RpcSendInitialBulletForceToClients(Vector2 force)
+        {
+            if(isServer)
+                return;
+            
+            SetDefaults();
+            _spaceshipRb.AddForce(force, ForceMode2D.Impulse);
         }
 
         private void FixedUpdate() => ServerUpdate();
