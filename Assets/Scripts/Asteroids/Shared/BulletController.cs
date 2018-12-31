@@ -14,30 +14,30 @@ namespace UNetUI.Asteroids.Shared
     {
         [Header("Network Data")] public bool isPredictionEnabled = true;
         public float updateSendRate = 0.1f;
-        
+
         private ScreenWrapper _screenWrapper;
         private Rigidbody2D _bulletRb;
 
         private bool _defaultsSet;
         private float _nextTick;
-        
+
         private List<PositionTimestampReceivePackage> _predictedPackages;
 
         private void Start()
         {
             SetDefaults();
-            
-            if(isServer)
+
+            if (isServer)
                 RpcSendInitialVelocityToClients(_bulletRb.velocity);
         }
 
         private void SetDefaults()
         {
-            if(_defaultsSet)
+            if (_defaultsSet)
                 return;
-            
+
             _predictedPackages = new List<PositionTimestampReceivePackage>();
-            
+
             _screenWrapper = GetComponent<ScreenWrapper>();
             _bulletRb = GetComponent<Rigidbody2D>();
             _defaultsSet = true;
@@ -46,11 +46,12 @@ namespace UNetUI.Asteroids.Shared
         [ClientRpc]
         private void RpcSendInitialVelocityToClients(Vector2 launchVelocity)
         {
-            if(isServer)
+            if (isServer)
                 return;
 
+            SetDefaults();
             _bulletRb.velocity = launchVelocity;
-        } 
+        }
 
         private void FixedUpdate()
         {
@@ -60,9 +61,9 @@ namespace UNetUI.Asteroids.Shared
 
         private void LocalClientUpdate()
         {
-            if(isServer)
+            if (isServer)
                 return;
-            
+
             float timestamp = Time.time;
 
             if (isPredictionEnabled)
@@ -99,13 +100,13 @@ namespace UNetUI.Asteroids.Shared
             _nextTick += Time.deltaTime;
             if (_nextTick / updateSendRate >= 1)
             {
-                RpcSendBulletPositionToClients(percentX, percentY, Time.time);
+                RpcLocalClientBulletPositionFixer(percentX, percentY, Time.time);
                 _nextTick = 0;
             }
         }
 
         [ClientRpc]
-        private void RpcSendBulletPositionToClients(float percentX, float percentY, float timestamp)
+        private void RpcLocalClientBulletPositionFixer(float percentX, float percentY, float timestamp)
         {
             if (isServer)
                 return;

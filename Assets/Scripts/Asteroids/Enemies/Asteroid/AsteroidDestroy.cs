@@ -48,16 +48,6 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
                         Quaternion.Euler(0, 0, Random.value * 360));
                     miniAsteroidInstance.transform.SetParent(_asteroidsHolder);
                     
-                    Rigidbody2D rb = miniAsteroidInstance.GetComponent<Rigidbody2D>();
-                    float launchVelocity = miniAsteroidInstance.GetComponent<AsteroidMovement>().launchVelocity;
-
-                    int launchAngle = Random.Range(0, 360);
-                    Vector2 launchVector = new Vector2(
-                        Mathf.Cos(launchAngle * Mathf.Deg2Rad) * launchVelocity,
-                        Mathf.Sin(launchAngle * Mathf.Deg2Rad) * launchVelocity
-                    );
-                    rb.AddForce(launchVector, ForceMode2D.Impulse);
-                    
                     NetworkServer.Spawn(miniAsteroidInstance);
                 }
             }

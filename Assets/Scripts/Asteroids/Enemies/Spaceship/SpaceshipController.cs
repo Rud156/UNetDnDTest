@@ -1,3 +1,4 @@
+using System.Linq;
 using Boo.Lang;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -36,50 +37,85 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
         private ScreenWrapper _screenWrapper;
         private Transform _playerHolder;
         private Rigidbody2D _spaceshipRb;
-        
+
         private List<PositionTimestampReceivePackage> _predictedPackages;
         private bool _defaultsSet;
         private float _nextTick;
 
         private void Start()
         {
+            _movementLerpYPosition = transform.position.y;
             SetDefaults();
 
             if (isServer)
             {
-                if (Random.value > 0.5f)
-                    _spaceshipRb.AddForce(Vector2.right * initialLaunchVelocity, ForceMode2D.Impulse);
-                else
-                    _spaceshipRb.AddForce(Vector2.left * initialLaunchVelocity, ForceMode2D.Impulse);
-            }
+                Vector2 launchVector;
 
-            _movementLerpYPosition = transform.position.y;
+                if (Random.value > 0.5f)
+                    launchVector = Vector2.right * initialLaunchVelocity;
+                else
+                    launchVector = Vector2.left * initialLaunchVelocity;
+
+                _spaceshipRb.AddForce(launchVector, ForceMode2D.Impulse);
+                RpcSendInitialSpaceshipForceToClients(launchVector);
+            }
         }
 
         private void SetDefaults()
         {
-            if(_defaultsSet)
+            if (_defaultsSet)
                 return;
-            
+
             _screenWrapper = GetComponent<ScreenWrapper>();
             _currentShootRate = useConstantRate ? fireRate : Random.Range(minFireRate, maxFireRate);
             _playerHolder = GameObject.FindGameObjectWithTag(TagManager.PlayerHolder)?.transform;
             _spaceshipRb = GetComponent<Rigidbody2D>();
             
+            _predictedPackages = new List<PositionTimestampReceivePackage>();
+
             _defaultsSet = true;
         }
 
         [ClientRpc]
-        private void RpcSendInitialBulletForceToClients(Vector2 force)
+        private void RpcSendInitialSpaceshipForceToClients(Vector2 force)
         {
-            if(isServer)
+            if (isServer)
                 return;
-            
+
             SetDefaults();
             _spaceshipRb.AddForce(force, ForceMode2D.Impulse);
         }
 
-        private void FixedUpdate() => ServerUpdate();
+        private void FixedUpdate()
+        {
+            LocalClientUpdate();
+            ServerUpdate();
+        }
+
+        private void LocalClientUpdate()
+        {
+            if (isServer)
+                return;
+
+            float timestamp = Time.time;
+
+            if (isPredictionEnabled)
+            {
+                MoveSpaceship();
+                _screenWrapper.CheckObjectOutOfScreen();
+                Vector2 position = transform.position;
+
+                _predictedPackages.Add(new PositionTimestampReceivePackage
+                {
+                    percentX = ExtensionFunctions.Map(position.x, _screenWrapper.LeftMostPoint,
+                        _screenWrapper.RightMostPoint, -1, 1),
+                    percentY = ExtensionFunctions.Map(position.y, _screenWrapper.TopMostPoint,
+                        _screenWrapper.BottomMostPoint, 1, -1),
+
+                    timestamp = timestamp
+                });
+            }
+        }
 
         private void ServerUpdate()
         {
@@ -105,7 +141,57 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
             float percentY = ExtensionFunctions.Map(position.y, _screenWrapper.TopMostPoint,
                 _screenWrapper.BottomMostPoint, 1, -1);
 
-            RpcSendSpaceshipPositionToClients(percentX, percentY);
+            _nextTick += Time.fixedDeltaTime;
+            if (_nextTick / updateSendRate >= 1)
+            {
+                RpcLocalClientSpaceshipPositionFixer(percentX, percentY, Time.time);
+                _nextTick = 0;
+            }
+        }
+
+        [ClientRpc]
+        private void RpcLocalClientSpaceshipPositionFixer(float percentX, float percentY, float timestamp)
+        {
+            if (isServer)
+                return;
+
+            Vector2 normalizedPosition = new Vector2(
+                ExtensionFunctions.Map(percentX, -1, 1,
+                    _screenWrapper.LeftMostPoint, _screenWrapper.RightMostPoint),
+                ExtensionFunctions.Map(percentY, 1, -1,
+                    _screenWrapper.TopMostPoint, _screenWrapper.BottomMostPoint)
+            );
+
+            if (isPredictionEnabled)
+            {
+                PositionTimestampReceivePackage predictedPackage =
+                    _predictedPackages.LastOrDefault(_ => _.timestamp <= timestamp);
+                if (predictedPackage == null)
+                    return;
+
+                Vector2 normalizedPredictedPosition = new Vector2(
+                    ExtensionFunctions.Map(predictedPackage.percentX, -1, 1,
+                        _screenWrapper.LeftMostPoint, _screenWrapper.RightMostPoint),
+                    ExtensionFunctions.Map(predictedPackage.percentY, 1, -1,
+                        _screenWrapper.TopMostPoint, _screenWrapper.BottomMostPoint)
+                );
+
+                if (Vector2.Distance(normalizedPosition, normalizedPredictedPosition) > 1.5f)
+                    transform.position = normalizedPosition;
+
+                _predictedPackages.RemoveAll(_ => _.timestamp <= timestamp);
+            }
+            else
+                transform.position = normalizedPosition;
+        }
+
+        [ClientRpc]
+        private void RpcSendMovementYToClients(float movementYPosition)
+        {
+            if (isServer)
+                return;
+
+            _movementLerpYPosition = movementYPosition;
         }
 
         private void MoveSpaceship()
@@ -117,6 +203,8 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
                     ExtensionFunctions.Map(Random.value, 0, 1,
                         -movementLerpHeight, movementLerpHeight);
 
+                RpcSendMovementYToClients(_movementLerpYPosition);
+
                 _nextMovementTick = 0;
             }
 
@@ -125,20 +213,6 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
                 new Vector2(currentPosition.x, currentPosition.y),
                 new Vector2(currentPosition.x, _movementLerpYPosition),
                 0.7f * Time.fixedDeltaTime
-            );
-        }
-
-        [ClientRpc]
-        private void RpcSendSpaceshipPositionToClients(float percentX, float percentY)
-        {
-            if (isServer)
-                return;
-
-            transform.position = new Vector2(
-                ExtensionFunctions.Map(percentX, -1, 1,
-                    _screenWrapper.LeftMostPoint, _screenWrapper.RightMostPoint),
-                ExtensionFunctions.Map(percentY, 1, -1,
-                    _screenWrapper.TopMostPoint, _screenWrapper.BottomMostPoint)
             );
         }
 
