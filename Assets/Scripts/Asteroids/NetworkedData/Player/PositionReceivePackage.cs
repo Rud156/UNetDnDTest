@@ -1,6 +1,6 @@
 using MessagePack;
 
-namespace UNetUI.Asteroids.NetworkedData
+namespace UNetUI.Asteroids.NetworkedData.Player
 {
     [MessagePackObject]
     public class PositionReceivePackage

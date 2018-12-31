@@ -1,6 +1,7 @@
 using MessagePack;
 using UnityEngine.Networking;
 using UNetUI.Asteroids.NetworkedData;
+using UNetUI.Asteroids.NetworkedData.Player;
 using UNetUI.Asteroids.Networking;
 
 namespace UNetUI.Asteroids.Player

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements.StyleEnums;
 using UnityEngine.Networking;
-using UNetUI.Asteroids.NetworkedData;
+using UNetUI.Asteroids.NetworkedData.Player;
 using UNetUI.Asteroids.Networking;
 using UNetUI.Asteroids.Scene.MainScene;
 using UNetUI.Asteroids.Shared;
@@ -70,8 +70,8 @@ namespace UNetUI.Asteroids.Player
             if (isShieldActive)
                 return;
 
-//            ClientScene.RemovePlayer(playerControllerId);
-//            NetworkedHealthManager.instance.ReduceHealth();
+            ClientScene.RemovePlayer(playerControllerId);
+            NetworkedHealthManager.instance.ReduceHealth();
         }
 
         private void FixedUpdate()
@@ -195,15 +195,15 @@ namespace UNetUI.Asteroids.Player
 
             if (isLocalPlayer && isPredictionEnabled)
             {
-                PositionReceivePackage transmittedPackage =
+                PositionReceivePackage predictedPackage =
                     _predictedPackages.FirstOrDefault(_ => _.timestamp == data.timestamp);
-                if (transmittedPackage == null)
+                if (predictedPackage == null)
                     return;
 
                 Vector2 normalizedPredictedPosition = new Vector2(
-                    ExtensionFunctions.Map(transmittedPackage.percentX, -1, 1,
+                    ExtensionFunctions.Map(predictedPackage.percentX, -1, 1,
                         _screenWrapper.LeftMostPoint, _screenWrapper.RightMostPoint),
-                    ExtensionFunctions.Map(transmittedPackage.percentY, 1, -1,
+                    ExtensionFunctions.Map(predictedPackage.percentY, 1, -1,
                         _screenWrapper.TopMostPoint, _screenWrapper.BottomMostPoint)
                 );
 
@@ -216,7 +216,7 @@ namespace UNetUI.Asteroids.Player
 
 
                 if (Mathf.Abs(ExtensionFunctions.To360Angle(data.rotationZ) -
-                              ExtensionFunctions.To360Angle(transmittedPackage.rotationZ)) >
+                              ExtensionFunctions.To360Angle(predictedPackage.rotationZ)) >
                     rotationCorrectionThreshold)
                 {
                     _roll = data.roll;

@@ -34,6 +34,7 @@ namespace UNetUI.Asteroids.Scene.MainScene
 
         private int _currentScore;
         private float _nextTick;
+        private bool _startScoring;
 
         private void Start()
         {
@@ -46,7 +47,7 @@ namespace UNetUI.Asteroids.Scene.MainScene
 
         private void Update()
         {
-            if (!isServer)
+            if (!isServer || !_startScoring)
                 return;
 
             _nextTick += Time.deltaTime;
@@ -86,6 +87,8 @@ namespace UNetUI.Asteroids.Scene.MainScene
 
             RpcUpdateClientsScoreUi(_currentScore);
         }
+
+        public void StartScoring() => _startScoring = true;
 
         [ClientRpc]
         private void RpcUpdateClientsScoreUi(int currentScore)

@@ -172,7 +172,7 @@ MonoBehaviour:
     i14: 168
     i15: 223
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114156198962158802
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -212,6 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   launchVelocity: 3.5
   rotationSpeed: 100
+  isPredictionEnabled: 1
 --- !u!114 &114832803165374908
 MonoBehaviour:
   m_ObjectHideFlags: 1
