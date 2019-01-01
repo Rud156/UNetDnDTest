@@ -26,26 +26,31 @@ namespace UNetUI.Asteroids.Networking
 
         #endregion Singleton
 
-        public GameObject scoreHolder;
-        public GameObject healthHolder;
-        public Transform playerHolder;
+        private GameObject _scoreHolder;
+        private GameObject _healthHolder;
+        private Transform _playerHolder;
 
         private bool _gameStarted;
         private int _clientsConnected;
 
-        private void Start()
-        {
-            scoreHolder.SetActive(false);
-            healthHolder.SetActive(false);
-        }
-
+        private bool _objectsSaved;
 
         public override void OnClientConnect(NetworkConnection conn)
         {
             base.OnClientConnect(conn);
 
-            scoreHolder.SetActive(true);
-            healthHolder.SetActive(true);
+            if (!_objectsSaved)
+            {
+
+                _playerHolder = GameObject.FindGameObjectWithTag(TagManager.PlayerHolder)?.transform;
+                _scoreHolder = GameObject.FindGameObjectWithTag(TagManager.ScoreHolder);
+                _healthHolder = GameObject.FindGameObjectWithTag(TagManager.HealthHolder);
+
+                _scoreHolder.SetActive(true);
+                _healthHolder.SetActive(true);
+
+                _objectsSaved = true;
+            }
 
             // TODO: Save these Id's and later use them to create players...
             // ClientScene.AddPlayer(conn, (short) Mathf.FloorToInt(Random.value * 16));
@@ -54,7 +59,7 @@ namespace UNetUI.Asteroids.Networking
         public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
         {
             GameObject playerInstance = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-            playerInstance.transform.SetParent(playerHolder);
+            playerInstance.transform.SetParent(_playerHolder);
 
             NetworkServer.AddPlayerForConnection(conn, playerInstance, playerControllerId);
         }

@@ -18,8 +18,14 @@
         public const string AsteroidsHolder = "AsteroidsHolder";
         public const string SpaceshipHolder = "SpaceshipHolder";
         public const string PlayerHolder = "PlayerHolder";
+        
         public const string PowerUpsHolder = "PowerUpsHolder";
         public const string PowerUpDisplay = "PowerUpDisplay";
+
+        public const string HealthHolder = "HealthHolder";
+        public const string ScoreHolder = "ScoreHolder";
+        
         public const string Player = "Player";
+        public const string LobbyPlayerHolder = "LobbyPlayerHolder";
     }
 }
