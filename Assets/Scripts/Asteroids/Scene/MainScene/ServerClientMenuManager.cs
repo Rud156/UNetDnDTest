@@ -21,7 +21,7 @@ namespace UNetUI.Asteroids.Scene.MainScene
                 ?.GetComponent<NetworkedGameManager>();
 
             serverOrClient.text = isServer ? "Server" : "Client";
-            addressText.text = _gameManager.networkAddress;
+            addressText.text = $"Address: {_gameManager.networkAddress}";
 
             pausePanel.SetActive(false);
         }
