@@ -239,6 +239,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1061293563}
   addressInput: {fileID: 785734692}
+  hostButton: {fileID: 940696591}
+  clientButton: {fileID: 2043574242}
 --- !u!4 &460164789
 Transform:
   m_ObjectHideFlags: 0
@@ -262,7 +264,7 @@ Prefab:
     - target: {fileID: 114698724633952670, guid: 46cd70ad2853b994f8b4cf1349b75449,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224415351136440946, guid: 46cd70ad2853b994f8b4cf1349b75449,
         type: 2}
@@ -621,6 +623,12 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 836059554}
   m_CullTransparentMesh: 0
+--- !u!114 &940696591 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114698724633952670, guid: 46cd70ad2853b994f8b4cf1349b75449,
+    type: 2}
+  m_PrefabInternal: {fileID: 1809436665}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1061293562
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,7 +640,7 @@ GameObject:
   - component: {fileID: 1061293563}
   m_Layer: 0
   m_Name: Game Manager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1089,7 +1097,7 @@ Prefab:
     - target: {fileID: 114698724633952670, guid: 46cd70ad2853b994f8b4cf1349b75449,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224415351136440946, guid: 46cd70ad2853b994f8b4cf1349b75449,
         type: 2}
@@ -1318,6 +1326,12 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2037304191}
   m_CullTransparentMesh: 0
+--- !u!114 &2043574242 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114698724633952670, guid: 46cd70ad2853b994f8b4cf1349b75449,
+    type: 2}
+  m_PrefabInternal: {fileID: 495217026}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &2114305736
 GameObject:
   m_ObjectHideFlags: 0

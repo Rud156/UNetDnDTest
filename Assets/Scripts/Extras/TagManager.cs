@@ -27,5 +27,7 @@
         
         public const string Player = "Player";
         public const string LobbyPlayerHolder = "LobbyPlayerHolder";
+
+        public const string GameManager = "GameManager";
     }
 }

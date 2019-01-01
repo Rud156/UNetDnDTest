@@ -23,12 +23,19 @@ namespace UNetUI.Asteroids.Scene.Home
 
         public NetworkedGameManager gameManager;
         public InputField addressInput;
+        public Button hostButton;
+        public Button clientButton;
 
-        private void Start() => addressInput.text = "localhost";
+        private void Start()
+        {
+            addressInput.text = "localhost";
+            hostButton.onClick.AddListener(OnHostButtonClick);
+            clientButton.onClick.AddListener(OnClientButtonClick);
+        }
 
-        public void OnHostButtonClick() => gameManager.StartHost();
+        private void OnHostButtonClick() => gameManager.StartHost();
 
-        public void OnClientButtonClick()
+        private void OnClientButtonClick()
         {
             gameManager.networkAddress = addressInput.text;
             gameManager.StartClient();
