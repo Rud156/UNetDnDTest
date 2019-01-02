@@ -76,11 +76,12 @@ namespace UNetUI.Asteroids.Networking
             }
         }
 
-        public override void OnClientDisconnect(NetworkConnection conn)
+        public override void OnServerDisconnect(NetworkConnection conn)
         {
-            base.OnClientDisconnect(conn);
+            base.OnServerDisconnect(conn);
 
-            _clientsConnected -= 1;
+            _clientsConnected = 0;
+            _gameStarted = false;
         }
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using UNetUI.Asteroids.Power_Ups;
 using UNetUI.Asteroids.Spawners;
+using UNetUI.Asteroids.UI;
 using UNetUI.Extras;
 
 namespace UNetUI.Asteroids.Scene.MainScene
@@ -28,13 +29,18 @@ namespace UNetUI.Asteroids.Scene.MainScene
 
         public Text scoreDisplay;
         public float enemyPollRate;
+        public float updateSendRate = 0.1f;
 
         private Transform _asteroidsHolder;
         private Transform _spaceshipHolder;
 
         private int _currentScore;
-        private float _nextTick;
         private bool _startScoring;
+        
+        private float _enemyNextTick;
+        private float _pollNextTick;
+
+        private bool _gameEndDisplayed;
 
         private void Start()
         {
@@ -50,12 +56,19 @@ namespace UNetUI.Asteroids.Scene.MainScene
             if (!isServer || !_startScoring)
                 return;
 
-            _nextTick += Time.deltaTime;
-            if (_nextTick / enemyPollRate >= 1)
+            _enemyNextTick += Time.deltaTime;
+            if (_enemyNextTick / enemyPollRate >= 1)
             {
-                _nextTick = 0;
+                _enemyNextTick = 0;
                 if (_asteroidsHolder.childCount == 0)
                     AsteroidSpawner.instance.CreateAsteroidsAtScreenEdge();
+            }
+
+            _pollNextTick += Time.deltaTime;
+            if (_pollNextTick / updateSendRate >= 1)
+            {
+                _pollNextTick = 0;
+                RpcUpdateClientsScoreUi(_currentScore);
             }
         }
 
@@ -64,10 +77,17 @@ namespace UNetUI.Asteroids.Scene.MainScene
             if (!isServer)
                 return;
 
-            _currentScore += scoreAmount;
+            _currentScore = _currentScore + scoreAmount >= 990000 ? 990000 : _currentScore + scoreAmount;
 
 //            if (_currentScore % 500 == 0)
 //                NetworkedHealthManager.instance.IncrementHealth();
+
+            if (_currentScore >= 990000 && !_gameEndDisplayed)
+            {
+                StartCoroutine(EndGame());
+                _gameEndDisplayed = true;
+                return;
+            }
 
             if (_currentScore % 500 == 0 && _spaceshipHolder.childCount == 0)
             {
@@ -84,11 +104,25 @@ namespace UNetUI.Asteroids.Scene.MainScene
             }
 
             UpdateUiWithText();
-
-            RpcUpdateClientsScoreUi(_currentScore);
         }
 
         public void StartScoring() => _startScoring = true;
+
+        private IEnumerator EndGame()
+        {
+            RpcNotifyGameEnd();
+            yield return new WaitForSeconds(3.5f);
+            ServerClientMenuManager.instance.ExitGame();
+        }
+
+        [ClientRpc]
+        private void RpcNotifyGameEnd()
+        {
+            if(isServer)
+                return;
+            
+            InfoTextManager.instance.DisplayText("You Won The Game !!!", Color.green);
+        }
 
         [ClientRpc]
         private void RpcUpdateClientsScoreUi(int currentScore)
