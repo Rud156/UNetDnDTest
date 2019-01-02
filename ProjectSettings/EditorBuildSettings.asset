@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Asteroids/Main Scene.unity
     guid: 69156f2d29517e547870e3b5218ffc58
+  - enabled: 0
+    path: Assets/Scenes/Inventory/UI Drag Drop.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}
