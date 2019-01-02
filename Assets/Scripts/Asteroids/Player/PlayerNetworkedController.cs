@@ -71,7 +71,7 @@ namespace UNetUI.Asteroids.Player
                 return;
 
             ClientScene.RemovePlayer(playerControllerId);
-            NetworkedHealthManager.instance.ReduceHealth();
+//            NetworkedHealthManager.instance.ReduceHealth();
         }
 
         private void FixedUpdate()

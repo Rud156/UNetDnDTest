@@ -66,8 +66,8 @@ namespace UNetUI.Asteroids.Scene.MainScene
 
             _currentScore += scoreAmount;
 
-            if (_currentScore % 500 == 0)
-                NetworkedHealthManager.instance.IncrementHealth();
+//            if (_currentScore % 500 == 0)
+//                NetworkedHealthManager.instance.IncrementHealth();
 
             if (_currentScore % 500 == 0 && _spaceshipHolder.childCount == 0)
             {

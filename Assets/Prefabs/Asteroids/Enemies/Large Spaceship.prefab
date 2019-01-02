@@ -205,7 +205,7 @@ MonoBehaviour:
   maxFireRate: 5
   shootPoint: {fileID: 4455520640781744}
   bullet: {fileID: 1324607070732052, guid: ce8e29a77a9049e4d8adab950bbef72c, type: 2}
-  launchSpeed: 10
+  launchSpeed: 20
   launchAngleOffset: {x: 3, y: 3, z: 0}
   movementLerpHeight: 5
   movementSwitchTime: 5

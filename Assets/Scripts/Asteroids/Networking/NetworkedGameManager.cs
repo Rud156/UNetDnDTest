@@ -27,7 +27,7 @@ namespace UNetUI.Asteroids.Networking
         #endregion Singleton
 
         private GameObject _scoreHolder;
-        private GameObject _healthHolder;
+//        private GameObject _healthHolder;
         private Transform _playerHolder;
 
         private bool _gameStarted;
@@ -44,10 +44,10 @@ namespace UNetUI.Asteroids.Networking
 
                 _playerHolder = GameObject.FindGameObjectWithTag(TagManager.PlayerHolder)?.transform;
                 _scoreHolder = GameObject.FindGameObjectWithTag(TagManager.ScoreHolder);
-                _healthHolder = GameObject.FindGameObjectWithTag(TagManager.HealthHolder);
+//                _healthHolder = GameObject.FindGameObjectWithTag(TagManager.HealthHolder);
 
                 _scoreHolder.SetActive(true);
-                _healthHolder.SetActive(true);
+//                _healthHolder.SetActive(true);
 
                 _objectsSaved = true;
             }
@@ -70,8 +70,11 @@ namespace UNetUI.Asteroids.Networking
 
             _clientsConnected += 1;
 
-            if (_clientsConnected == 2)
+            if (_clientsConnected == 2 && !_gameStarted)
+            {
                 NetworkedScoreManager.instance.StartScoring();
+                _gameStarted = true;
+            }
         }
 
         public override void OnClientDisconnect(NetworkConnection conn)
