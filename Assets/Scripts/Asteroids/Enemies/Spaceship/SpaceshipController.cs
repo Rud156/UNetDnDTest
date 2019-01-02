@@ -144,13 +144,13 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
             _nextTick += Time.fixedDeltaTime;
             if (_nextTick / updateSendRate >= 1)
             {
-                RpcLocalClientSpaceshipPositionFixer(percentX, percentY, Time.time);
+                RpcLocalClientSpaceshipPositionFixer(percentX, percentY, _spaceshipRb.velocity, Time.time);
                 _nextTick = 0;
             }
         }
 
         [ClientRpc]
-        private void RpcLocalClientSpaceshipPositionFixer(float percentX, float percentY, float timestamp)
+        private void RpcLocalClientSpaceshipPositionFixer(float percentX, float percentY, Vector2 velocity, float timestamp)
         {
             if (isServer)
                 return;
@@ -177,7 +177,10 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
                 );
 
                 if (Vector2.Distance(normalizedPosition, normalizedPredictedPosition) > 1.5f)
+                {
                     transform.position = normalizedPosition;
+                    _spaceshipRb.velocity = velocity;
+                }
 
                 _predictedPackages.RemoveAll(_ => _.timestamp <= timestamp);
             }

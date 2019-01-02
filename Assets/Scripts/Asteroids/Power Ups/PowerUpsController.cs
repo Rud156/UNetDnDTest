@@ -123,13 +123,13 @@ namespace UNetUI.Asteroids.Power_Ups
             _nextTick += Time.fixedDeltaTime;
             if (_nextTick / updateSendRate >= 1)
             {
-                RpcRemoteClientPowerUpUpdate(percentX, percentY, Time.time);
+                RpcRemoteClientPowerUpUpdate(percentX, percentY, _powerUpRb.velocity, Time.time);
                 _nextTick = 0;
             }
         }
 
         [ClientRpc]
-        private void RpcRemoteClientPowerUpUpdate(float percentX, float percentY, float timestamp)
+        private void RpcRemoteClientPowerUpUpdate(float percentX, float percentY, Vector2 velocity, float timestamp)
         {
             if (isServer)
                 return;
@@ -156,7 +156,10 @@ namespace UNetUI.Asteroids.Power_Ups
                 );
 
                 if (Vector2.Distance(normalizedPosition, normalizedPredictedPosition) > 1.5f)
+                {
                     transform.position = normalizedPosition;
+                    _powerUpRb.velocity = velocity;
+                }
 
                 _predictedPackages.RemoveAll(_ => _.timestamp <= timestamp);
             }

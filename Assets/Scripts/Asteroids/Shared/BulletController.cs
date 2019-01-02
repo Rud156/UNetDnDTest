@@ -100,13 +100,13 @@ namespace UNetUI.Asteroids.Shared
             _nextTick += Time.deltaTime;
             if (_nextTick / updateSendRate >= 1)
             {
-                RpcLocalClientBulletPositionFixer(percentX, percentY, Time.time);
+                RpcLocalClientBulletPositionFixer(percentX, percentY, _bulletRb.velocity, Time.time);
                 _nextTick = 0;
             }
         }
 
         [ClientRpc]
-        private void RpcLocalClientBulletPositionFixer(float percentX, float percentY, float timestamp)
+        private void RpcLocalClientBulletPositionFixer(float percentX, float percentY, Vector2 velocity, float timestamp)
         {
             if (isServer)
                 return;
@@ -133,7 +133,10 @@ namespace UNetUI.Asteroids.Shared
                 );
 
                 if (Vector2.Distance(normalizedPosition, normalizedPredictedPosition) > 1.5f)
+                {
                     transform.position = normalizedPosition;
+                    _bulletRb.velocity = velocity;
+                }
 
                 _predictedPackages.RemoveAll(_ => _.timestamp <= timestamp);
             }

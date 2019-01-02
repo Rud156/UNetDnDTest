@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EZCameraShake;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements.StyleEnums;
 using UnityEngine.Networking;
@@ -15,6 +16,7 @@ namespace UNetUI.Asteroids.Player
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(ScreenWrapper))]
     [RequireComponent(typeof(PlayerNetworkedPowerUpController))]
+    [RequireComponent(typeof(PlayerNetworkedDestroy))]
     public class PlayerNetworkedController : PlayerNetworkPacketController
     {
         [Header("Velocities")] [SerializeField]
@@ -33,6 +35,7 @@ namespace UNetUI.Asteroids.Player
         private Animator _playerAnim;
         private ScreenWrapper _screenWrapper;
         private PlayerNetworkedPowerUpController _playerNetworkedPowerUpController;
+        private PlayerNetworkedDestroy _playerNetworkedDestroy;
 
         private float _roll;
 
@@ -45,7 +48,9 @@ namespace UNetUI.Asteroids.Player
             _playerRb = GetComponent<Rigidbody2D>();
             _playerAnim = GetComponent<Animator>();
             _screenWrapper = GetComponent<ScreenWrapper>();
+            
             _playerNetworkedPowerUpController = GetComponent<PlayerNetworkedPowerUpController>();
+            _playerNetworkedDestroy = GetComponent<PlayerNetworkedDestroy>();
 
             _roll = transform.rotation.eulerAngles.z;
 
@@ -55,7 +60,7 @@ namespace UNetUI.Asteroids.Player
             _predictedPackages = new List<PositionReceivePackage>();
 
             if (isLocalPlayer && isServer)
-                ClientScene.RemovePlayer(playerControllerId);
+                NetworkServer.Destroy(gameObject);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -69,9 +74,8 @@ namespace UNetUI.Asteroids.Player
             bool isShieldActive = _playerNetworkedPowerUpController.IsShieldActive();
             if (isShieldActive)
                 return;
-
-            ClientScene.RemovePlayer(playerControllerId);
-//            NetworkedHealthManager.instance.ReduceHealth();
+            
+            _playerNetworkedDestroy.DestroyPlayer();
         }
 
         private void FixedUpdate()
@@ -82,6 +86,7 @@ namespace UNetUI.Asteroids.Player
             ServerUpdate();
             RemoteClientUpdate();
         }
+                
 
         private void LocalClientUpdate()
         {

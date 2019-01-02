@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -8,9 +9,25 @@ namespace UNetUI.Asteroids.Scene.MainScene
 {
     public class ServerClientMenuManager : NetworkBehaviour
     {
+        #region Singleton
+
+        public static ServerClientMenuManager instance;
+
+        private void Awake()
+        {
+            if (instance == null)
+                instance = this;
+
+            if (instance != this)
+                Destroy(gameObject);
+        }
+
+        #endregion Singleton
+
         public GameObject pausePanel;
         public Text serverOrClient;
         public Text addressText;
+        public Button stopButton;
 
         private NetworkedGameManager _gameManager;
         private bool _isPausePanelOpen;
@@ -23,27 +40,36 @@ namespace UNetUI.Asteroids.Scene.MainScene
             serverOrClient.text = isServer ? "Server" : "Client";
             addressText.text = $"Address: {_gameManager.networkAddress}";
 
+            stopButton.onClick.AddListener(ExitGame);
             pausePanel.SetActive(false);
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(Controls.ExitKey))
+            if (!Input.GetKeyDown(Controls.ExitKey))
+                return;
+
+            if (_isPausePanelOpen)
             {
-                if (_isPausePanelOpen)
-                {
-                    pausePanel.SetActive(false);
-                    _isPausePanelOpen = false;
-                }
-                else
-                {
-                    pausePanel.SetActive(true);
-                    _isPausePanelOpen = true;
-                }
+                pausePanel.SetActive(false);
+                _isPausePanelOpen = false;
+            }
+            else
+            {
+                pausePanel.SetActive(true);
+                _isPausePanelOpen = true;
             }
         }
 
-        public void ExitGame()
+        public void DelayedExitGame(float waitTime) => StartCoroutine(DelayedCall(waitTime));
+
+        private IEnumerator DelayedCall(float waitTime)
+        {
+            yield return new WaitForSeconds(waitTime);
+            ExitGame();
+        }
+
+        private void ExitGame()
         {
             if (isServer)
                 _gameManager.StopHost();

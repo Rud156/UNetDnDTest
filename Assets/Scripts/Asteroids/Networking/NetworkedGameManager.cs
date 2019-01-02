@@ -38,7 +38,7 @@ namespace UNetUI.Asteroids.Networking
         public override void OnClientConnect(NetworkConnection conn)
         {
             base.OnClientConnect(conn);
-
+            
             if (!_objectsSaved)
             {
 
@@ -51,9 +51,8 @@ namespace UNetUI.Asteroids.Networking
 
                 _objectsSaved = true;
             }
-
-            // TODO: Save these Id's and later use them to create players...
-            // ClientScene.AddPlayer(conn, (short) Mathf.FloorToInt(Random.value * 16));
+            
+            Debug.Log("Client Connected");
         }
 
         public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)

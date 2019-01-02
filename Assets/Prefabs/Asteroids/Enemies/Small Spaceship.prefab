@@ -162,7 +162,7 @@ MonoBehaviour:
   maxFireRate: 0
   shootPoint: {fileID: 4532484590652970}
   bullet: {fileID: 1324607070732052, guid: ce8e29a77a9049e4d8adab950bbef72c, type: 2}
-  launchSpeed: 7
+  launchSpeed: 20
   launchAngleOffset: {x: 2, y: 2, z: 0}
   movementLerpHeight: 3
   movementSwitchTime: 5
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd025f39aebd1574c94682c2d0fe8219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 60
+  maxHealth: 40
   destroyOnZero: 0
 --- !u!114 &114362918831416754
 MonoBehaviour:

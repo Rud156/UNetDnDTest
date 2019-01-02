@@ -200,6 +200,7 @@ MonoBehaviour:
   movementSpeed: 100
   rotationSpeed: 200
   isPredictionEnabled: 1
+  _shakerData: {fileID: 11400000, guid: 8adefc344a3cf0043a8f63863d0b1d35, type: 2}
   networkSendRate: 0.1
   positionCorrectionThreshold: 1
   rotationCorrectionThreshold: 6
