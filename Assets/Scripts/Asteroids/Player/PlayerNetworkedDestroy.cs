@@ -51,6 +51,7 @@ namespace UNetUI.Asteroids.Player
             StartCoroutine(RemovePlayer());
         }
 
+        // Called From External Animation Event
         public void DisableRenderer() => _renderer.enabled = false;
 
         private IEnumerator RemovePlayer()

@@ -27,32 +27,19 @@ namespace UNetUI.Asteroids.Networking
         #endregion Singleton
 
         private GameObject _scoreHolder;
-//        private GameObject _healthHolder;
         private Transform _playerHolder;
 
         private bool _gameStarted;
         private int _clientsConnected;
 
-        private bool _objectsSaved;
-
         public override void OnClientConnect(NetworkConnection conn)
         {
             base.OnClientConnect(conn);
-            
-            if (!_objectsSaved)
-            {
 
-                _playerHolder = GameObject.FindGameObjectWithTag(TagManager.PlayerHolder)?.transform;
-                _scoreHolder = GameObject.FindGameObjectWithTag(TagManager.ScoreHolder);
-//                _healthHolder = GameObject.FindGameObjectWithTag(TagManager.HealthHolder);
+            _playerHolder = GameObject.FindGameObjectWithTag(TagManager.PlayerHolder)?.transform;
+            _scoreHolder = GameObject.FindGameObjectWithTag(TagManager.ScoreHolder);
 
-                _scoreHolder.SetActive(true);
-//                _healthHolder.SetActive(true);
-
-                _objectsSaved = true;
-            }
-            
-            Debug.Log("Client Connected");
+            _scoreHolder.SetActive(true);
         }
 
         public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)

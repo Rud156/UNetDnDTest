@@ -65,15 +65,15 @@ namespace UNetUI.Asteroids.Player
 
             switch (_collectedPowerUp.powerUpType)
             {
-                case PowerUpType.Defence:
+                case PowerUpType.ShieldDefence:
                     CreateShieldAroundPlayer();
                     break;
 
-                case PowerUpType.Modifier:
+                case PowerUpType.BulletModifier:
                     IncreaseBulletDamage();
                     break;
 
-                case PowerUpType.SingleUse:
+                case PowerUpType.EnemyDestroy:
                     DestroyRandomEnemy();
                     break;
             }
@@ -81,7 +81,7 @@ namespace UNetUI.Asteroids.Player
             CollectPowerUp(null);
         }
 
-        #region Defence
+        #region ShieldDefence
 
         public bool IsShieldActive() => _isShieldActive;
 
@@ -130,7 +130,7 @@ namespace UNetUI.Asteroids.Player
             shieldInstance.transform.localPosition = Vector3.zero;
         }
 
-        #endregion Defence
+        #endregion ShieldDefence
 
         #region Bullet
 

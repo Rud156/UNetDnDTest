@@ -79,9 +79,6 @@ namespace UNetUI.Asteroids.Scene.MainScene
 
             _currentScore = _currentScore + scoreAmount >= 990000 ? 990000 : _currentScore + scoreAmount;
 
-//            if (_currentScore % 500 == 0)
-//                NetworkedHealthManager.instance.IncrementHealth();
-
             if (_currentScore >= 990000 && !_gameEndDisplayed)
             {
                 StartCoroutine(EndGame());

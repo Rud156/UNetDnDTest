@@ -1,8 +1,9 @@
 using EZCameraShake;
 using UnityEngine;
 using UnityEngine.Networking;
+using UNetUI.Asteroids.Shared;
 
-namespace UNetUI.Asteroids.Shared
+namespace UNetUI.Asteroids.Bullet
 {
     public class DestroyOnTrigger : NetworkBehaviour
     {

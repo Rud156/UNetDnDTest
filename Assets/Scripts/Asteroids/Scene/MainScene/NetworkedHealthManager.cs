@@ -10,14 +10,14 @@ namespace UNetUI.Asteroids.Scene.MainScene
     {
         #region Singleton
 
-        public static NetworkedHealthManager instance;
+        private static NetworkedHealthManager _instance;
 
         private void Awake()
         {
-            if (instance == null)
-                instance = this;
+            if (_instance == null)
+                _instance = this;
 
-            if (instance != this)
+            if (_instance != this)
                 Destroy(gameObject);
         }
 

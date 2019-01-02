@@ -6,7 +6,7 @@ using UNetUI.Asteroids.NetworkedData.Common;
 using UNetUI.Asteroids.Shared;
 using UNetUI.Extras;
 
-namespace UNetUI.Asteroids.Shared
+namespace UNetUI.Asteroids.Bullet
 {
     [RequireComponent(typeof(ScreenWrapper))]
     [RequireComponent(typeof(Rigidbody2D))]
@@ -106,7 +106,8 @@ namespace UNetUI.Asteroids.Shared
         }
 
         [ClientRpc]
-        private void RpcLocalClientBulletPositionFixer(float percentX, float percentY, Vector2 velocity, float timestamp)
+        private void RpcLocalClientBulletPositionFixer(float percentX, float percentY, Vector2 velocity,
+            float timestamp)
         {
             if (isServer)
                 return;

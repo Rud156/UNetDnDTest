@@ -368,7 +368,7 @@ namespace UNetUI.InventoryDnD
                     itemDescription.text = inventoryItem.item.description;
 
                     damageText.text = $"Damage: {inventoryItem.item.damage}";
-                    defenceText.text = $"Defence: {inventoryItem.item.defence}";
+                    defenceText.text = $"ShieldDefence: {inventoryItem.item.defence}";
                     strengthText.text = $"Strength: {inventoryItem.item.strength}";
                     intelText.text = $"Intel: {inventoryItem.item.intel}";
                     agilityText.text = $"Agility: {inventoryItem.item.agility}";
