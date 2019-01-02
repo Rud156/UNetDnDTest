@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using EZCameraShake;
 using UnityEngine;
 using UnityEngine.Networking;
+using UNetUI.Asteroids.Networking;
 using UNetUI.Asteroids.Scene.MainScene;
 using UNetUI.Asteroids.Shared;
 using UNetUI.Asteroids.UI;
+using UNetUI.Extras;
 
 namespace UNetUI.Asteroids.Player
 {
@@ -43,14 +45,29 @@ namespace UNetUI.Asteroids.Player
 
             RpcShakeCameraOnClients();
             DisableControlsAndPlayAnimation();
-            Invoke(nameof(RemovePlayer), 0.8f);
+            StartCoroutine(RemovePlayer());
         }
 
-        private void RemovePlayer()
+        private IEnumerator RemovePlayer()
         {
-            InfoTextManager.instance.RpcDisplayText("You Died", Color.red, true);
-            ServerClientMenuManager.instance.DelayedExitGame(3.5f);
-            NetworkServer.Destroy(gameObject);
+            RpcDisplayDeadText();
+            ScreenFlasher.instance.RpcSetColorAndFlash(Color.red);
+
+            yield return new WaitForSeconds(3.5f);
+            RpcSwitchClientOnDestroy();
+        }
+
+        [ClientRpc]
+        private void RpcDisplayDeadText() =>
+            InfoTextManager.instance.DisplayText(!isLocalPlayer ? "A Player Died !!!" : "You Died !!!", Color.red);
+
+        [ClientRpc]
+        private void RpcSwitchClientOnDestroy()
+        {
+            if (!isLocalPlayer || isServer)
+                return;
+
+            ServerClientMenuManager.instance.ExitGame();
         }
 
         private void DisableControlsAndPlayAnimation()

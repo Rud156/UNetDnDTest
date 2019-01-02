@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UNetUI.Asteroids.Networking;
+using UNetUI.Extras;
 
 namespace UNetUI.Asteroids.Scene.Home
 {
@@ -21,24 +22,33 @@ namespace UNetUI.Asteroids.Scene.Home
 
         #endregion Singleton
 
-        public NetworkedGameManager gameManager;
         public InputField addressInput;
         public Button hostButton;
         public Button clientButton;
+        public Button quitButton;
+        
+        private NetworkedGameManager _gameManager;
 
         private void Start()
         {
+            _gameManager = GameObject.FindGameObjectWithTag(TagManager.GameManager)
+                ?.GetComponent<NetworkedGameManager>();
+            
             addressInput.text = "localhost";
+            
             hostButton.onClick.AddListener(OnHostButtonClick);
             clientButton.onClick.AddListener(OnClientButtonClick);
+            quitButton.onClick.AddListener(QuitGame);
         }
 
-        private void OnHostButtonClick() => gameManager.StartHost();
+        private void OnHostButtonClick() => _gameManager.StartHost();
 
         private void OnClientButtonClick()
         {
-            gameManager.networkAddress = addressInput.text;
-            gameManager.StartClient();
+            _gameManager.networkAddress = addressInput.text;
+            _gameManager.StartClient();
         }
+
+        private void QuitGame() => Application.Quit();
     }
 }

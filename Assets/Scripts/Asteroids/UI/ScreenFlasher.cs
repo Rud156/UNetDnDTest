@@ -1,21 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace UNetUI.Asteroids.UI
 {
     [RequireComponent(typeof(RawImage))]
-    public class ScreenFlasher : MonoBehaviour
+    public class ScreenFlasher : NetworkBehaviour
     {
         #region Singleton
 
         public static ScreenFlasher instance;
 
-        /// <summary>
-        /// Awake is called when the script instance is being loaded.
-        /// </summary>
-        void Awake()
+        private void Awake()
         {
             if (instance == null)
                 instance = this;
@@ -37,8 +35,12 @@ namespace UNetUI.Asteroids.UI
             _image.enabled = false;
         }
 
-        public void SetColorAndFlash(Color color)
+        [ClientRpc]
+        public void RpcSetColorAndFlash(Color color)
         {
+            if (isServer)
+                return;
+
             _flashColor = color;
             StartFlash();
         }

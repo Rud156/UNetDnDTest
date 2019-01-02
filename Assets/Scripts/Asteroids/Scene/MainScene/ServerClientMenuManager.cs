@@ -61,15 +61,7 @@ namespace UNetUI.Asteroids.Scene.MainScene
             }
         }
 
-        public void DelayedExitGame(float waitTime) => StartCoroutine(DelayedCall(waitTime));
-
-        private IEnumerator DelayedCall(float waitTime)
-        {
-            yield return new WaitForSeconds(waitTime);
-            ExitGame();
-        }
-
-        private void ExitGame()
+        public void ExitGame()
         {
             if (isServer)
                 _gameManager.StopHost();

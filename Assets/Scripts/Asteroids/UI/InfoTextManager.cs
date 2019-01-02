@@ -27,6 +27,7 @@ namespace UNetUI.Asteroids.UI
 
         private Animator infoTextAnimator;
         private Text infoText;
+        private static readonly int Property = Animator.StringToHash(FadeInOutAnimParam);
 
         private void Start()
         {
@@ -36,19 +37,15 @@ namespace UNetUI.Asteroids.UI
 
         private const string FadeInOutAnimParam = "Display Text";
 
-        [ClientRpc]
-        public void RpcDisplayText(string text, Color textColor, bool useLocalPlayer)
+        public void DisplayText(string text, Color textColor)
         {
-            if (useLocalPlayer && !isLocalPlayer)
-                return;
-
             if (isServer)
                 return;
 
             infoText.text = text;
             infoText.color = textColor;
 
-            infoTextAnimator.SetTrigger(FadeInOutAnimParam);
+            infoTextAnimator.SetTrigger(Property);
         }
     }
 }
