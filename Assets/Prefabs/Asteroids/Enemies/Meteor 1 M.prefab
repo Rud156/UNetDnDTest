@@ -197,6 +197,7 @@ MonoBehaviour:
   spawnMiniAsteroid: 1
   miniAsteroid: {fileID: 1051282179377030, guid: dd9af739e77d62f47be360980115a8df,
     type: 2}
+  shakerData: {fileID: 11400000, guid: b341ddf5b9d6983469d7e40f2711f4b4, type: 2}
   minSpawnCount: 2
   maxSpawnCount: 5
 --- !u!114 &114377524927175674

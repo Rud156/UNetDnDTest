@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using EZCameraShake;
 using UnityEngine;
 using UnityEngine.Networking;
 using UNetUI.Asteroids.Scene.MainScene;
@@ -15,6 +16,7 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
     {
         public bool spawnMiniAsteroid;
         public GameObject miniAsteroid;
+        public CameraShakerData shakerData;
 
         [Header("Spawn Count")] public int minSpawnCount;
         public int maxSpawnCount;
@@ -24,9 +26,9 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
 
         private void Start()
         {
-            if(!isServer)
+            if (!isServer)
                 return;
-            
+
             _healthSetter = GetComponent<HealthSetter>();
             _healthSetter.healthZero += DestroyAsteroid;
 
@@ -35,7 +37,7 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
 
         private void DestroyAsteroid()
         {
-            if(!isServer)
+            if (!isServer)
                 return;
 
             if (spawnMiniAsteroid)
@@ -47,7 +49,7 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
                     GameObject miniAsteroidInstance = Instantiate(miniAsteroid, transform.position,
                         Quaternion.Euler(0, 0, Random.value * 360));
                     miniAsteroidInstance.transform.SetParent(_asteroidsHolder);
-                    
+
                     NetworkServer.Spawn(miniAsteroidInstance);
                 }
             }
@@ -55,7 +57,22 @@ namespace UNetUI.Asteroids.Enemies.Asteroid
             int scoreAmount = GetComponent<ScoreSetter>().scoreAmount;
             NetworkedScoreManager.instance.AddScore(scoreAmount);
 
+            RpcShakeClientsOnDestroy();
             NetworkServer.Destroy(gameObject);
+        }
+
+        [ClientRpc]
+        private void RpcShakeClientsOnDestroy()
+        {
+            if (isServer)
+                return;
+
+            CameraShaker.Instance.ShakeOnce(
+                shakerData.magnitude,
+                shakerData.roughness,
+                shakerData.fadeInTime,
+                shakerData.fadeOutTime
+            );
         }
     }
 }

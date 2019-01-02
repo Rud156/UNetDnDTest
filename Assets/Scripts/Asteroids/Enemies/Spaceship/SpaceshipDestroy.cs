@@ -1,3 +1,4 @@
+using EZCameraShake;
 using UnityEngine;
 using UnityEngine.Networking;
 using UNetUI.Asteroids.Scene.MainScene;
@@ -13,6 +14,7 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
     public class SpaceshipDestroy : NetworkBehaviour
     {
         public float animationTime;
+        public CameraShakerData shakerData;
 
         private HealthSetter _healthSetter;
         private Animator _shipAnimator;
@@ -51,7 +53,23 @@ namespace UNetUI.Asteroids.Enemies.Spaceship
         {
             int scoreAmount = GetComponent<ScoreSetter>().scoreAmount;
             NetworkedScoreManager.instance.AddScore(scoreAmount);
+            
+            RpcShakeClientsOnDestroy();
             NetworkServer.Destroy(gameObject);
+        }
+        
+        [ClientRpc]
+        private void RpcShakeClientsOnDestroy()
+        {
+            if(isServer)
+                return;
+
+            CameraShaker.Instance.ShakeOnce(
+                shakerData.magnitude,
+                shakerData.roughness,
+                shakerData.fadeInTime,
+                shakerData.fadeOutTime
+                );
         }
     }
 }

@@ -167,6 +167,8 @@ MonoBehaviour:
   movementLerpHeight: 3
   movementSwitchTime: 5
   initialLaunchVelocity: 4
+  isPredictionEnabled: 0
+  updateSendRate: 0.1
 --- !u!114 &114348699837501002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -224,6 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationTime: 0.75
+  shakerData: {fileID: 11400000, guid: 503fafeffa1ea334886225d1184960b2, type: 2}
 --- !u!114 &114747727080569142
 MonoBehaviour:
   m_ObjectHideFlags: 1

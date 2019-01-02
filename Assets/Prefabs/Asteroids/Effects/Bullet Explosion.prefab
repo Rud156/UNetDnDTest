@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 95082315748426686}
   - component: {fileID: 114041938492865148}
   - component: {fileID: 114686944744752264}
+  - component: {fileID: 114744973434844218}
   m_Layer: 0
   m_Name: Bullet Explosion
   m_TagString: Untagged
@@ -85,7 +86,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f655ec60a3ac4ab1a1deef460c2e63ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyTime: 0.2
+  destroyTime: 0.5
+--- !u!114 &114744973434844218
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1191260313655054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 9
+    i1: 91
+    i2: 132
+    i3: 31
+    i4: 47
+    i5: 240
+    i6: 233
+    i7: 68
+    i8: 184
+    i9: 172
+    i10: 241
+    i11: 52
+    i12: 11
+    i13: 73
+    i14: 55
+    i15: 113
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212152244240252658
 SpriteRenderer:
   m_ObjectHideFlags: 1
