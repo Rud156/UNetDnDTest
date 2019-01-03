@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f655ec60a3ac4ab1a1deef460c2e63ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyTime: 300
+  destroyTime: 20
 --- !u!114 &114586097152417176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUp: {fileID: 11400000, guid: 52576b7ea0a38ad4ebe00895582ac5ec, type: 2}
-  launchVelocity: 0
+  launchVelocity: 2
   isPredictionEnabled: 1
   updateSendRate: 0.1
 --- !u!114 &114998546801508792
