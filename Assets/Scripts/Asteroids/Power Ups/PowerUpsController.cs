@@ -13,8 +13,8 @@ namespace UNetUI.Asteroids.Power_Ups
     [RequireComponent(typeof(Rigidbody2D))]
     public class PowerUpsController : NetworkBehaviour
     {
+        public PowerUpData powerUp;
         public float launchVelocity = 3f;
-        public PowerUpData powerUpData;
 
         [Header("Network Data")] public bool isPredictionEnabled = true;
         public float updateSendRate = 0.1f;
@@ -63,18 +63,6 @@ namespace UNetUI.Asteroids.Power_Ups
             
             SetDefaults();
             _powerUpRb.AddForce(force, ForceMode2D.Impulse);
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (!isServer)
-                return;
-
-            if (!other.CompareTag(TagManager.Player))
-                return;
-
-            other.GetComponent<PlayerNetworkedPowerUpController>().CollectPowerUp(powerUpData);
-            NetworkServer.Destroy(gameObject);
         }
 
         private void FixedUpdate()
