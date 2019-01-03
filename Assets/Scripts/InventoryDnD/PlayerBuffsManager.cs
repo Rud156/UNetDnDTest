@@ -157,7 +157,7 @@ namespace UNetUI.InventoryDnD
         private void UpdateUiWithBuffs()
         {
             damageText.text = $"Damage: {_damage}";
-            defenceText.text = $"ShieldDefence: {_defence}";
+            defenceText.text = $"Defence: {_defence}";
             strengthText.text = $"Strength: {_strength}";
             agilityText.text = $"Agility: {_agility}";
             intelText.text = $"Intel: {_intel}";

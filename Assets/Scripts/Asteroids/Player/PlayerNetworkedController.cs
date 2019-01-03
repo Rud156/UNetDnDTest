@@ -4,8 +4,10 @@ using EZCameraShake;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements.StyleEnums;
 using UnityEngine.Networking;
+using UNetUI.Asteroids.Enums;
 using UNetUI.Asteroids.NetworkedData.Player;
 using UNetUI.Asteroids.Networking;
+using UNetUI.Asteroids.Power_Ups;
 using UNetUI.Asteroids.Scene.MainScene;
 using UNetUI.Asteroids.Shared;
 using UNetUI.Extras;
@@ -48,7 +50,7 @@ namespace UNetUI.Asteroids.Player
             _playerRb = GetComponent<Rigidbody2D>();
             _playerAnim = GetComponent<Animator>();
             _screenWrapper = GetComponent<ScreenWrapper>();
-            
+
             _playerNetworkedPowerUpController = GetComponent<PlayerNetworkedPowerUpController>();
             _playerNetworkedDestroy = GetComponent<PlayerNetworkedDestroy>();
 
@@ -71,10 +73,13 @@ namespace UNetUI.Asteroids.Player
             if (other.gameObject.layer != 9)
                 return;
 
-            bool isShieldActive = _playerNetworkedPowerUpController.IsShieldActive();
-            if (isShieldActive)
-                return;
-            
+            PowerUpAction powerUpAction = _playerNetworkedPowerUpController.GetPowerUp();
+            if (powerUpAction != null)
+            {
+                if (powerUpAction.powerUp.powerUpType == PowerUpType.Defence && powerUpAction.IsPowerUpActive())
+                    return;
+            }
+
             _playerNetworkedDestroy.DestroyPlayer();
         }
 
@@ -86,7 +91,7 @@ namespace UNetUI.Asteroids.Player
             ServerUpdate();
             RemoteClientUpdate();
         }
-                
+
 
         private void LocalClientUpdate()
         {

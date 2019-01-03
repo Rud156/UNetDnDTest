@@ -36,6 +36,7 @@ namespace UNetUI.Asteroids.Scene.MainScene
 
         private int _currentScore;
         private bool _startScoring;
+        private int _currentFactor;
         
         private float _enemyNextTick;
         private float _pollNextTick;
@@ -48,6 +49,8 @@ namespace UNetUI.Asteroids.Scene.MainScene
             _spaceshipHolder = GameObject.FindGameObjectWithTag(TagManager.SpaceshipHolder)?.transform;
 
             _currentScore = 0;
+            _currentFactor = 1;
+            
             UpdateUiWithText();
         }
 
@@ -86,7 +89,7 @@ namespace UNetUI.Asteroids.Scene.MainScene
                 return;
             }
 
-            if (_currentScore % 500 == 0 && _spaceshipHolder.childCount == 0)
+            if (_currentScore / 500 >= _currentFactor && _spaceshipHolder.childCount == 0)
             {
                 if (_currentScore < 40000)
                 {
@@ -98,6 +101,8 @@ namespace UNetUI.Asteroids.Scene.MainScene
                 }
                 else
                     SpaceshipSpawner.instance.SpawnSmallSpaceship();
+
+                _currentFactor += 1;
             }
 
             UpdateUiWithText();

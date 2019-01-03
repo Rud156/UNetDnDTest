@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -11,35 +13,30 @@ using Random = UnityEngine.Random;
 
 namespace UNetUI.Asteroids.Player
 {
-    [RequireComponent(typeof(PlayerNetworkedShooting))]
     public class PlayerNetworkedPowerUpController : NetworkBehaviour
     {
-        private PowerUpData _collectedPowerUp;
-        
-        private Transform _asteroidHolder;
-        private Transform _spaceshipHolder;
-
+        private List<PowerUpAction> _powerUpActions;
         private Image _powerUpDisplay;
-        private PlayerNetworkedShooting _playerNetworkedShooting;
+        private PowerUpData _collectedPowerUp;
 
-        private bool _isShieldActive;
-        private bool _isBulletEnhanced;
-        private Coroutine _shieldCoroutine;
-        private Coroutine _bulletCoroutine;
-
-        private GameObject _shieldInstance;
-        private float _bulletDamageIncrease;
+        private PowerUpAction _powerUpInUseAction;
 
         private void Start()
         {
-            _asteroidHolder = GameObject.FindGameObjectWithTag(TagManager.AsteroidsHolder)?.transform;
-            _spaceshipHolder = GameObject.FindGameObjectWithTag(TagManager.SpaceshipHolder)?.transform;
+            if (isServer)
+            {
+                _powerUpActions = new List<PowerUpAction>();
+
+                GameObject[] powerUpActions = GameObject.FindGameObjectsWithTag(TagManager.PowerUpActions);
+                foreach (GameObject powerUpActionGameObject in powerUpActions)
+                {
+                    PowerUpAction powerUpAction = powerUpActionGameObject.GetComponent<PowerUpAction>();
+                    _powerUpActions.Add(powerUpAction);
+                }
+            }
 
             _powerUpDisplay = GameObject.FindGameObjectWithTag(TagManager.PowerUpDisplay)?.GetComponent<Image>();
             _powerUpDisplay.enabled = false;
-
-            _playerNetworkedShooting = GetComponent<PlayerNetworkedShooting>();
-            _playerNetworkedShooting.bulletModifier += ModifyBulletDamage;
         }
 
         private void Update()
@@ -47,152 +44,69 @@ namespace UNetUI.Asteroids.Player
             if (!Input.GetKeyDown(Controls.PowerUpUseKey))
                 return;
 
-            Debug.Log(_collectedPowerUp.powerUpName);
-
-            if (!_collectedPowerUp)
-                return;
-
             CmdUsePowerUp();
         }
 
-        [Command]
-        private void CmdUsePowerUp()
-        {
-            Debug.Log(_collectedPowerUp.powerUpName);
-
-            if (!_collectedPowerUp)
-                return;
-
-            switch (_collectedPowerUp.powerUpType)
-            {
-                case PowerUpType.ShieldDefence:
-                    CreateShieldAroundPlayer();
-                    break;
-
-                case PowerUpType.BulletModifier:
-                    IncreaseBulletDamage();
-                    break;
-
-                case PowerUpType.EnemyDestroy:
-                    DestroyRandomEnemy();
-                    break;
-            }
-
-            CollectPowerUp(null);
-        }
-
-        #region ShieldDefence
-
-        public bool IsShieldActive() => _isShieldActive;
-
-        private void CreateShieldAroundPlayer()
-        {
-            ResetShieldDefence();
-
-            GameObject shieldInstance =
-                Instantiate(_collectedPowerUp.powerUpPrefab, transform.position, Quaternion.identity);
-            shieldInstance.transform.SetParent(transform);
-            shieldInstance.transform.localPosition = Vector3.zero;
-
-            _shieldInstance = shieldInstance;
-
-            NetworkServer.Spawn(shieldInstance);
-            RpcSetShieldOnClients(shieldInstance, gameObject);
-            _shieldCoroutine = StartCoroutine(DestroyShield(shieldInstance));
-        }
-
-        private void ResetShieldDefence()
-        {
-            if (_shieldCoroutine != null)
-                StopCoroutine(_shieldCoroutine);
-            _isShieldActive = false;
-            if (_shieldInstance != null)
-                NetworkServer.Destroy(_shieldInstance);
-        }
-
-        private IEnumerator DestroyShield(GameObject shieldInstance)
-        {
-            _isShieldActive = true;
-
-            yield return new WaitForSeconds(_collectedPowerUp.powerUpAffectTime);
-            NetworkServer.Destroy(shieldInstance);
-
-            _isShieldActive = false;
-        }
-
-        [ClientRpc]
-        private void RpcSetShieldOnClients(GameObject shieldInstance, GameObject player)
-        {
-            if (isServer)
-                return;
-
-            shieldInstance.transform.SetParent(player.transform);
-            shieldInstance.transform.localPosition = Vector3.zero;
-        }
-
-        #endregion ShieldDefence
-
-        #region Bullet
-
-        private void ModifyBulletDamage(GameObject bulletInstance)
-        {
-            if (_isBulletEnhanced)
-                bulletInstance.GetComponent<DamageSetter>().damageAmount += _bulletDamageIncrease;
-        }
-
-        private void IncreaseBulletDamage()
-        {
-            if (_bulletCoroutine != null)
-                StopCoroutine(_bulletCoroutine);
-            _isBulletEnhanced = false;
-
-            _bulletDamageIncrease = _collectedPowerUp.damageAmount;
-            _bulletCoroutine = StartCoroutine(RemoveBulletEnhancement());
-        }
-
-        private IEnumerator RemoveBulletEnhancement()
-        {
-            _isBulletEnhanced = true;
-            yield return new WaitForSeconds(_collectedPowerUp.powerUpAffectTime);
-            _isBulletEnhanced = false;
-        }
-
-        #endregion Bullet
-
-        #region DestroyEnemy
-
-        private void DestroyRandomEnemy()
-        {
-            int asteroidChildCount = _asteroidHolder.childCount;
-            if (asteroidChildCount > 0)
-            {
-                int randomIndex = Random.Range(0, 1000) % asteroidChildCount;
-                HealthSetter asteroidHealthSetter =
-                    _asteroidHolder.GetChild(randomIndex).GetComponent<HealthSetter>();
-                asteroidHealthSetter.ReduceHealth(int.MaxValue);
-
-                return;
-            }
-
-            int spaceshipChildCount = _spaceshipHolder.childCount;
-            if (spaceshipChildCount > 0)
-            {
-                int randomIndex = Random.Range(0, 1000) % spaceshipChildCount;
-                HealthSetter spaceshipHealthSetter =
-                    _spaceshipHolder.GetChild(randomIndex).GetComponent<HealthSetter>();
-                spaceshipHealthSetter.ReduceHealth(int.MaxValue);
-            }
-        }
-
-        #endregion DestroyEnemy
-
-        public void CollectPowerUp(PowerUpData powerUp)
+        private void OnTriggerEnter2D(Collider2D other)
         {
             if (!isServer)
                 return;
 
-            _collectedPowerUp = powerUp;
-            RpcUpdateLocalClientPowerUpDisplay(!powerUp ? null : powerUp.powerUpName);
+            if (!other.CompareTag(TagManager.PowerUp))
+                return;
+
+            CollectPowerUp(other.gameObject);
+        }
+
+        public PowerUpAction GetPowerUp() => _powerUpInUseAction;
+
+        [Command]
+        private void CmdUsePowerUp()
+        {
+            if (!isServer)
+                return;
+
+            if (!_collectedPowerUp)
+                return;
+
+            if (_powerUpInUseAction)
+                _powerUpInUseAction.DeactivatePowerUp();
+
+            PowerUpAction powerUpActionToUse = null;
+            foreach (PowerUpAction powerUpAction in _powerUpActions)
+            {
+                if (powerUpAction.powerUp.powerUpName == _collectedPowerUp.powerUpName)
+                {
+                    powerUpActionToUse = powerUpAction;
+                    break;
+                }
+            }
+
+            SetPowerUpAction(powerUpActionToUse);
+            CollectPowerUp(null);
+        }
+
+        private void SetPowerUpAction(PowerUpAction powerUpAction)
+        {
+            if (!isServer)
+                return;
+
+            _powerUpInUseAction = powerUpAction;
+            powerUpAction.ActivatePowerUp(transform);
+        }
+
+        private void CollectPowerUp(GameObject powerUp)
+        {
+            if (!isServer)
+                return;
+
+            PowerUpsController powerUpAction = powerUp?.GetComponent<PowerUpsController>();
+            PowerUpData powerUpData = powerUpAction?.powerUp;
+
+            _collectedPowerUp = powerUpData;
+
+            RpcUpdateLocalClientPowerUpDisplay(!powerUpData ? null : powerUpData.powerUpName);
+            NetworkServer.Destroy(powerUp);
         }
 
         [ClientRpc]
@@ -201,15 +115,13 @@ namespace UNetUI.Asteroids.Player
             if (!isLocalPlayer || isServer)
                 return;
 
-            Sprite powerUpImage = PowerUpGetter.instance.GetPowerUpImageByName(powerUpName);
-            PowerUpData powerUp = PowerUpGetter.instance.GetPowerUpByName(powerUpName);
+            Sprite powerUpImage =
+                PowerUpGetter.instance.GetPowerUpImageByName(powerUpName);
 
-            if (!powerUpImage || !powerUp)
+            if (!powerUpImage)
                 _powerUpDisplay.enabled = false;
             else
             {
-                _collectedPowerUp = powerUp;
-
                 _powerUpDisplay.enabled = true;
                 _powerUpDisplay.sprite = powerUpImage;
             }

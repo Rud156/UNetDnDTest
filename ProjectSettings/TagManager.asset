@@ -21,6 +21,8 @@ TagManager:
   - HealthHolder
   - LobbyPlayerHolder
   - GameManager
+  - PowerUp
+  - PowerUpActions
   layers:
   - Default
   - TransparentFX
