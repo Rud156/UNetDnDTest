@@ -17,9 +17,9 @@ namespace UNetUI.Asteroids.Power_Ups
         public abstract void ActivatePowerUp(Transform parent);
         
         // For Display Type PowerUps
+        [ClientRpc]
         protected virtual void RpcDisplayPowerUpOnClients(GameObject powerUpDisplay, GameObject parent)
-        {
-            
+        {   
         }
 
         // For Modify Type PowerUps

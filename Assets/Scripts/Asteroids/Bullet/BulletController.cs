@@ -29,8 +29,6 @@ namespace UNetUI.Asteroids.Bullet
 
             if (isServer)
                 RpcSendInitialVelocityToClients(_bulletRb.velocity);
-            
-            Debug.Log(GetComponent<DamageSetter>().damageAmount);
         }
 
         private void SetDefaults()
